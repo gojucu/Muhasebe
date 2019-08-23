@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "KayitOl";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="r-body">
+
+
+    <h2>KayitOl</h2>
+
+    @using (Html.BeginForm("KayitOl", "Uyelik", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table align="center">
+            <tr>
+                <td>Kullanıcı Adı</td>
+                <td><input class="form-control" type="text" name="KullaniciAdi" value="" required /></td>
+            </tr>
+            <tr>
+                <td>Parola</td>
+                <td><input class="form-control" type="password" name="Parola" value="" required /></td>
+            </tr>
+            <tr>
+                <td>Parola Tekrar</td>
+                <td><input class="form-control" type="password" name="ParolaTekrar" value="" required /></td>
+            </tr>
+            <tr>
+                <td>Adı</td>
+                <td><input class="form-control" type="text" name="Adi" value="" required /></td>
+            </tr>
+            <tr>
+                <td>Soyadı</td>
+                <td><input class="form-control" type="text" name="Soyadi" value="" required /></td>
+            </tr>
+            <tr>
+                <td>Doğum tarihi</td>
+                <td><input class="form-control" type="datetime" name="DogumTarihi" value="" required /> </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input class="form-control" type="email" name="Mail" value="" required /></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <input class="form-control btn btn-outline-dark" type="submit" name="btnKayit01" value="Kayıt Ol" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>
