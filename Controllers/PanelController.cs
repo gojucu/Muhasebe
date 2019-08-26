@@ -50,25 +50,53 @@ namespace Muhasebe.Controllers
             var musteriTurusListe = context.MusteriTurus.ToList();
             ViewBag.musteriTurusListe = musteriTurusListe;
 
+            var acilisIslemTuru = context.AcilisIslemTurus.ToList();
+            ViewBag.acilisIslemTuru = acilisIslemTuru;
+
+            var fiyatListesi = context.FiyatListesis.ToList();
+            ViewBag.fiyatListesi = fiyatListesi;
+
+            var dovizKuru = context.DovizKurus.ToList();
+            ViewBag.dovizKuru = dovizKuru;
+
 
             var kategoriler = context.Kategoris.ToList();
 
             ViewBag.kategoriler = kategoriler;
-            if (id == 0)
+            if (ViewBag.Kullanici != null)
             {
-                if (ViewBag.Kullanici != null)
+                if (id == 0)
                 {
                     return View();
+
                 }
                 else
                 {
-                    return RedirectToAction("GirisYap", "Uyelik");
+                    Musteri mus = context.Musteris.Find(id);
+                    List<string> stringlist = new List<string>();
+                    foreach (var item in mus.Kategoris)
+                    {
+
+
+                        stringlist.Add(item.Ad);
+                        string dogCsv = string.Join(", ", stringlist.ToArray());
+                        Console.WriteLine(dogCsv);
+
+                        ViewBag.katttt = dogCsv;
+
+                    }
+
+
+                    //var kategoriler2 = context.Kategoris.ToList().Where(x=>x.;
+                    //ViewBag.kategoriler = kategoriler2;
+
+
+                    return View(mus);
                 }
             }
             else
             {
-                Musteri mus = context.Musteris.Find(id);
-                return View(mus);
+                return RedirectToAction("GirisYap", "Uyelik");
             }
 
         }
@@ -78,7 +106,10 @@ namespace Muhasebe.Controllers
         public ActionResult MusteriEkle(Musteri musteri, string kategoriler, string iban)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-
+            if (kategoriler == null || kategoriler == "")
+            {
+                kategoriler = "kategorisiz";
+            }
             //Kategoriler
             if (musteri.Id == 0)
             {
@@ -88,8 +119,10 @@ namespace Muhasebe.Controllers
                     Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
                     if (kat == null)
                     {
-                        kat = new Kategori();
-                        kat.Ad = kategori;
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
                         context.Kategoris.Add(kat);
                         context.SaveChanges();
 
@@ -99,11 +132,14 @@ namespace Muhasebe.Controllers
                 }
 
                 //iban
-                Iban ib = new Iban();
-                ib.IbanNo = iban;
+                Iban ib = new Iban
+                {
+                    IbanNo = iban
+                };
                 context.Ibans.Add(ib);
 
                 musteri.KullaniciID = ViewBag.Kullanici.Id;
+                musteri.Silindi = false;
                 context.Musteris.Add(musteri);
                 context.SaveChanges();
                 return RedirectToAction("MusteriEkle", "Panel");
@@ -116,8 +152,10 @@ namespace Muhasebe.Controllers
                     Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
                     if (kat == null)
                     {
-                        kat = new Kategori();
-                        kat.Ad = kategori;
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
                         context.Kategoris.Add(kat);
                         context.SaveChanges();
 
@@ -157,10 +195,80 @@ namespace Muhasebe.Controllers
                 return RedirectToAction("MusteriEkle", "Panel");
             }
         }
-        public ActionResult MusteriSil()
+        public ActionResult MusteriSil(int id)
         {
-            return View();
+            Musteri guncellenecek = context.Musteris.FirstOrDefault(x => x.Id == id);
+            guncellenecek.Silindi = true;
+            context.SaveChanges();
+            return RedirectToAction("Musteriler", "Panel");
         }
 
+        public ActionResult MusteriDetay(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            return View(context.Musteris.FirstOrDefault(x=>x.Id==id));
+        }
+
+        //Hizmet/ürün
+
+        public ActionResult HizmetUrun()
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            if (ViewBag.Kullanici != null)
+            {
+                return View(context.HizmetUruns.ToList());
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+        }
+
+        public ActionResult HizmetUrunEkle(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+         
+
+
+            var kategoriler = context.Kategoris.ToList();
+            ViewBag.kategoriler = kategoriler;
+
+            if (ViewBag.Kullanici != null)
+            {
+                if (id == 0)
+                {
+                    return View();
+
+                }
+                else
+                {
+                    HizmetUrun Hu = context.HizmetUruns.Find(id);
+                    List<string> stringlist = new List<string>();
+                    //foreach (var item in Hu.Kategoris)
+                    //{
+
+
+                    //    stringlist.Add(item.Ad);
+                    //    string dogCsv = string.Join(", ", stringlist.ToArray());
+                    //    Console.WriteLine(dogCsv);
+
+                    //    ViewBag.katttt = dogCsv;
+
+                    //}
+
+
+                    //var kategoriler2 = context.Kategoris.ToList().Where(x=>x.;
+                    //ViewBag.kategoriler = kategoriler2;
+
+
+                    return View(mus);
+                }
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+
+        }
     }
 }

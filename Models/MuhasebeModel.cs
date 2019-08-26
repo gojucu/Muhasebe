@@ -8,7 +8,7 @@ namespace Muhasebe.Models
     public partial class MuhasebeModel : DbContext
     {
         public MuhasebeModel()
-            : base("name=Muhasebe4Model")
+            : base("name=Muhasebe0Model")
         {
         }
 
@@ -25,7 +25,10 @@ namespace Muhasebe.Models
         public virtual DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
         public virtual DbSet<DovizKuru> DovizKurus { get; set; }
         public virtual DbSet<Etiket> Etikets { get; set; }
+        public virtual DbSet<FiyatListesi> FiyatListesis { get; set; }
+        public virtual DbSet<HizmetUrun> HizmetUruns { get; set; }
         public virtual DbSet<Iban> Ibans { get; set; }
+        public virtual DbSet<Indirim> Indirims { get; set; }
         public virtual DbSet<Kategori> Kategoris { get; set; }
         public virtual DbSet<Kullanici> Kullanicis { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
@@ -100,6 +103,12 @@ namespace Muhasebe.Models
             modelBuilder.Entity<DovizKuru>()
                 .Property(e => e.Ad)
                 .IsFixedLength();
+
+            modelBuilder.Entity<FiyatListesi>()
+                .HasMany(e => e.Indirims)
+                .WithRequired(e => e.FiyatListesi)
+                .HasForeignKey(e => e.ListeID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Kategori>()
                 .HasMany(e => e.Musteris)

@@ -26,7 +26,7 @@ namespace Muhasebe
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
-            "~/Content/bower_components/jquery/dist/jquery.min.js",
+            //"~/Content/bower_components/jquery/dist/jquery.min.js",
             "~/Content/bower_components/jquery-ui/jquery-ui.min.js",
             "~/Content/bower_components/bootstrap/dist/js/bootstrap.min.js",
             "~/Scripts/popper.js",

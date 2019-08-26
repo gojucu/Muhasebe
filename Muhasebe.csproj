@@ -155,7 +155,10 @@
     <Compile Include="Models\aspnet_WebEvent_Events.cs" />
     <Compile Include="Models\DovizKuru.cs" />
     <Compile Include="Models\Etiket.cs" />
+    <Compile Include="Models\FiyatListesi.cs" />
+    <Compile Include="Models\HizmetUrun.cs" />
     <Compile Include="Models\Iban.cs" />
+    <Compile Include="Models\Indirim.cs" />
     <Compile Include="Models\Kategori.cs" />
     <Compile Include="Models\Kullanici.cs" />
     <Compile Include="Models\MuhasebeModel.cs" />
@@ -6982,6 +6985,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bower_components\bootstrap-colorpicker\.bower.json" />
@@ -7582,6 +7586,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -7602,6 +7610,13 @@
     <Content Include="Views\Uyelik\GirisYap.cshtml" />
     <Content Include="Views\Panel\Musteriler.cshtml" />
     <Content Include="Views\Panel\MusteriEkle.cshtml" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Views\Panel\MusteriDetay.cshtml" />
+    <Content Include="Views\Panel\HizmetUrun.cshtml" />
+    <Content Include="Views\Panel\HizmetUrunEkle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

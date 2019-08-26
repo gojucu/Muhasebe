@@ -8,7 +8,7 @@
 <h2>Musteriler</h2>
 
 <p>
-    @Html.ActionLink("Müşteri Ekle", "MusteriEkle", "Panel")
+
     <a href="/Panel/MusteriEkle/0"><i class="fa fa-circle-o"></i>Yeni Ekle</a>
 </p>
 
@@ -22,7 +22,7 @@
             @*<div class="panel-heading">Ürün Listesi</div>*@
 
             <!-- Table -->
-            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" style=" width:10%; font-size:1rem">
+            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" style="  ">
                 <thead>
                     <tr>
                         <th>
@@ -41,7 +41,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.FaksNo)
                         </th>
-                        <th></th>
+                        <th style=" width:10% "></th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -62,13 +62,14 @@
                         <th>
                             @Html.DisplayNameFor(model => model.FaksNo)
                         </th>
-                        <th></th>
+                        <th style=" width:10% "></th>
                     </tr>
                 </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {
-
+                        if (item.Silindi != true )
+                        {
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.FirmaUnvani)
@@ -87,14 +88,15 @@
                                 @Html.DisplayFor(modelItem => item.FaksNo)
                             </td>
 
-                            <td>
-                                <a href="/panel/urunEkleDuzenle/@item.Id">Düzenle</a>
-                                <a class="btn btn-sm btn-danger" onclick="return islemler.UrunSil(@item.Id)"> Sil</a>
+                            <td style=" width:10% ">
+                                <a style="width:100%" class="btn btn-sm btn-bitbucket" href="/Panel/MusteriDetay/@item.Id">Detay</a>
+
+                                <button style="width:100%" class="btn btn-sm btn-danger" type="button" onclick="return MusteriSil(@item.Id)" >Müşteriyi Sil</button>
 
 
                             </td>
                         </tr>
-
+                        }
                     }
                 </tbody>
             </table>
@@ -109,9 +111,20 @@
 
 </style>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#example').DataTable();
-    });
+    function MusteriSil(Id) {
+        bootbox.confirm("Silmek istediğinize emin misiniz?", function (result) {
+            if (result) {
+                var dataObject = {
+                    Id: $("#Id").val()
+                };
+                var form_data = new FormData();
+                form_data.append('Id', dataObject);
+                window.location = '/Panel/MusteriSil/' + Id;
+            }
+        });
+    }
+
+
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
             scrollX: true,
@@ -121,8 +134,8 @@
 
             "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
             columnDefs: [
-                { "width": "50px", "targets": [0, 1] },
-                { "width": "40px", "targets": [4] }
+                //{ "width": "50px", "targets": [0, 1] },
+                //{ "width": "40px", "targets": [4] }
             ]
         });
         $('#datatable').dataTable();

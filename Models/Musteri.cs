@@ -20,6 +20,8 @@ namespace Muhasebe.Models
 
         public Guid KullaniciID { get; set; }
 
+        public bool Silindi { get; set; }
+
         [Required]
         [StringLength(50)]
         public string FirmaUnvani { get; set; }

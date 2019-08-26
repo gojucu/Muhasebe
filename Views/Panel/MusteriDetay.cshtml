@@ -1,0 +1,219 @@
+﻿@model Muhasebe.Models.Musteri
+
+@{
+    ViewBag.Title = "MusteriDetay";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="p-box">
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Müşteri</h3>
+
+                </div>
+                <div class="box-body">
+
+                    <div>
+
+                        <dl class="dl-horizontal">
+                            @*<dt>
+                                @Html.DisplayNameFor(model => model.KullaniciID)
+                            </dt>*@
+
+                            @*<dd>
+                                @Html.DisplayFor(model => model.KullaniciID)
+                            </dd>*@
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FirmaUnvani)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FirmaUnvani)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FirmaKodu)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FirmaKodu)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.KisaIsim)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.KisaIsim)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FiyatListesi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FiyatListesi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Mail)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Mail)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.TelefonNo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TelefonNo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FaksNo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FaksNo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.AcıkAdres)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.AcıkAdres)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.YurtDisindami)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.YurtDisindami)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Ilce)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Ilce)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Il)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Il)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Turu)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Turu)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VknTckn)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VknTckn)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VergiDairesi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VergiDairesi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.TcKimlikNo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TcKimlikNo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DovizKuru)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.DovizKuru)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.AcilisBakiyesi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.AcilisBakiyesi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.BakiyeTarih)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.BakiyeTarih)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Ucret)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Ucret)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DovizTuru)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.DovizTuru)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.AcilisIslemTuru)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.AcilisIslemTuru)
+                            </dd>
+
+                        </dl>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Düzenle", "MusteriEkle", new { id = Model.Id }) |
+                        @Html.ActionLink("Listeye Dön", "Index")
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div  class="col-md-3">
+            <div  class="box box-primary">
+                <div  class="box-header with-border">
+                    <h3 class="box-title">Ödeme Ekle</h3>
+
+                </div>
+                <div  class="box-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
