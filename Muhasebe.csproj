@@ -157,6 +157,7 @@
     <Compile Include="Models\Etiket.cs" />
     <Compile Include="Models\FiyatListesi.cs" />
     <Compile Include="Models\HizmetUrun.cs" />
+    <Compile Include="Models\HizmetUrunKDV.cs" />
     <Compile Include="Models\Iban.cs" />
     <Compile Include="Models\Indirim.cs" />
     <Compile Include="Models\Kategori.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Models\MuhasebeModel.cs" />
     <Compile Include="Models\Musteri.cs" />
     <Compile Include="Models\MusteriTuru.cs" />
+    <Compile Include="Models\StokTakibi.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\vw_aspnet_Applications.cs" />
     <Compile Include="Models\vw_aspnet_MembershipUsers.cs" />
@@ -7615,12 +7617,13 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper.min.js.map" />
     <Content Include="Views\Panel\MusteriDetay.cshtml" />
-    <Content Include="Views\Panel\HizmetUrun.cshtml" />
     <Content Include="Views\Panel\HizmetUrunEkle.cshtml" />
+    <Content Include="Views\Panel\HizmetUrun.cshtml" />
+    <Content Include="Views\Panel\HizmetUrunDetay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\image\" />
+    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

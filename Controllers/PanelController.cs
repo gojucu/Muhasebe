@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Drawing;
+using System.IO;
 
 namespace Muhasebe.Controllers
 {
@@ -85,12 +87,7 @@ namespace Muhasebe.Controllers
                         ViewBag.katttt = dogCsv;
 
                     }
-
-
-                    //var kategoriler2 = context.Kategoris.ToList().Where(x=>x.;
-                    //ViewBag.kategoriler = kategoriler2;
-
-
+                    
                     return View(mus);
                 }
             }
@@ -227,8 +224,12 @@ namespace Muhasebe.Controllers
         public ActionResult HizmetUrunEkle(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-         
 
+            var stokTakibi = context.StokTakibis.ToList();
+            ViewBag.stokTakibi = stokTakibi;
+
+            var kdv = context.HizmetUrunKDVs.ToList();
+            ViewBag.kdv = kdv;
 
             var kategoriler = context.Kategoris.ToList();
             ViewBag.kategoriler = kategoriler;
@@ -253,15 +254,13 @@ namespace Muhasebe.Controllers
                     //    Console.WriteLine(dogCsv);
 
                     //    ViewBag.katttt = dogCsv;
-
                     //}
-
 
                     //var kategoriler2 = context.Kategoris.ToList().Where(x=>x.;
                     //ViewBag.kategoriler = kategoriler2;
 
 
-                    return View(mus);
+                    return View(Hu);
                 }
             }
             else
@@ -269,6 +268,113 @@ namespace Muhasebe.Controllers
                 return RedirectToAction("GirisYap", "Uyelik");
             }
 
+        }
+
+        private string ResimKaydet(HttpPostedFileBase resim)
+        {
+            Image orj = Image.FromStream(resim.InputStream);
+            string dosyaadi = Path.GetFileNameWithoutExtension(resim.FileName) + Guid.NewGuid() + Path.GetExtension(resim.FileName);
+            orj.Save(Server.MapPath("~/Content/images/" + dosyaadi));
+            return dosyaadi;
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult HizmetUrunEkle(HizmetUrun Hu, HttpPostedFileBase Resim, string kategoriler)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            //resim
+            string dosyaadi = ResimKaydet(Resim);
+            Hu.Resim = "/Content/images/" + dosyaadi;
+
+            //Kategoriler
+            if (kategoriler == null || kategoriler == "")
+            {
+                kategoriler = "kategorisiz";
+            }
+            if (Hu.Id == 0)
+            {
+                string[] kategoris = kategoriler.Split(',');
+                foreach (string kategori in kategoris)
+                {
+                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                    if (kat == null)
+                    {
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
+                        context.Kategoris.Add(kat);
+                        context.SaveChanges();
+
+                    }
+                    Hu.Kategoris.Add(kat);
+                    context.SaveChanges();
+                }
+                
+                Hu.KullaniciID = ViewBag.Kullanici.Id;
+                Hu.Silindi = false;
+                
+                context.HizmetUruns.Add(Hu);
+                context.SaveChanges();
+                return RedirectToAction("HizmetUrun", "Panel");
+            }
+            else
+            {
+                string[] kategoris = kategoriler.Split(',');
+                foreach (string kategori in kategoris)
+                {
+                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                    if (kat == null)
+                    {
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
+                        context.Kategoris.Add(kat);
+                        context.SaveChanges();
+
+                    }
+                    Hu.Kategoris.Add(kat);
+                    context.SaveChanges();
+                }
+                
+                HizmetUrun guncellenecek = context.HizmetUruns.FirstOrDefault(x => x.Id == Hu.Id);
+                guncellenecek.Ad = Hu.Ad;
+                guncellenecek.UrunKodu = Hu.UrunKodu;
+                guncellenecek.BarkodNumarasi = Hu.BarkodNumarasi;
+                guncellenecek.Resim = Hu.Resim;
+                guncellenecek.AlisSatisBirimi = Hu.AlisSatisBirimi;
+                guncellenecek.StokTakibi = Hu.StokTakibi;
+                guncellenecek.BaslangicStok = Hu.BaslangicStok;
+                guncellenecek.KritikStokUyarisi = Hu.KritikStokUyarisi;
+                guncellenecek.KritikStokSeviyesi = Hu.KritikStokSeviyesi;
+                guncellenecek.VergilerHaricAlis = Hu.VergilerHaricAlis;
+                guncellenecek.VergilerHaricSatis = Hu.VergilerHaricSatis;
+                guncellenecek.Kdv = Hu.Kdv;
+                guncellenecek.Oiv = Hu.Oiv;
+                guncellenecek.AlisOtv = Hu.AlisOtv;
+                guncellenecek.SatisOtv = Hu.SatisOtv;
+                guncellenecek.VergilerDahilAlis = Hu.VergilerDahilAlis;
+                guncellenecek.VergilerDahilSatis = Hu.VergilerDahilSatis;
+                
+                context.SaveChanges();
+                return RedirectToAction("HizmetUrun", "Panel");
+            }
+        }
+
+
+
+        public ActionResult HizmetUrunDetay(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            if (ViewBag.Kullanici != null)
+            {
+                return View(context.HizmetUruns.FirstOrDefault(x => x.Id == id));
+            }
+            else
+            {
+                return  RedirectToAction("GirisYap", "Uyelik");
+            }
         }
     }
 }

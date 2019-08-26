@@ -27,12 +27,14 @@ namespace Muhasebe.Models
         public virtual DbSet<Etiket> Etikets { get; set; }
         public virtual DbSet<FiyatListesi> FiyatListesis { get; set; }
         public virtual DbSet<HizmetUrun> HizmetUruns { get; set; }
+        public virtual DbSet<HizmetUrunKDV> HizmetUrunKDVs { get; set; }
         public virtual DbSet<Iban> Ibans { get; set; }
         public virtual DbSet<Indirim> Indirims { get; set; }
         public virtual DbSet<Kategori> Kategoris { get; set; }
         public virtual DbSet<Kullanici> Kullanicis { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<MusteriTuru> MusteriTurus { get; set; }
+        public virtual DbSet<StokTakibi> StokTakibis { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<vw_aspnet_Applications> vw_aspnet_Applications { get; set; }
         public virtual DbSet<vw_aspnet_MembershipUsers> vw_aspnet_MembershipUsers { get; set; }
@@ -109,6 +111,11 @@ namespace Muhasebe.Models
                 .WithRequired(e => e.FiyatListesi)
                 .HasForeignKey(e => e.ListeID)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<HizmetUrun>()
+                .HasMany(e => e.Kategoris)
+                .WithMany(e => e.HizmetUruns)
+                .Map(m => m.ToTable("HizmetUrunKategori").MapLeftKey("HizmetUrunID").MapRightKey("KategoriID"));
 
             modelBuilder.Entity<Kategori>()
                 .HasMany(e => e.Musteris)

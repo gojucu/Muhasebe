@@ -1,0 +1,174 @@
+﻿@model Muhasebe.Models.HizmetUrun
+
+@{
+    ViewBag.Title = "HizmetUrunDetay";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="p-box">
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Hizmet/Ürün Detay</h3>
+
+                </div>
+                <div class="box-body">
+                    <div>
+                        <dl class="dl-horizontal">
+
+
+
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Ad)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Ad)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.UrunKodu)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.UrunKodu)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.BarkodNumarasi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.BarkodNumarasi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.AlisSatisBirimi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.AlisSatisBirimi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.StokTakibi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.StokTakibi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.BaslangicStok)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.BaslangicStok)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.KritikStokUyarisi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.KritikStokUyarisi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.KritikStokSeviyesi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.KritikStokSeviyesi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VergilerHaricAlis)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VergilerHaricAlis)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VergilerHaricSatis)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VergilerHaricSatis)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Kdv)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Kdv)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Oiv)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Oiv)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.AlisOtv)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.AlisOtv)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SatisOtv)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.SatisOtv)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VergilerDahilAlis)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VergilerDahilAlis)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VergilerDahilSatis)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VergilerDahilSatis)
+                            </dd>
+
+                        </dl>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Düzenle","HizmetUrunEkle", new { id = Model.Id }) |
+                        @Html.ActionLink("Listeye Dön","HizmetUrun", "Panel")
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Ürün resmi</h3>
+
+                </div>
+                <div class="box-body">
+                    <img style="width:100%" src="@Html.DisplayFor(model => model.Resim)" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

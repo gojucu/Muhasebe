@@ -9,9 +9,17 @@ namespace Muhasebe.Models
     [Table("HizmetUrun")]
     public partial class HizmetUrun
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public HizmetUrun()
+        {
+            Kategoris = new HashSet<Kategori>();
+        }
+
         public int Id { get; set; }
 
         public Guid KullaniciID { get; set; }
+
+        public bool Silindi { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -35,7 +43,9 @@ namespace Muhasebe.Models
 
         public double? BaslangicStok { get; set; }
 
-        public bool? KritikStokUyarisi { get; set; }
+        public bool KritikStokUyarisi { get; set; }
+
+        public double? KritikStokSeviyesi { get; set; }
 
         public double? VergilerHaricAlis { get; set; }
 
@@ -44,17 +54,17 @@ namespace Muhasebe.Models
         [StringLength(50)]
         public string Kdv { get; set; }
 
-        [StringLength(50)]
-        public string Oiv { get; set; }
+        public double? Oiv { get; set; }
 
-        [StringLength(50)]
-        public string AlisOtv { get; set; }
+        public double? AlisOtv { get; set; }
 
-        [StringLength(50)]
-        public string SatisOtv { get; set; }
+        public double? SatisOtv { get; set; }
 
         public double? VergilerDahilAlis { get; set; }
 
         public double? VergilerDahilSatis { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Kategori> Kategoris { get; set; }
     }
 }
