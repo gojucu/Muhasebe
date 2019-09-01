@@ -10,3 +10,15 @@
     margin-left:5%;
     width:50%;
 }
+
+.currencyinput {
+    border: 1px inset #ccc;
+    padding:3px;
+}
+
+    .currencyinput input {
+        border: 0;
+    }
+.currency-dropdown{
+    border:0;
+}

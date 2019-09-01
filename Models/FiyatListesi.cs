@@ -13,6 +13,7 @@ namespace Muhasebe.Models
         public FiyatListesi()
         {
             Indirims = new HashSet<Indirim>();
+            HizmetUruns = new HashSet<HizmetUrun>();
         }
 
         public int Id { get; set; }
@@ -31,5 +32,8 @@ namespace Muhasebe.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Indirim> Indirims { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HizmetUrun> HizmetUruns { get; set; }
     }
 }

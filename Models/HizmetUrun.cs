@@ -13,6 +13,7 @@ namespace Muhasebe.Models
         public HizmetUrun()
         {
             Kategoris = new HashSet<Kategori>();
+            FiyatListesis = new HashSet<FiyatListesi>();
         }
 
         public int Id { get; set; }
@@ -49,22 +50,32 @@ namespace Muhasebe.Models
 
         public double? VergilerHaricAlis { get; set; }
 
+        [StringLength(10)]
+        public string VergilerHaricAlisTur { get; set; }
+
         public double? VergilerHaricSatis { get; set; }
 
-        [StringLength(50)]
-        public string Kdv { get; set; }
+        [StringLength(10)]
+        public string VergilerHaricSatisTur { get; set; }
+
+        public double? Kdv { get; set; }
 
         public double? Oiv { get; set; }
 
         public double? AlisOtv { get; set; }
 
+        [StringLength(10)]
+        public string AlisOtvTur { get; set; }
+
         public double? SatisOtv { get; set; }
 
-        public double? VergilerDahilAlis { get; set; }
-
-        public double? VergilerDahilSatis { get; set; }
+        [StringLength(10)]
+        public string SatisOtvTur { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kategori> Kategoris { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FiyatListesi> FiyatListesis { get; set; }
     }
 }

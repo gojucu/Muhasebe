@@ -53,12 +53,12 @@
                                 <h5 style="float:right; font-weight:700">Kategoriler</h5>
                             </div>
                             <div class="col-md-10">
-                                @if (ViewBag.katttt==null)
+                                @if (ViewBag.katttt == null)
                                 {
                                     <input type="text" name="kategoriler" value="" data-role="tagsinput" />
                                 }
                                 else
-                                { 
+                                {
                                     <input type="text" name="kategoriler" value="@ViewBag.katttt" data-role="tagsinput" />
                                 }
 
@@ -66,14 +66,26 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FiyatListesi, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.FiyatListesi, new SelectList(ViewBag.fiyatListesi, "Ad", "Ad"), Model.FiyatListesi)
-                                @Html.ValidationMessageFor(model => model.FiyatListesi, "", new { @class = "text-danger" })
+                        @if (Model == null)
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FiyatListesi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.FiyatListesi, new SelectList(ViewBag.fiyatListesi, "Ad", "Ad"), "Yok")
+                                    @Html.ValidationMessageFor(model => model.FiyatListesi, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FiyatListesi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.FiyatListesi, new SelectList(ViewBag.fiyatListesi, "Ad", "Ad"), Model.FiyatListesi)
+                                    @Html.ValidationMessageFor(model => model.FiyatListesi, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -119,9 +131,54 @@
                             </div>
                         </div>
 
-                       
-                        Yurt dışında mı? <input type="checkbox" id="myCheck2" onclick="myFunction2()">
-                        <div id="myDIV2">
+
+                        Yurt dışında mı? @Html.CheckBoxFor(model => model.YurtDisindami, new { onclick = "myFunction2()" })
+                        @if (Model == null)
+                        {
+                            <div id="myDIV2" style="display:block">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Ilce, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Ilce, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Ilce, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Il, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Il, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Il, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            if (Model.YurtDisindami == false)
+                            {
+                                <div id="myDIV2" style="display:block">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Ilce, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Ilce, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Ilce, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Il, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Il, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Il, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        <div id="myDIV2" style="display:none">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Ilce, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
@@ -160,7 +217,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.VergiDairesi, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.VergiDairesi, new { htmlAttributes = new {@class = "form-control" } })
+                                    @Html.EditorFor(model => model.VergiDairesi, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.VergiDairesi, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -184,52 +241,107 @@
                                 @Html.ValidationMessageFor(model => model.DovizKuru, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        Açılış bakiyesi var mı?<input type="checkbox" id="myCheck" onclick="myFunction()">
+                        Açılış bakiyesi var mı?@Html.CheckBoxFor(model => model.AcilisBakiyesi, new { onclick = "myFunction()" })
                         <br />
+                        @if (Model == null)
+                        {
+                            <div id="myDIV" style="display:none">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BakiyeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.BakiyeTarih, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.BakiyeTarih, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div id="myDIV" style="display:none">
-                            @*<div class="form-group">
-                @Html.LabelFor(model => model.AcilisBakiyesi, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.AcilisBakiyesi)
-                        @Html.ValidationMessageFor(model => model.AcilisBakiyesi, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>*@
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Ucret, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <span class="currencyinput">
+                                            @Html.TextBoxFor(model => model.Ucret, new { onkeypress = "return isNumber(event)" })
+                                            @Html.DropDownListFor(model => model.DovizTuru, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                        </span>
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.BakiyeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.BakiyeTarih, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.BakiyeTarih, "", new { @class = "text-danger" })
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.AcilisIslemTuru, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.AcilisIslemTuru, new SelectList(ViewBag.acilisIslemTuru, "Ad", "Ad"), "")
+                                        @Html.ValidationMessageFor(model => model.AcilisIslemTuru, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
+                        }
+                        else
+                        {
+                            if (Model.AcilisBakiyesi == false)
+                            {
+                                <div id="myDIV" style="display:none">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BakiyeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.BakiyeTarih, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BakiyeTarih, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Ucret, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Ucret, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Ucret, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Ucret, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <span class="currencyinput">
+                                                @Html.TextBoxFor(model => model.Ucret, new { onkeypress = "return isNumber(event)" })
+                                                @Html.DropDownListFor(model => model.DovizTuru, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                            </span>
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.DovizTuru, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.DovizTuru, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.DovizTuru, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.AcilisIslemTuru, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.AcilisIslemTuru, new SelectList(ViewBag.acilisIslemTuru, "Ad", "Ad"), "")
-                                    @Html.ValidationMessageFor(model => model.AcilisIslemTuru, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AcilisIslemTuru, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.AcilisIslemTuru, new SelectList(ViewBag.acilisIslemTuru, "Ad", "Ad"), "")
+                                            @Html.ValidationMessageFor(model => model.AcilisIslemTuru, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            }
+                            else
+                            {
+                                <div id="myDIV" style="display:block">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BakiyeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.BakiyeTarih, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BakiyeTarih, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Ucret, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <span class="currencyinput">
+                                                @Html.TextBoxFor(model => model.Ucret, new { onkeypress = "return isNumber(event)" })
+                                                @Html.DropDownListFor(model => model.DovizTuru, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                            </span>
+                                           
+                                            @Html.ValidationMessageFor(model => model.Ucret, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AcilisIslemTuru, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.AcilisIslemTuru, new SelectList(ViewBag.acilisIslemTuru, "Ad", "Ad"), "")
+                                            @Html.ValidationMessageFor(model => model.AcilisIslemTuru, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
 
 
                         <div class="form-group">
@@ -247,7 +359,7 @@
 <script  type="text/javascript">
     /*Açılış Bakiyesi*/
     function myFunction() {
-        var checkBox = document.getElementById("myCheck");
+        var checkBox = document.getElementById("AcilisBakiyesi");
         var x = document.getElementById("myDIV");
 
         if (checkBox.checked == true) {
@@ -257,7 +369,7 @@
         }
     }
     function myFunction2() {
-        var checkBox = document.getElementById("myCheck2");
+        var checkBox = document.getElementById("YurtDisindami");
         var x = document.getElementById("myDIV2");
 
         if (checkBox.checked == true) {
@@ -276,7 +388,6 @@
             tKisi.style.display = "block";
             gKisi.style.display = "none";
 
-
         } else {
             tKisi.style.display = "none";
             gKisi.style.display = "block";
@@ -284,18 +395,6 @@
         }
 
     };
-    //function myFunction2() {
-    //    var checkBox = document.getElementById("myCheck2");
-    //    var x = document.getElementById("myDIV2");
-
-    //    if (checkBox.checked == true) {
-    //        x.style.display = "block";
-    //    } else {
-    //        x.style.display = "none";
-    //    }
-    //}
-
-
 
     /*Iban */
     $('.add').on('click', add);
@@ -310,7 +409,19 @@
         $('#total_chq').val(new_chq_no);
     }
    
-                $('.tagsinputs').tagsinput('refresh');
+    $('.tagsinputs').tagsinput('refresh');
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            if (charCode != 46) {
+                return false;
+            }
+
+        }
+        return true;
+    }
 </script>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")

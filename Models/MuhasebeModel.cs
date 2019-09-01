@@ -24,6 +24,7 @@ namespace Muhasebe.Models
         public virtual DbSet<aspnet_Users> aspnet_Users { get; set; }
         public virtual DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
         public virtual DbSet<DovizKuru> DovizKurus { get; set; }
+        public virtual DbSet<DovizTuru> DovizTurus { get; set; }
         public virtual DbSet<Etiket> Etikets { get; set; }
         public virtual DbSet<FiyatListesi> FiyatListesis { get; set; }
         public virtual DbSet<HizmetUrun> HizmetUruns { get; set; }
@@ -34,6 +35,7 @@ namespace Muhasebe.Models
         public virtual DbSet<Kullanici> Kullanicis { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<MusteriTuru> MusteriTurus { get; set; }
+        public virtual DbSet<OtvTur> OtvTurs { get; set; }
         public virtual DbSet<StokTakibi> StokTakibis { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<vw_aspnet_Applications> vw_aspnet_Applications { get; set; }
@@ -112,6 +114,27 @@ namespace Muhasebe.Models
                 .HasForeignKey(e => e.ListeID)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<FiyatListesi>()
+                .HasMany(e => e.HizmetUruns)
+                .WithMany(e => e.FiyatListesis)
+                .Map(m => m.ToTable("HUrun_FListesi").MapLeftKey("FListeID").MapRightKey("HUrunID"));
+
+            modelBuilder.Entity<HizmetUrun>()
+                .Property(e => e.VergilerHaricAlisTur)
+                .IsFixedLength();
+
+            modelBuilder.Entity<HizmetUrun>()
+                .Property(e => e.VergilerHaricSatisTur)
+                .IsFixedLength();
+
+            modelBuilder.Entity<HizmetUrun>()
+                .Property(e => e.AlisOtvTur)
+                .IsFixedLength();
+
+            modelBuilder.Entity<HizmetUrun>()
+                .Property(e => e.SatisOtvTur)
+                .IsFixedLength();
+
             modelBuilder.Entity<HizmetUrun>()
                 .HasMany(e => e.Kategoris)
                 .WithMany(e => e.HizmetUruns)
@@ -124,6 +147,10 @@ namespace Muhasebe.Models
 
             modelBuilder.Entity<Musteri>()
                 .Property(e => e.DovizKuru)
+                .IsFixedLength();
+
+            modelBuilder.Entity<OtvTur>()
+                .Property(e => e.Ad)
                 .IsFixedLength();
         }
     }

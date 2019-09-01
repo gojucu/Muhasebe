@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Drawing;
 using System.IO;
+using System.Data.Entity;
 
 namespace Muhasebe.Controllers
 {
@@ -31,6 +32,8 @@ namespace Muhasebe.Controllers
             ViewBag.Kullanici = Session["Kullanici"];
             return View();
         }
+
+        //Müşteri
 
         public ActionResult Musteriler()
         {
@@ -61,6 +64,7 @@ namespace Muhasebe.Controllers
             var dovizKuru = context.DovizKurus.ToList();
             ViewBag.dovizKuru = dovizKuru;
 
+            ViewBag.dovizTur = context.DovizTurus.ToList();
 
             var kategoriler = context.Kategoris.ToList();
 
@@ -143,7 +147,17 @@ namespace Muhasebe.Controllers
             }
             else
             {
+
+                Musteri guncellenecek = context.Musteris.FirstOrDefault(x => x.Id == musteri.Id);
+                //kategori
                 string[] kategoris = kategoriler.Split(',');
+
+
+                foreach (var item in guncellenecek.Kategoris.ToList())
+                {
+                    guncellenecek.Kategoris.Remove(item);
+                    context.SaveChanges();
+                }
                 foreach (string kategori in kategoris)
                 {
                     Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
@@ -157,15 +171,16 @@ namespace Muhasebe.Controllers
                         context.SaveChanges();
 
                     }
-                    musteri.Kategoris.Add(kat);
+                    guncellenecek.Kategoris.Add(kat);
+                    //context.Entry(guncellenecek).State = EntityState.Modified;
                     context.SaveChanges();
+
                 }
                 //iban
                 //Iban ib = new Iban();
                 //ib.IbanNo = iban;
                 //context.Ibans.Add(ib);
-
-                Musteri guncellenecek = context.Musteris.FirstOrDefault(x => x.Id == musteri.Id);
+                
                 guncellenecek.FirmaUnvani = musteri.FirmaUnvani;
                 guncellenecek.FirmaKodu = musteri.FirmaKodu;
                 guncellenecek.KisaIsim = musteri.KisaIsim;
@@ -192,6 +207,7 @@ namespace Muhasebe.Controllers
                 return RedirectToAction("MusteriEkle", "Panel");
             }
         }
+
         public ActionResult MusteriSil(int id)
         {
             Musteri guncellenecek = context.Musteris.FirstOrDefault(x => x.Id == id);
@@ -234,6 +250,11 @@ namespace Muhasebe.Controllers
             var kategoriler = context.Kategoris.ToList();
             ViewBag.kategoriler = kategoriler;
 
+            var dovizTur = context.DovizTurus.ToList();
+            ViewBag.dovizTur = dovizTur;
+
+            ViewBag.otvTur = context.OtvTurs.ToList();
+
             if (ViewBag.Kullanici != null)
             {
                 if (id == 0)
@@ -245,21 +266,15 @@ namespace Muhasebe.Controllers
                 {
                     HizmetUrun Hu = context.HizmetUruns.Find(id);
                     List<string> stringlist = new List<string>();
-                    //foreach (var item in Hu.Kategoris)
-                    //{
+                    foreach (var item in Hu.Kategoris)
+                    {
 
 
-                    //    stringlist.Add(item.Ad);
-                    //    string dogCsv = string.Join(", ", stringlist.ToArray());
-                    //    Console.WriteLine(dogCsv);
-
-                    //    ViewBag.katttt = dogCsv;
-                    //}
-
-                    //var kategoriler2 = context.Kategoris.ToList().Where(x=>x.;
-                    //ViewBag.kategoriler = kategoriler2;
-
-
+                        stringlist.Add(item.Ad);
+                        string xkat = string.Join(", ", stringlist.ToArray());
+                        
+                        ViewBag.katttt = xkat;
+                    }
                     return View(Hu);
                 }
             }
@@ -279,12 +294,17 @@ namespace Muhasebe.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult HizmetUrunEkle(HizmetUrun Hu, HttpPostedFileBase Resim, string kategoriler)
+        public ActionResult HizmetUrunEkle(HizmetUrun Hu, HttpPostedFileBase Resim, string kategoriler, bool KritikStokUyarisi)
         {
             ViewBag.Kullanici = Session["Kullanici"];
             //resim
-            string dosyaadi = ResimKaydet(Resim);
-            Hu.Resim = "/Content/images/" + dosyaadi;
+            if (Resim != null)
+            {
+                string dosyaadi = ResimKaydet(Resim);
+                Hu.Resim = "/Content/images/" + dosyaadi;
+            }
+
+            //Hu.Resim = "/Content/images/" + dosyaadi;
 
             //Kategoriler
             if (kategoriler == null || kategoriler == "")
@@ -320,6 +340,13 @@ namespace Muhasebe.Controllers
             }
             else
             {
+                HizmetUrun guncellenecek = context.HizmetUruns.FirstOrDefault(x => x.Id == Hu.Id);
+                //kategori
+                foreach (var item in guncellenecek.Kategoris.ToList())
+                {
+                    guncellenecek.Kategoris.Remove(item);
+                    context.SaveChanges();
+                }
                 string[] kategoris = kategoriler.Split(',');
                 foreach (string kategori in kategoris)
                 {
@@ -334,36 +361,41 @@ namespace Muhasebe.Controllers
                         context.SaveChanges();
 
                     }
-                    Hu.Kategoris.Add(kat);
+                    guncellenecek.Kategoris.Add(kat);
                     context.SaveChanges();
                 }
                 
-                HizmetUrun guncellenecek = context.HizmetUruns.FirstOrDefault(x => x.Id == Hu.Id);
+
                 guncellenecek.Ad = Hu.Ad;
                 guncellenecek.UrunKodu = Hu.UrunKodu;
                 guncellenecek.BarkodNumarasi = Hu.BarkodNumarasi;
+                if (Hu.Resim != null)
+                {
                 guncellenecek.Resim = Hu.Resim;
+                }
+
                 guncellenecek.AlisSatisBirimi = Hu.AlisSatisBirimi;
                 guncellenecek.StokTakibi = Hu.StokTakibi;
                 guncellenecek.BaslangicStok = Hu.BaslangicStok;
                 guncellenecek.KritikStokUyarisi = Hu.KritikStokUyarisi;
                 guncellenecek.KritikStokSeviyesi = Hu.KritikStokSeviyesi;
                 guncellenecek.VergilerHaricAlis = Hu.VergilerHaricAlis;
+                guncellenecek.VergilerHaricAlisTur = Hu.VergilerHaricAlisTur;
                 guncellenecek.VergilerHaricSatis = Hu.VergilerHaricSatis;
+                guncellenecek.VergilerHaricSatisTur = Hu.VergilerHaricSatisTur;
                 guncellenecek.Kdv = Hu.Kdv;
                 guncellenecek.Oiv = Hu.Oiv;
                 guncellenecek.AlisOtv = Hu.AlisOtv;
+                guncellenecek.AlisOtvTur = Hu.AlisOtvTur;
                 guncellenecek.SatisOtv = Hu.SatisOtv;
-                guncellenecek.VergilerDahilAlis = Hu.VergilerDahilAlis;
-                guncellenecek.VergilerDahilSatis = Hu.VergilerDahilSatis;
+                guncellenecek.SatisOtvTur = Hu.SatisOtvTur;
+
                 
                 context.SaveChanges();
                 return RedirectToAction("HizmetUrun", "Panel");
             }
         }
-
-
-
+        
         public ActionResult HizmetUrunDetay(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];
@@ -375,6 +407,13 @@ namespace Muhasebe.Controllers
             {
                 return  RedirectToAction("GirisYap", "Uyelik");
             }
+        }
+
+        //FiyatListeleri
+        public ActionResult FiyatListe()
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            return View(context.FiyatListesis.ToList());
         }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Muhasebe.Models.FiyatListesi>
+
+@{
+    ViewBag.Title = "FiyatListe";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<h2>FiyatListe</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IndirimTuru)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopluIndirimMi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TIndirimMiktari)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IndirimTuru)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TopluIndirimMi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TIndirimMiktari)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
