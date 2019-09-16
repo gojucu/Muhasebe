@@ -29,7 +29,7 @@ namespace Muhasebe.Controllers
 
             FormsAuthentication.RedirectFromLoginPage(kullanici.KullaniciAdi, true);
             Session["Kullanici"] = kullanici;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Panel");
         }
 
         public ActionResult GirisYap()

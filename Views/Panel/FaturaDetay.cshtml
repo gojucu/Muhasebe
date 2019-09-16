@@ -1,0 +1,97 @@
+﻿@model Muhasebe.Models.Fatura
+
+@{
+    ViewBag.Title = "FaturaDetay";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="p-box">
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Hizmet/Ürün Detay</h3>
+
+                </div>
+                <div class="box-body">
+                    <div>
+                        <dl class="dl-horizontal">
+
+
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Aciklama)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Aciklama)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.MusteriID)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.MusteriID)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Irsaliye)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Irsaliye)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DuzenlemeTarih)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.DuzenlemeTarih)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.VadeTarihi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.VadeTarihi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FaturaNoSeri)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FaturaNoSeri)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FaturaNoSira)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FaturaNoSira)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FaturaDövizi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FaturaDövizi)
+                            </dd>
+                        </dl>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Düzenle", "FaturaEkle", new { id = Model.Id }) |
+                        @Html.ActionLink("Listeye Dön", "HizmetUrun", "Panel")
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

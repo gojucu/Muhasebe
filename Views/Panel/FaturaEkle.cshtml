@@ -1,0 +1,206 @@
+﻿@model Tuple<Muhasebe.Models.Fatura, Muhasebe.Models.HizmetUrunFatura>
+
+@{
+    ViewBag.Title = "FaturaEkle";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="p-box">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Fatura Ekle</h3>
+
+                </div>
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4>Fatura</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Item1.Aciklama, htmlAttributes: new { @class = "control-label col-md-2"})
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Item1.Aciklama, new { htmlAttributes = new { @class = "form-control", @id = "Aciklama" } })
+                                    @Html.ValidationMessageFor(model => model.Item1.Aciklama, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <h5 style="float:right; font-weight:700">Kategoriler</h5>
+                                </div>
+                                <div class="col-md-10">
+                                    @if (ViewBag.katttt == null)
+                                    {
+                                        <input type="text" name="kategoriler" value="" data-role="tagsinput" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="kategoriler" value="@ViewBag.katttt" data-role="tagsinput" />
+                                    }
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p class="control-label col-md-2">Müşteri</p>
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Item1.MusteriID, new SelectList(ViewBag.musteri, "Id", "FirmaUnvani"), "", new { htmlAttributes = new { @id = "MusteriID" } })
+                                    @Html.ValidationMessageFor(model => model.Item1.MusteriID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @if (Model == null)
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.Irsaliye, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.Item1.Irsaliye, new SelectList(ViewBag.irsaliye, "Ad", "Ad"), new { htmlAttributes = new { @id = "Irsaliye" } })
+                                        @Html.ValidationMessageFor(model => model.Item1.Irsaliye, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.Irsaliye, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.Item1.Irsaliye, new SelectList(ViewBag.irsaliye, "Ad", "Ad"), Model.Item1.Irsaliye, new { htmlAttributes = new { @id = "Irsaliye" } })
+                                        @Html.ValidationMessageFor(model => model.Item1.Irsaliye, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Item1.DuzenlemeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Item1.DuzenlemeTarih, new { htmlAttributes = new { @class = "form-control datepicker", @id = "DuzenlemeTarih" } })
+                                    @Html.ValidationMessageFor(model => model.Item1.DuzenlemeTarih, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Item1.VadeTarihi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Item1.VadeTarihi, new { htmlAttributes = new { @class = "form-control datepicker", @id = "VadeTarihi" } })
+                                    @Html.ValidationMessageFor(model => model.Item1.VadeTarihi, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div>
+                                <p class="control-label col-md-2">Fatura No:</p>
+                                <div class="form-group col-md-5">
+                                    <p class="control-label col-md-2">Seri</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Item1.FaturaNoSeri, new { htmlAttributes = new { @class = "", @id = "FaturaNoSeri" } })
+                                        @Html.ValidationMessageFor(model => model.Item1.FaturaNoSeri, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <p class="control-label col-md-2">Sıra</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Item1.FaturaNoSira, new { htmlAttributes = new { @class = "", @id = "FaturaNoSira" } })
+                                        @Html.ValidationMessageFor(model => model.Item1.FaturaNoSira, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model == null)
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.FaturaDövizi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.Item1.FaturaDövizi, new SelectList(ViewBag.faturaDoviz, "Ad", "Ad"),new { htmlAttributes = new { @class = "", @id = "FaturaDövizi" } })
+                                        @Html.ValidationMessageFor(model => model.Item1.FaturaDövizi, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.FaturaDövizi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.Item1.FaturaDövizi, new SelectList(ViewBag.faturaDoviz, "Ad", "Ad"), Model.Item1.FaturaDövizi, new { htmlAttributes = new { @class = "", @id = "FaturaDövizi" } }))
+                                        @Html.ValidationMessageFor(model => model.Item1.FaturaDövizi, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Kaydet" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Miktar", "Miktar"), new { @class = "hidden" })
+                    <hr />
+                    <table class=" col-md-12">
+                        <thead style="background-color:lightgray;">
+                            <tr style="height:40px;">
+
+                                <th>
+                                    Hizmet/Ürün
+                                </th>
+                                <th>
+                                    Miktar
+                                </th>
+                                <th>
+                                    BR. FİYAT
+                                </th>
+                                <th>
+                                    VERGİ
+                                </th>
+                                <th>
+                                    TOPLAM
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody id="yeniUrun"></tbody>
+                    </table>
+                    <a class="add btn col-md-2 btn-primary" @*onclick="return islemler.UrunKaydet()"*@>
+                        Satır Ekle
+                    </a>
+
+                    <hr />
+                    <div>
+                        @Html.ActionLink("Listeye Dön", "Faturalar")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+
+        var dat = $("#urunKdv").html();
+        /*Yeni Ürün */
+        $('.add').on('click', add);
+        $('.remove').on('click', remove);
+
+        function add() {
+            var new_chq_no = parseInt($('#total_chq').val()) + 1;
+            var new_input = '<tr><td><div><input style="margin:15px; width:90%;" class="form-control" type="text" name="UrunAd" class="UrunAd" value="" /></div></td><td><div><input style="margin:15px; width:90%;" class="form-control" type="number" name="Miktar" class="Miktar" value="" /></div></td><td><div><input style="margin:15px; width:90%;" class="form-control" type="number" name="BirimFiyat" class="BirimFiyat" value="" /></div></td><td><div><select style="margin:15px; width:90%;" class="form-control" name="Vergi" class="Vergi">'+ dat + '<select/></div></td><td><div><input style="margin:15px; width:90%;" class="form-control" type="text"><td/></tr >';
+
+            $('#yeniUrun').append(new_input);
+
+            $('#total_chq').val(new_chq_no);
+        }
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

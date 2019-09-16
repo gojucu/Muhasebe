@@ -104,13 +104,14 @@ namespace Muhasebe.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult MusteriEkle(Musteri musteri, string kategoriler, string iban)
+        public ActionResult MusteriEkle(Musteri musteri, string kategoriler, string[] iban)
         {
             ViewBag.Kullanici = Session["Kullanici"];
             if (kategoriler == null || kategoriler == "")
             {
                 kategoriler = "kategorisiz";
             }
+
             //Kategoriler
             if (musteri.Id == 0)
             {
@@ -133,11 +134,14 @@ namespace Muhasebe.Controllers
                 }
 
                 //iban
-                Iban ib = new Iban
+                foreach(var a in iban)
                 {
-                    IbanNo = iban
-                };
-                context.Ibans.Add(ib);
+                     Iban ib = new Iban
+                     {
+                         IbanNo = a
+                     };
+                     context.Ibans.Add(ib);
+                }
 
                 musteri.KullaniciID = ViewBag.Kullanici.Id;
                 musteri.Silindi = false;
@@ -409,11 +413,191 @@ namespace Muhasebe.Controllers
             }
         }
 
+        //Faturalar
+        public ActionResult Faturalar()
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            if (ViewBag.Kullanici != null)
+            {
+                return View(context.Faturas.ToList());
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+        }
+
+        public ActionResult FaturaEkle(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+
+            var musteri = context.Musteris.ToList();
+            ViewBag.musteri = musteri;
+
+            var irsaliye = context.Irsaliyes.ToList();
+            ViewBag.irsaliye = irsaliye;
+
+            var faturaDoviz = context.DovizTurus.ToList();
+            ViewBag.faturaDoviz = faturaDoviz;
+
+            var kdv = context.HizmetUrunKDVs.ToList();
+            ViewBag.kdv = kdv;
+
+            if (ViewBag.Kullanici != null)
+            {
+                if (id == 0)
+                {
+                    return View();
+
+                }
+                else
+                {
+                    Fatura fatura = context.Faturas.Find(id);
+                    List<string> stringlist = new List<string>();
+                    foreach (var item in fatura.Kategoris)
+                    {
+
+
+                        stringlist.Add(item.Ad);
+                        string xkat = string.Join(", ", stringlist.ToArray());
+
+                        ViewBag.katttt = xkat;
+                    }
+                    return View(fatura);
+                }
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult FaturaEkle(Fatura fatura, string kategoriler, string[] urunAd, float[] Miktar, float[] BirimFiyat, float[] Vergi)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            if (kategoriler == null || kategoriler == "")
+            {
+                kategoriler = "kategorisiz";
+            }
+
+            //Kategoriler
+            if (fatura.Id == 0)
+            {
+                string[] kategoris = kategoriler.Split(',');
+                foreach (string kategori in kategoris)
+                {
+                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                    if (kat == null)
+                    {
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
+                        context.Kategoris.Add(kat);
+                        context.SaveChanges();
+
+                    }
+                    fatura.Kategoris.Add(kat);
+                    context.SaveChanges();
+                }
+                foreach (var a in iban)
+                {
+                    Iban ib = new Iban
+                    {
+                        IbanNo = a
+                    };
+                    context.Ibans.Add(ib);
+                }
+                foreach (var a in urunAd)
+                {
+                    HizmetUrunFatura hf = new HizmetUrunFatura
+                    {
+
+                    }
+                }
+
+                fatura.KullaniciID = ViewBag.Kullanici.Id;
+                fatura.Silindi = false;
+                context.Faturas.Add(fatura);
+                context.SaveChanges();
+                return RedirectToAction("FaturaEkle", "Panel");
+            }
+            else
+            {
+
+                Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == fatura.Id);
+                //kategori
+                string[] kategoris = kategoriler.Split(',');
+
+
+                foreach (var item in guncellenecek.Kategoris.ToList())
+                {
+                    guncellenecek.Kategoris.Remove(item);
+                    context.SaveChanges();
+                }
+                foreach (string kategori in kategoris)
+                {
+                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                    if (kat == null)
+                    {
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
+                        context.Kategoris.Add(kat);
+                        context.SaveChanges();
+
+                    }
+                    guncellenecek.Kategoris.Add(kat);
+                    context.SaveChanges();
+
+                }
+
+
+                guncellenecek.Silindi = fatura.Silindi;
+                guncellenecek.Aciklama = fatura.Aciklama;
+                guncellenecek.Irsaliye = fatura.Irsaliye;
+                guncellenecek.MusteriID = fatura.MusteriID;
+                guncellenecek.DuzenlemeTarih = fatura.DuzenlemeTarih;
+                guncellenecek.VadeTarihi = fatura.VadeTarihi;
+                guncellenecek.FaturaNoSeri = fatura.FaturaNoSeri;
+                guncellenecek.FaturaNoSira = fatura.FaturaNoSira;
+                guncellenecek.FaturaDövizi = fatura.FaturaDövizi;
+               
+                context.SaveChanges();
+                return RedirectToAction("Faturalar", "Panel");
+            }
+        }
+        public ActionResult FaturaSil(int id)
+        {
+            Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == id);
+            guncellenecek.Silindi = true;
+            context.SaveChanges();
+            return RedirectToAction("Faturalar", "Panel");
+        }
+        
+        public ActionResult FaturaDetay(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            if (ViewBag.Kullanici != null)
+            {
+                return View(context.Faturas.FirstOrDefault(x=>x.Id==id));
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+        }
+
         //FiyatListeleri
         public ActionResult FiyatListe()
         {
             ViewBag.Kullanici = Session["Kullanici"];
             return View(context.FiyatListesis.ToList());
         }
+
+
     }
 }

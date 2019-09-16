@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Muhasebe.Models.Fatura>
+
+@{
+    ViewBag.Title = "Faturalar";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="p-box">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Faturalar</h3>
+
+                </div>
+                <div class="box-body">
+                    <p>
+
+                        <a href="/Panel/FaturaEkle/0"><i class="fa fa-circle-o"></i>Yeni Ekle</a>
+                    </p>
+
+                    <section class="content">
+                        <div class="container-fluid">
+                            <div class="col-md-12">
+
+                                <!-- Table -->
+                                <table id="datatable" class="table table-striped table-bordered" cellspacing="0" style="  ">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Fatura Açıklaması
+                                            </th>
+
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.DuzenlemeTarih)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.VadeTarihi)
+                                            </th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.FaturaDövizi)
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>
+                                                Fatura Açıklaması
+                                            </th>
+
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.DuzenlemeTarih)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.VadeTarihi)
+                                            </th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.FaturaDövizi)
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.KullaniciID == ViewBag.Kullanici.Id && item.Silindi != true)
+                                        {
+                                        <tr>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Aciklama)
+                                                @Html.DisplayFor(modelItem => item.MusteriID)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DuzenlemeTarih)
+                                                @Html.DisplayFor(modelItem => item.FaturaNoSira)
+                                                @Html.DisplayFor(modelItem => item.FaturaNoSeri)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.VadeTarihi)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FaturaDövizi)
+                                            </td>
+                                            <td>
+                                                <a style="width:100%" class="btn btn-sm btn-bitbucket" href="/Panel/FaturaDetay/@item.Id">Detay</a>
+
+                                                <button style="width:100%" class="btn btn-sm btn-danger" type="button" onclick="return HizmetUrunSil(@item.Id)">Müşteriyi Sil</button>
+
+
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    div.dataTables_wrapper div.dataTables_paginate {
+        margin: auto;
+        text-align: center
+    }
+</style>
+<script type="text/javascript">
+    function HizmetUrunSil(Id) {
+        bootbox.confirm("Silmek istediğinize emin misiniz?", function (result) {
+            if (result) {
+                var dataObject = {
+                    Id: $("#Id").val()
+                };
+                var form_data = new FormData();
+                form_data.append('Id', dataObject);
+                window.location = '/Panel/FaturaSil/' + Id;
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        var table = $('#datatable').DataTable({
+            scrollX: true,
+            scrollCollapse: true,
+            autoWidth: false,
+            paging: true,
+
+            "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"l><"pull-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
+            columnDefs: [
+                //{ "width": "50px", "targets": [0, 1] },
+                //{ "width": "40px", "targets": [4] }
+            ]
+        });
+        $('#datatable').dataTable();
+        $("[data-toggle=tooltip]").tooltip();
+    });
+</script>

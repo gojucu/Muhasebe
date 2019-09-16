@@ -156,11 +156,14 @@
     <Compile Include="Models\DovizKuru.cs" />
     <Compile Include="Models\DovizTuru.cs" />
     <Compile Include="Models\Etiket.cs" />
+    <Compile Include="Models\Fatura.cs" />
     <Compile Include="Models\FiyatListesi.cs" />
     <Compile Include="Models\HizmetUrun.cs" />
+    <Compile Include="Models\HizmetUrunFatura.cs" />
     <Compile Include="Models\HizmetUrunKDV.cs" />
     <Compile Include="Models\Iban.cs" />
     <Compile Include="Models\Indirim.cs" />
+    <Compile Include="Models\Irsaliye.cs" />
     <Compile Include="Models\Kategori.cs" />
     <Compile Include="Models\Kullanici.cs" />
     <Compile Include="Models\MuhasebeModel.cs" />
@@ -6706,7 +6709,7 @@
     <Content Include="Content\bower_components\tagsinput\bootstrap-tagsinput.css" />
     <Content Include="Content\bower_components\tagsinput\bootstrap-tagsinput.js" />
     <Content Include="Content\css\default-menu.css" />
-    <Content Include="Content\css\homepage.jpg" />
+    <Content Include="Content\css\main_css\homepage.jpg" />
     <Content Include="Content\css\jquery-ui-demo-ie8.css" />
     <Content Include="Content\css\jquery-ui-demo.css" />
     <Content Include="Content\css\jquery.fileupload-noscript.css" />
@@ -7623,6 +7626,9 @@
     <Content Include="Views\Panel\HizmetUrun.cshtml" />
     <Content Include="Views\Panel\HizmetUrunDetay.cshtml" />
     <Content Include="Views\Panel\FiyatListe.cshtml" />
+    <Content Include="Views\Panel\Faturalar.cshtml" />
+    <Content Include="Views\Panel\FaturaEkle.cshtml" />
+    <Content Include="Views\Panel\FaturaDetay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

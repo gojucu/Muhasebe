@@ -117,7 +117,7 @@
                                 <i class="fa fa-save"></i>Yeni iban ekle
                             </a>
                             <div id="ibanekl" class="col-md-10">
-                                <input class="form-control" placeholder="" type="text" name="iban" value="" />
+                                @*<input class="form-control" placeholder="" type="text" name="iban" value="" />*@
                             </div>
 
 
@@ -204,34 +204,67 @@
                                 @Html.DropDownListFor(model => model.Turu, new SelectList(ViewBag.musteriTurusListe, "Ad", "Ad"), new { onchange = "ddListChange()" })
                             </div>
                         </div>
+                        @if (Model == null || Model.Turu == "Tüzel Kişi")
+                        {
+                            <div id="tuzelKisi">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.VknTckn, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.VknTckn, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.VknTckn, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div id="tuzelKisi">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.VknTckn, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.VknTckn, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.VknTckn, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.VergiDairesi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.VergiDairesi, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.VergiDairesi, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.VergiDairesi, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.VergiDairesi, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.VergiDairesi, "", new { @class = "text-danger" })
+                            <div id="gercekKisi" style="display:none">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TcKimlikNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TcKimlikNo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TcKimlikNo, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        else if (Model.Turu == "Gerçek Kişi")
+                        {
+                            <div id="tuzelKisi" style="display:none">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.VknTckn, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.VknTckn, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.VknTckn, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div id="gercekKisi" style="display:none">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TcKimlikNo, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TcKimlikNo, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.TcKimlikNo, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.VergiDairesi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.VergiDairesi, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.VergiDairesi, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <div id="gercekKisi" >
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TcKimlikNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TcKimlikNo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TcKimlikNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
 
 
                         <div class="form-group">
@@ -323,10 +356,10 @@
                                         @Html.LabelFor(model => model.Ucret, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
                                             <span class="currencyinput">
-                                                @Html.TextBoxFor(model => model.Ucret, new { onkeypress = "return isNumber(event)" })
+                                                @Html.TextBoxFor(model => model.Ucret, new { onkeyup = "return isNumber(event)" })
                                                 @Html.DropDownListFor(model => model.DovizTuru, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
                                             </span>
-                                           
+
                                             @Html.ValidationMessageFor(model => model.Ucret, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -346,7 +379,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Kaydet" class="btn btn-default" />
                             </div>
                         </div>
                     </div>
@@ -402,7 +435,7 @@
 
     function add() {
         var new_chq_no = parseInt($('#total_chq').val()) + 1;
-        var new_input = "<input type='text' name='iban'>";
+        var new_input = "<input class='form-control' type='text' name='iban'>";
 
         $('#ibanekl').append(new_input);
 

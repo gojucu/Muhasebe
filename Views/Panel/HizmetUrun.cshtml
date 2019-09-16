@@ -71,8 +71,8 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                            //if (item.Silindi != true)
-                                            //{
+                                            if (item.KullaniciID == ViewBag.Kullanici.Id && item.Silindi != true)
+                                            {
                                             <tr>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Ad)
@@ -99,7 +99,7 @@
 
                                                 </td>
                                             </tr>
-                                            @*}*@
+                                            }
                                         }
                                     </tbody>
                                 </table>

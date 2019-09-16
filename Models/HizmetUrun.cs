@@ -12,6 +12,7 @@ namespace Muhasebe.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public HizmetUrun()
         {
+            HizmetUrunFaturas = new HashSet<HizmetUrunFatura>();
             Kategoris = new HashSet<Kategori>();
             FiyatListesis = new HashSet<FiyatListesi>();
         }
@@ -71,6 +72,9 @@ namespace Muhasebe.Models
 
         [StringLength(10)]
         public string SatisOtvTur { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HizmetUrunFatura> HizmetUrunFaturas { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kategori> Kategoris { get; set; }

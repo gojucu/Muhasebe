@@ -94,17 +94,30 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.StokTakibi, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.StokTakibi, new SelectList(ViewBag.stokTakibi, "Ad", "Ad"), new { onchange = "ddListChange()" })
+
+                        @if (Model != null)
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StokTakibi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.StokTakibi, new SelectList(ViewBag.stokTakibi, "Ad", "Ad"), Model.StokTakibi, new { onchange = "ddListChange()" })
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StokTakibi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.StokTakibi, new SelectList(ViewBag.stokTakibi, "Ad", "Ad"), new { onchange = "ddListChange()" })
+                                </div>
+                            </div>
+                        }
                         <div id="yapilsin">
                             <div class="form-group">
                                 @Html.LabelFor(model => model.BaslangicStok, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextBoxFor(model => model.BaslangicStok, new { onkeypress = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.BaslangicStok, new { type = "number", htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.BaslangicStok, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -126,7 +139,7 @@
                                         @Html.LabelFor(model => model.KritikStokSeviyesi, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
                                             <div class="checkbox">
-                                                @Html.TextBoxFor(model => model.KritikStokSeviyesi, new { onkeypress = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
+                                                @Html.TextBoxFor(model => model.KritikStokSeviyesi, new { type = "number", htmlAttributes = new { @class = "form-control" } })
                                                 @Html.ValidationMessageFor(model => model.KritikStokUyarisi, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -142,7 +155,7 @@
                                             @Html.LabelFor(model => model.KritikStokSeviyesi, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 <div class="checkbox">
-                                                    @Html.TextBoxFor(model => model.KritikStokSeviyesi, new { onkeypress = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.TextBoxFor(model => model.KritikStokSeviyesi, new { type = "number", htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.KritikStokUyarisi, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -156,7 +169,7 @@
                                             @Html.LabelFor(model => model.KritikStokSeviyesi, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 <div class="checkbox">
-                                                    @Html.TextBoxFor(model => model.KritikStokSeviyesi, new { onkeypress = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.TextBoxFor(model => model.KritikStokSeviyesi, new { type = "number", htmlAttributes = new { @class = "form-control" } })
                                                     @Html.ValidationMessageFor(model => model.KritikStokSeviyesi, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -171,72 +184,76 @@
                             @Html.LabelFor(model => model.VergilerHaricAlis, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 <span class="currencyinput">
-                                    @Html.TextBoxFor(model => model.VergilerHaricAlis, new { onkeyup = "return isNumber(event)" })
-                                @Html.DropDownListFor(model => model.VergilerHaricAlisTur, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
-                            </span>
-                            @Html.ValidationMessageFor(model => model.VergilerHaricAlis, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.VergilerHaricAlis, new { type = "number", step = "any", onkeyup = "return isNumber(event)" })
+                                    @Html.DropDownListFor(model => model.VergilerHaricAlisTur, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                </span>
+                                @Html.ValidationMessageFor(model => model.VergilerHaricAlis, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.VergilerHaricSatis, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <span class="currencyinput">
-                                @Html.TextBoxFor(model => model.VergilerHaricSatis, new { onkeyup = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
-                                @Html.DropDownListFor(model => model.VergilerHaricSatisTur, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
-                            </span>
-                            @Html.ValidationMessageFor(model => model.VergilerHaricSatis, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VergilerHaricSatis, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <span class="currencyinput">
+                                    @Html.TextBoxFor(model => model.VergilerHaricSatis, new { type = "number", step = "any", onkeyup = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.VergilerHaricSatisTur, new SelectList(ViewBag.dovizTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                </span>
+                                @Html.ValidationMessageFor(model => model.VergilerHaricSatis, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Kdv, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Kdv, new SelectList(ViewBag.kdv, "Miktar", "Miktar", new { onchange = "kdvislem()" }))
-                            @Html.ValidationMessageFor(model => model.Kdv, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Kdv, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.Kdv, new SelectList(ViewBag.kdv, "Miktar", "Miktar", new { onchange = "kdvislem()" }))
+                                @Html.ValidationMessageFor(model => model.Kdv, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Oiv, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Oiv, new { onkeyup = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Oiv, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Oiv, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+
+                                <span class="currencyinput">
+                                    @Html.TextBoxFor(model => model.Oiv, new { type = "number", onkeyup = "return isNumber(event)", htmlAttributes = new { @class = "form-control" } })
+                                    %
+                                </span>
+                                @Html.ValidationMessageFor(model => model.Oiv, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.AlisOtv, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <span class="currencyinput">
-                                @Html.TextBoxFor(model => model.AlisOtv, new { onkeyup = "return isNumber(event)" })
-                                @Html.DropDownListFor(model => model.AlisOtvTur, new SelectList(ViewBag.otvTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
-                                @Html.ValidationMessageFor(model => model.AlisOtv, "", new { @class = "text-danger" })
-                            </span>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AlisOtv, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <span class="currencyinput">
+                                    @Html.TextBoxFor(model => model.AlisOtv, new { type = "number", onkeyup = "return isNumber(event)" })
+                                    @Html.DropDownListFor(model => model.AlisOtvTur, new SelectList(ViewBag.otvTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                    @Html.ValidationMessageFor(model => model.AlisOtv, "", new { @class = "text-danger" })
+                                </span>
 
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SatisOtv, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SatisOtv, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
 
-                            <span class="currencyinput">
-                                @Html.TextBoxFor(model => model.SatisOtv, new { onkeyup = "return isNumber(event)" })
-                                @Html.DropDownListFor(model => model.SatisOtvTur, new SelectList(ViewBag.otvTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
-                                @Html.ValidationMessageFor(model => model.SatisOtv, "", new { @class = "text-danger" })
-                            </span>
+                                <span class="currencyinput">
+                                    @Html.TextBoxFor(model => model.SatisOtv, new { type = "number", onkeyup = "return isNumber(event)" })
+                                    @Html.DropDownListFor(model => model.SatisOtvTur, new SelectList(ViewBag.otvTur, "Ad", "Ad"), htmlAttributes: new { @class = "currency-dropdown" })
+                                    @Html.ValidationMessageFor(model => model.SatisOtv, "", new { @class = "text-danger" })
+                                </span>
 
+                            </div>
                         </div>
-                    </div>
-                   vergi dahil alış <input type="text" id="vergidahilalis" onkeyup="return isNumber_1()" />
-                   vergi dahil satış <input type="text" id="vergidahilsatis" onkeyup="return isNumber_2()" />
+                        vergi dahil alış <input type="number" step=".01" id="vergidahilalis" onkeyup="return isNumber_1(event)" />
+                        vergi dahil satış <input type="number" step=".01" id="vergidahilsatis" onkeyup="return isNumber_2()" />
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Kaydet" class="btn btn-default" />
+                            </div>
                         </div>
-                    </div>
                     </div>
                     }
                 </div>
@@ -314,12 +331,8 @@
         output.src = URL.createObjectURL(event.target.files[0]);
     };
 
-    function isNumber(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
+    function isNumber() {
+
         var alis = parseFloat( $('#VergilerHaricAlis').val());
         var satis = parseFloat( $('#VergilerHaricSatis').val());
         
@@ -342,26 +355,28 @@
 
         if (alisTur == "%         ") { //alisTur ve satisOtvTur de seçimlerden sonra boşluk var soldaki şekilde yapınca sıkıntı çıkmıyor ama yinede hoş değil
 
-            var dahilAlisSonuc = (alis * (kdv + oiv + alisOtv)) / 100 + alis;
+            var alisotvHesap = (alis * alisOtv) / 100 + alis;
+            var dahilAlisSonuc = parseFloat((alisotvHesap * (kdv + oiv)) / 100 + alisotvHesap).toFixed(2);
+
         } else if (alisTur == "₺         ") {
-      
-            var dahilAlisSonuc = (alis * (kdv + oiv)) / 100 + alis + alisOtv;
+            var alisotvHesap = alis + alisOtv;
+            var dahilAlisSonuc = parseFloat((alisotvHesap * (kdv+oiv)) / 100 + alisotvHesap).toFixed(2);
         }
 
         if (satisOtvTur == "%         ") {
-
-            var dahilSatisSonuc = (satis * (kdv + oiv + satisOtv)) / 100 + satis;
+            var satisotvHesap = (satis * satisOtv) / 100 + satis;
+            var dahilSatisSonuc = parseFloat((satisotvHesap * (kdv+oiv) ) / 100 + satisotvHesap).toFixed(2);
         } else if (satisOtvTur == "₺         ") {
-            var dahilSatisSonuc = (satis * (kdv + oiv)) / 100 + satis + satisOtv;
+            var satisotvHesap = satis + satisOtv;
+            var dahilSatisSonuc = parseFloat((satisotvHesap * (kdv+oiv)) / 100 + satisotvHesap).toFixed(2);
         }
         $('#vergidahilalis').val(dahilAlisSonuc);
         $('#vergidahilsatis').val(dahilSatisSonuc);
 
-        return true;
     }
 
-    function isNumber_1(evt) {
-        
+    function isNumber_1() {
+
         var dahilAlis = parseFloat($('#vergidahilalis').val());
         var kdv = parseFloat($('#Kdv option:selected').val());
         var oiv = parseFloat($('#Oiv').val());
@@ -375,13 +390,16 @@
         var alisTur = $('#AlisOtvTur option:selected').val();
 
         if (alisTur == "%         ") { //alisTur ve satisOtvTur de seçimlerden sonra boşluk var soldaki şekilde yapınca sıkıntı çıkmıyor ama yinede hoş değil
-            
-            var haricAlisSonuc = dahilAlis / (1 + ((kdv + oiv + alisOtv) / 100));
+            var toplam = kdv + oiv;
+            var otvliAlis = dahilAlis / (1 + (toplam / 100));
+            var haricAlisSonuc = parseFloat(otvliAlis / (1 + (alisOtv / 100))).toFixed(2);
         } else if (alisTur == "₺         ") {
-
-            var haricAlisSonuc = (dahilAlis / (1 + ((kdv + oiv) / 100))) - alisOtv;
+            var toplam = kdv + oiv;
+            var otvliAlis = dahilAlis / (1 + (toplam / 100));
+            var haricAlisSonuc = parseFloat((otvliAlis - alisOtv).toFixed(2));
         }
         $('#VergilerHaricAlis').val(haricAlisSonuc);
+
 
     }
     function isNumber_2(evt) {
@@ -397,11 +415,14 @@
         }
         var satisOtvTur = $('#SatisOtvTur option:selected').val();
         if (satisOtvTur == "%         ") { //alisTur ve satisOtvTur de seçimlerden sonra boşluk var soldaki şekilde yapınca sıkıntı çıkmıyor ama yinede hoş değil
+            var toplam = kdv + oiv;
 
-            var haricSatisSonuc = dahilSatis / (1 + ((kdv + oiv + satisOtv) / 100));
+            var otvliSatis = dahilSatis / (1 + (toplam / 100));
+            var haricSatisSonuc = parseFloat(otvliSatis / (1 + (satisOtv / 100))).toFixed(2);
         } else if (satisOtvTur == "₺         ") {
-
-            var haricSatisSonuc = (dahilSatis / (1 + ((kdv + oiv) / 100))) - satisOtv;
+            var toplam = kdv + oiv;
+            var otvliSatis = dahilSatis / (1 + (toplam / 100));
+            var haricSatisSonuc = parseFloat((otvliSatis - satisOtv).toFixed(2));
         }
         $('#VergilerHaricSatis').val(haricSatisSonuc);
     }
