@@ -73,160 +73,38 @@ $(function () {
     }
 
 });
-UrunKaydet: function () {
 
+var islemler = {
+    UrunKaydet: function () {
+        var frm = $("#faturaEkleKaydetForm");
+        var id = $("#Id", frm).val();
+        var aciklama = $("#Aciklama", frm).val();
+        var musteriId = $("#MusteriID", frm).val();
+        var irsaliye = $("#Irsaliye", frm).val();
+        var duzenlemeTarih = $("#DuzenlemeTarih", frm).val();
+        var vadeTarihi = $("#VadeTarihi", frm).val();
+        var faturaNoSeri = $("#FaturaNoSeri", frm).val();
+        var faturaNoSira = $("#FaturaNoSira", frm).val();
+        var faturaDovizi = $("#FaturaDovizi", frm).val();
 
-    var frm = $("#urunEkleKaydetForm");
-    var id = $("#id", frm).val();
-    var ustid = $("#ustid", frm).val();
-    var kodu = $("#kodu", frm).val();
-    var ad = $("#ad", frm).val();
-    var aktif = $("#aktif", frm).is(":checked") ? true : false;
-    var anaSayfadaGoster = $("#anaSayfadaGoster", frm).is(":checked") ? true : false;
-    var populer = $("#populer", frm).is(":checked") ? true : false;
-    var yeniBitisTarihi = $("#yeniBitisTarihi", frm).val();
-    var kisaAciklama = $("#kisaAciklama", frm).val();
-    var fiyat = $("#fiyat", frm).val();
-    var fiyatUsd = $("#fiyatUsd", frm).val();
-    var fiyatEuro = $("#fiyatEuro", frm).val();
-    var fiyatDiger = $("#fiyatDiger", frm).val();
-    var indirimOrani = $("#indirimOrani", frm).val();
-    var aciklama = $("#aciklama").val();
-    var aramaKriterleri = $("#aciklama", frm).val();
-    var filtreler = $("#filtreler", frm).val();
-    var resim1 = $("#r1", frm).attr("src");
-    var resim2 = $("#r2", frm).attr("src");
-    var resim3 = $("#r3", frm).attr("src");
-    var renkid = $("#renkid", frm).val();
-    var data = renkTablo
-        .rows()
-        .data();
+        alert(aciklama)
 
-
-    alert(aciklama)
-    alert(kisaAciklama)
-
-    if (data.length == 0) {
-
-        var deneme = "0";
-        var rengi = $("#renkid").val();
-        var rengii = rengi || deneme;
-
-        if (rengii == "0") {
-            var urunler = {
-                id: id,
-                ad: ad,
-                resim1: resim1,
-                resim2: resim2,
-                resim3: resim3,
-                kisaAciklama: kisaAciklama,
-                fiyat: fiyat,
-                aktif: aktif,
-                silindi: false,
-                ustid: ustid,
-                bedenler: "",
-                kodu: kodu,
-                aciklama: aciklama,
-                populer: populer,
-                yeniBitisTarihi: yeniBitisTarihi,
-                indirimOrani: indirimOrani,
-                anaSayfadaGoster: anaSayfadaGoster,
-                renkid: 0,
-                filtreler: filtreler,
-                aramaKriterleri: aramaKriterleri,
-                fiyatUsd: fiyatUsd,
-                fiyatEuro: fiyatEuro,
-                fiyatDiger: fiyatDiger
-            }
-        } else {
-            alert(rengii);
-            var bedeni = $(".bedeni").val().replace(/%2C/, ",");
-            var bedenii = bedeni || deneme;
-
-            var urunler = {
-                id: id,
-                ad: ad,
-                resim1: resim1,
-                resim2: resim2,
-                resim3: resim3,
-                kisaAciklama: kisaAciklama,
-                fiyat: fiyat,
-                aktif: aktif,
-                silindi: false,
-                ustid: ustid,
-                bedenler: bedenii,
-                kodu: kodu,
-                aciklama: aciklama,
-                populer: populer,
-                yeniBitisTarihi: yeniBitisTarihi,
-                indirimOrani: indirimOrani,
-                anaSayfadaGoster: anaSayfadaGoster,
-                renkid: rengii,
-                filtreler: filtreler,
-                aramaKriterleri: aramaKriterleri,
-                fiyatUsd: fiyatUsd,
-                fiyatEuro: fiyatEuro,
-                fiyatDiger: fiyatDiger
-            }
-
-        }
-        
-        $.ajax({
-            url: "/panel/urunEkleDuzenle",
-            async: false,
-            data: { urunler },
-            type: "post",
-            success: function (sonucu) {
-                if (sonucu) {
-                    alert(sonucu)
-                } else {
-                    bootbox.alert({
-                        message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."
-
-                    })
+                var fatura = {
+                    id: id,
+                    aciklama: aciklama,
+                    musteriId: musteriId,
+                    irsaliye: irsaliye,
+                    duzenlemeTarih: duzenlemeTarih,
+                    vadeTarihi: vadeTarihi,
+                    faturaNoSeri: faturaNoSeri,
+                    faturaNoSira: faturaNoSira,
+                    faturaDovizi: faturaDovizi
                 }
-            }
-
-        })
-    } else {
-
-        $("#renkler tbody tr").each(function () {
-
-            var rengi = $(this).find(".rengi").val();
-            var bedeni = $(this).find(".bedeni").val().replace(/%2C/, ",");
-            var resler = [];
-            $(this).find(".resEklen").each(function () {
-                resler.push($(this).attr("src"))
-            });
-            var urunler = {
-                id: id,
-                ad: ad,
-                resim1: resler[0],
-                resim2: resler[1],
-                resim3: resler[2],
-                kisaAciklama: kisaAciklama,
-                fiyat: fiyat,
-                aktif: aktif,
-                silindi: false,
-                ustid: ustid,
-                bedenler: bedeni,
-                kodu: kodu,
-                aciklama: aciklama,
-                populer: populer,
-                yeniBitisTarihi: yeniBitisTarihi,
-                indirimOrani: indirimOrani,
-                anaSayfadaGoster: anaSayfadaGoster,
-                renkid: rengi,
-                filtreler: filtreler,
-                aramaKriterleri: aramaKriterleri,
-                fiyatUsd: fiyatUsd,
-                fiyatEuro: fiyatEuro,
-                fiyatDiger: fiyatDiger
-            }
+        
             $.ajax({
-                url: "/panel/urunEkleDuzenle",
+                url: "/panel/FaturaEkle",
                 async: false,
-                data: { urunler },
+                data: { fatura },
                 type: "post",
                 success: function (sonucu) {
                     if (sonucu) {
@@ -238,8 +116,9 @@ UrunKaydet: function () {
                         })
                     }
                 }
+
             })
-        })
+
+        return false;
     }
-    return false;
 }

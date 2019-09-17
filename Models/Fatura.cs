@@ -41,7 +41,7 @@ namespace Muhasebe.Models
         public string FaturaNoSira { get; set; }
 
         [StringLength(50)]
-        public string FaturaDövizi { get; set; }
+        public string FaturaDovizi { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HizmetUrunFatura> HizmetUrunFaturas { get; set; }

@@ -474,49 +474,34 @@ namespace Muhasebe.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult FaturaEkle(Fatura fatura, string kategoriler, string[] urunAd, float[] Miktar, float[] BirimFiyat, float[] Vergi)
+        public ActionResult FaturaEkle(Fatura fatura/*Fatura fatura, string kategoriler, string[] urunAd, float[] Miktar, float[] BirimFiyat, float[] Vergi*/)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-            if (kategoriler == null || kategoriler == "")
-            {
-                kategoriler = "kategorisiz";
-            }
+            //if (kategoriler == null || kategoriler == "")
+            //{
+            //    kategoriler = "kategorisiz";
+            //}
 
             //Kategoriler
             if (fatura.Id == 0)
             {
-                string[] kategoris = kategoriler.Split(',');
-                foreach (string kategori in kategoris)
-                {
-                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
-                    if (kat == null)
-                    {
-                        kat = new Kategori
-                        {
-                            Ad = kategori
-                        };
-                        context.Kategoris.Add(kat);
-                        context.SaveChanges();
+                //string[] kategoris = kategoriler.Split(',');
+                //foreach (string kategori in kategoris)
+                //{
+                //    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                //    if (kat == null)
+                //    {
+                //        kat = new Kategori
+                //        {
+                //            Ad = kategori
+                //        };
+                //        context.Kategoris.Add(kat);
+                //        context.SaveChanges();
 
-                    }
-                    fatura.Kategoris.Add(kat);
-                    context.SaveChanges();
-                }
-                foreach (var a in iban)
-                {
-                    Iban ib = new Iban
-                    {
-                        IbanNo = a
-                    };
-                    context.Ibans.Add(ib);
-                }
-                foreach (var a in urunAd)
-                {
-                    HizmetUrunFatura hf = new HizmetUrunFatura
-                    {
-
-                    }
-                }
+                //    }
+                //    fatura.Kategoris.Add(kat);
+                //    context.SaveChanges();
+                //}
 
                 fatura.KullaniciID = ViewBag.Kullanici.Id;
                 fatura.Silindi = false;
@@ -529,31 +514,31 @@ namespace Muhasebe.Controllers
 
                 Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == fatura.Id);
                 //kategori
-                string[] kategoris = kategoriler.Split(',');
+                //string[] kategoris = kategoriler.Split(',');
 
 
-                foreach (var item in guncellenecek.Kategoris.ToList())
-                {
-                    guncellenecek.Kategoris.Remove(item);
-                    context.SaveChanges();
-                }
-                foreach (string kategori in kategoris)
-                {
-                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
-                    if (kat == null)
-                    {
-                        kat = new Kategori
-                        {
-                            Ad = kategori
-                        };
-                        context.Kategoris.Add(kat);
-                        context.SaveChanges();
+                //foreach (var item in guncellenecek.Kategoris.ToList())
+                //{
+                //    guncellenecek.Kategoris.Remove(item);
+                //    context.SaveChanges();
+                //}
+                //foreach (string kategori in kategoris)
+                //{
+                //    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                //    if (kat == null)
+                //    {
+                //        kat = new Kategori
+                //        {
+                //            Ad = kategori
+                //        };
+                //        context.Kategoris.Add(kat);
+                //        context.SaveChanges();
 
-                    }
-                    guncellenecek.Kategoris.Add(kat);
-                    context.SaveChanges();
+                //    }
+                //    guncellenecek.Kategoris.Add(kat);
+                //    context.SaveChanges();
 
-                }
+                //}
 
 
                 guncellenecek.Silindi = fatura.Silindi;
@@ -564,7 +549,7 @@ namespace Muhasebe.Controllers
                 guncellenecek.VadeTarihi = fatura.VadeTarihi;
                 guncellenecek.FaturaNoSeri = fatura.FaturaNoSeri;
                 guncellenecek.FaturaNoSira = fatura.FaturaNoSira;
-                guncellenecek.FaturaDövizi = fatura.FaturaDövizi;
+                guncellenecek.FaturaDovizi = fatura.FaturaDovizi;
                
                 context.SaveChanges();
                 return RedirectToAction("Faturalar", "Panel");

@@ -45,7 +45,9 @@ namespace Muhasebe
             "~/Content/dist/js/adminlte.min.js",
             "~/Content/dist/js/pages/dashboard.js",
             "~/Scripts/bootbox.min.js",
-            "~/Content/dist/js/demo.js"));
+            "~/Content/dist/js/demo.js",
+            "~/Content/js/main.js"
+            ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bower_components/bootstrap/dist/css/bootstrap.min.css",
