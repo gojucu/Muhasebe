@@ -139,6 +139,7 @@
                         </div>
                         @*Tablo kısmı*@
                         @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Miktar", "Miktar"), new { @class = "hidden" })
+                        @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "HizmetUrunID", "Ad"), new { @class = "hidden" })
                         <hr />
                         <table id="urunler" class="table table-striped table-bordered align-items-baseline col-md-12">
                             <thead style="background-color:lightgray;">
@@ -163,10 +164,10 @@
                             </thead>
                             @*<tbody id="yeniUrun"></tbody>*@
                         </table>
-                        <button type="button" id="urunEkle" class="btn col-md-2 btn-primary" onclick = "add()">Satır Ekle</button>
+                        <button type="button" id="urunEkle" class="btn col-md-2 btn-primary">Satır Ekle</button>
                         @*<a class="add btn col-md-2 btn-primary">
-                            Satır Ekle
-                        </a>*@
+            Satır Ekle
+        </a>*@
 
                         <hr />
                         <div>
@@ -178,13 +179,28 @@
         </div>
     </div>
 </form>
-
+<div class="container">
+    <div class="row">
+        <form class="col-md-4">
+            <label>Select</label>
+            <select class="form-control select2">
+                <option>Select</option>
+                <option>Car</option>
+                <option>Bike</option>
+                <option>Scooter</option>
+                <option>Cycle</option>
+                <option>Horse</option>
+            </select>
+        </form>
+    </div>
+</div>
 <script>
-    
-    $(".datepicker").datepicker();
-    
-    function add() {
+    $('.select2').select2();
+    $(function () {
 
+        $(".datepicker").datepicker({
+            autoclose: true,
+        });
         urunlerTablo = $("#urunler").DataTable({
             "paging": false,
             "ordering": false,
@@ -194,24 +210,29 @@
                 { "width": "10%", "targets": 0 }
             ]
         });
-        var dat = $("#urunKdv").html();
-        var data = urunlerTablo
-               .rows()
-               .data();
-        //alert("hey")
-        var new_chq_no = parseInt($('#total_chq').val()) + 1;
-        urunlerTablo.row.add([
-            '<input style="margin:15px; width:90%;"class="form-control" type="text" name="UrunAd" class="UrunAd" value="" />','<input style="margin:15px; width:90%;" class="formcontrol" type="number" name="Miktar" class="Miktar" value="" />','<input style="margin:15px; width:90%;" class="form-control"type="number" name="BirimFiyat" class="BirimFiyat" value="" />','<select style="margin:15px; width:90%;" class="form-control"name="Vergi" class="Vergi">' + dat + '<select/>','<inputstyle="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
+        $(document).ready(function () {
+            $('#urunEkle').on('click', add);
 
-        //var new_input = '<tr><td><div><input style="margin:15px; width:90%;"class="form-control" type="text" name="UrunAd" class="UrunAd" value="" /><div></td><td><div><input style="margin:15px; width:90%;" class="formcontrol" type="number" name="Miktar" class="Miktar" value="" /></div><td><td><div><input style="margin:15px; width:90%;" class="form-control"type="number" name="BirimFiyat" class="BirimFiyat" value="" /></div><td><td><div><select style="margin:15px; width:90%;" class="form-control"name="Vergi" class="Vergi">' + dat + '<select/></div></td><td><div><inputstyle="margin:15px; width:90%;" class="form-control" type="text"><td/></tr>';
+            function add() {
+                
+                var dat = $("#urunKdv").html();
+                var dat2 = $("#urunAd").html();
 
-        //$('#yeniUrun').append(new_input);
+                //var data = urunlerTablo
+                //       .rows()
+                //       .data();
+                //alert("hey")
+                var new_chq_no = parseInt($('#total_chq').val()) + 1;
+                urunlerTablo.row.add([
+                    '<input style="margin:15px; width:90%;"class="form-control HizmetUrunID" type="text" name="HizmetUrunID"  value="" />', '<input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="" />', '<select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<inputstyle="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
 
-        $('#total_chq').val(new_chq_no);
-    }
-  
-//});
+                $('#total_chq').val(new_chq_no);
+            }
 
+
+        })
+    })
+ 
 
 </script>
 

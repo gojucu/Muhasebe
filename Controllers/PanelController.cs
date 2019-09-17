@@ -443,6 +443,9 @@ namespace Muhasebe.Controllers
             var kdv = context.HizmetUrunKDVs.ToList();
             ViewBag.kdv = kdv;
 
+            var urun = context.HizmetUruns.ToList();
+            ViewBag.urun = urun;
+
             if (ViewBag.Kullanici != null)
             {
                 if (id == 0)
@@ -474,7 +477,7 @@ namespace Muhasebe.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult FaturaEkle(Fatura fatura/*Fatura fatura, string kategoriler, string[] urunAd, float[] Miktar, float[] BirimFiyat, float[] Vergi*/)
+        public ActionResult FaturaEkle(Fatura fatura/* string kategoriler*/)
         {
             ViewBag.Kullanici = Session["Kullanici"];
             //if (kategoriler == null || kategoriler == "")
@@ -507,7 +510,8 @@ namespace Muhasebe.Controllers
                 fatura.Silindi = false;
                 context.Faturas.Add(fatura);
                 context.SaveChanges();
-                return RedirectToAction("FaturaEkle", "Panel");
+                int sonId = context.Faturas.OrderByDescending(m => m.Id).FirstOrDefault().Id;
+                return Json(sonId.ToString(),JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -554,6 +558,15 @@ namespace Muhasebe.Controllers
                 context.SaveChanges();
                 return RedirectToAction("Faturalar", "Panel");
             }
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult HizmetUrunFaturaEkle(HizmetUrunFatura hizmetUrunFatura)
+        {
+            context.HizmetUrunFaturas.Add(hizmetUrunFatura);
+            context.SaveChanges();
+            return RedirectToAction("FaturaEkle", "Panel");
         }
         public ActionResult FaturaSil(int id)
         {
