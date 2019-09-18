@@ -76,6 +76,25 @@ $(function () {
 
 var islemler = {
     UrunKaydet: function () {
+
+        ////alert("burda")
+        ////$("#urunler > tbody > tr").each(function (index, item) {
+
+        ////    var hizmetUrunId = $(this).find(".HizmetUrunID").val();
+        ////    var miktar = $(this).find(".Miktar").val();
+        ////    var birimFiyat = $(this).find(".BirimFiyat").val();
+        ////    var vergi = $(this).find(".Vergi").val();
+
+        ////    alert($(item).find(".HizmetUrunID").val() + " aşağı gitmedi")
+        ////    alert(hizmetUrunId)
+            
+        ////})
+
+
+        //alert("bitti")
+        //return false
+
+        alert("buraya gelmedi")
         var frm = $("#faturaEkleKaydetForm");
         var id = $("#Id", frm).val();
         var aciklama = $("#Aciklama", frm).val();
@@ -109,18 +128,22 @@ var islemler = {
                 data: { fatura},
                 type: "post",
                 success: function (sonucu) {
-                    if (sonucu) {
+
                         var faturaId = sonucu;
                         alert(sonucu)
-                        $("#urunler > tbody > tr").each(function () {
+                    $("#urunler > tbody > tr").each(function (index, item) {
+
                             var hizmetUrunId = $(this).find(".HizmetUrunID").val();
                             var miktar = $(this).find(".Miktar").val();
                             var birimFiyat = $(this).find(".BirimFiyat").val();
                             var vergi = $(this).find(".Vergi").val();
 
+                        alert($(item).find(".HizmetUrunID").val())
+                         alert($(item).find(".Vergi").val())
+
                             var hizmetUrunFatura = {
                                 faturaId: faturaId,
-                                hizmetUrunId: "3",
+                                hizmetUrunId: hizmetUrunId,
                                 miktar: miktar,
                                 birimFiyat: birimFiyat,
                                 vergi: vergi
@@ -144,12 +167,7 @@ var islemler = {
 
                             })
                         })
-                    } else {
-                        bootbox.alert({
-                            message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."
 
-                        })
-                    }
                 }
 
         })
