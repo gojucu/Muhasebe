@@ -454,8 +454,17 @@ namespace Muhasebe.Controllers
             {
                 if (id == 0)
                 {
-                    return View();
+                    //model_fatura_altUrun_liste mm = new model_fatura_altUrun_liste();
+                    //Fatura ft = new Fatura();
+                    //context.Faturas.Add(ft);
+                    //context.SaveChanges();
+                    //int sonid = context.Faturas.OrderByDescending(m => m.Id).FirstOrDefault().Id;
+                    //mm.Id = sonid;
+                    //mm.KullaniciID = ViewBag.Kullanici.Id;
+                    //mm.Silindi = false;
+                    //return View(mm);
 
+                    return View();
                 }
                 else
                 {
@@ -485,8 +494,7 @@ model_fatura_altUrun_liste
                                    VadeTarihi = ft.VadeTarihi,
                                    Vergi = m.Vergi
                                };
-
-
+                    ViewBag.list = list;
                     List<string> stringlist = new List<string>();
                     foreach (var item in fatura.Kategoris)
                     {
@@ -508,7 +516,7 @@ model_fatura_altUrun_liste
 
         [HttpPost]
         [ValidateInput(false)]
-        public JsonResult FaturaEkle(Fatura fatura/* string kategoriler*/)
+        public JsonResult FaturaEkle(model_fatura_altUrun_liste fatura/* string kategoriler*/)
         {
             ViewBag.Kullanici = Session["Kullanici"];
             //if (kategoriler == null || kategoriler == "")
@@ -536,10 +544,13 @@ model_fatura_altUrun_liste
                 //    fatura.Kategoris.Add(kat);
                 //    context.SaveChanges();
                 //}
+               Fatura ft = new Fatura();
+                ft.Aciklama = fatura.Aciklama;
+
 
                 fatura.KullaniciID = ViewBag.Kullanici.Id;
                 fatura.Silindi = false;
-                context.Faturas.Add(fatura);
+                context.Faturas.Add(ft);
                 context.SaveChanges();
                 int sonId = context.Faturas.OrderByDescending(m => m.Id).FirstOrDefault().Id;
                 return Json(sonId.ToString(),JsonRequestBehavior.AllowGet);

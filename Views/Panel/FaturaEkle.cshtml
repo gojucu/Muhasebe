@@ -1,19 +1,19 @@
-﻿@model List<Muhasebe.Models.model_fatura_altUrun_liste>
+﻿@*@model List<Muhasebe.Models.model_fatura_altUrun_liste>*@
+@model Muhasebe.Models.Fatura
+
 
 @{
     ViewBag.Title = "FaturaEkle";
     Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 <form id="faturaEkleKaydetForm" method="post">
-    @Html.HiddenFor(model => model.FirstOrDefault().Id, new { @value = "0" })
+    @Html.HiddenFor(model => model.FirstOrDefault().Id)
     <div class="p-box">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Fatura Ekle</h3>
-
                     </div>
                     <div class="box-body">
 
@@ -167,7 +167,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var itemi in Model)
+                                @foreach (var itemi in ViewBag.list)
                                 {
 
 
@@ -183,16 +183,16 @@
                             <select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" value="@seciliUrun"></select>*@
 
 
-                                                @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad", itemi.HizmetUrunID  ))
+                                                @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad", itemi.HizmetUrunID  ), new {@class= " form-control select2" } )
                                             </td>
                                             <td>
-                                                <input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar" value="@itemi.Miktar" />
+                                                <input style="margin:15px; width:90%;" class="form-control Miktar" type="number" name="Miktar" value="@itemi.Miktar" />
                                             </td>
                                             <td>
                                                 <input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="@itemi.BirimFiyat" />
                                             </td>
                                             <td>
-                                                @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Id", "Miktar",itemi.Vergi), new { @class = "hidden" })
+                                                @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Id", "Miktar",itemi.Vergi),  new { @class = "form-control" } )
                                                 @*<input class="seciliVergi" type="hidden" value="@seciliVergi" />
         <select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi"><option class="seciliVergii" selected></option></select>*@
                                             </td>
@@ -208,14 +208,6 @@
                                 }
                             </tbody>
                         </table>
-
-
-
-
-
-
-
-
 
 
                             <button type="button" id="urunEkle" class="btn col-md-2 btn-primary">Satır Ekle</button>
@@ -236,6 +228,7 @@
 <script>
 
     $(function () {
+        $('.select2').select2();
 
         $(".datepicker").datepicker({
             autoclose: true,
@@ -250,6 +243,7 @@
             ]
         });
         $(document).ready(function () {
+
             //$("#urunler > tbody > tr").each(function () {
 
             //    var dat3 = $(".seciliUrun").val();
@@ -261,9 +255,9 @@
             //})
             
 
-            //$('#urunEkle').on('click', add);
-            //var dat = $("#urunKdv").html();
-            //var dat2 = $("#urunAd").html();
+            $('#urunEkle').on('click', add);
+            var dat = $("#urunKdv").html();
+            var dat2 = $("#urunAd").html();
 
             //$(".HizmetUrunID").append(dat2);
             //$(".Vergi").append(dat);
@@ -278,7 +272,7 @@
 
                 //var new_chq_no = parseInt($('#total_chq').val()) + 1;
                 urunlerTablo.row.add([
-                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="" />', '<select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
+                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
 
                 //$('#total_chq').val(new_chq_no);
                 $('.select2').select2();
