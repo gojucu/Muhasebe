@@ -149,7 +149,7 @@ var islemler = {
                                 type: "post",
                                 success: function (sonucu) {
                                     if (sonucu) {
-                                        alert(sonucu)
+
                                     } else {
                                         bootbox.alert({
                                             message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."

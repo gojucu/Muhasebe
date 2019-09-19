@@ -454,16 +454,7 @@ namespace Muhasebe.Controllers
             {
                 if (id == 0)
                 {
-                    //model_fatura_altUrun_liste mm = new model_fatura_altUrun_liste();
-                    //Fatura ft = new Fatura();
-                    //context.Faturas.Add(ft);
-                    //context.SaveChanges();
-                    //int sonid = context.Faturas.OrderByDescending(m => m.Id).FirstOrDefault().Id;
-                    //mm.Id = sonid;
-                    //mm.KullaniciID = ViewBag.Kullanici.Id;
-                    //mm.Silindi = false;
-                    //return View(mm);
-
+ 
                     return View();
                 }
                 else
@@ -505,7 +496,7 @@ model_fatura_altUrun_liste
 
                         ViewBag.katttt = xkat;
                     }
-                    return View(list.ToList());
+                    return View(fatura);
                 }
             }
             else
@@ -516,7 +507,7 @@ model_fatura_altUrun_liste
 
         [HttpPost]
         [ValidateInput(false)]
-        public JsonResult FaturaEkle(model_fatura_altUrun_liste fatura/* string kategoriler*/)
+        public JsonResult FaturaEkle(Fatura fatura/* string kategoriler*/)
         {
             ViewBag.Kullanici = Session["Kullanici"];
             //if (kategoriler == null || kategoriler == "")
@@ -544,13 +535,13 @@ model_fatura_altUrun_liste
                 //    fatura.Kategoris.Add(kat);
                 //    context.SaveChanges();
                 //}
-               Fatura ft = new Fatura();
-                ft.Aciklama = fatura.Aciklama;
+               //Fatura ft = new Fatura();
+               // ft.Aciklama = fatura.Aciklama;
 
 
                 fatura.KullaniciID = ViewBag.Kullanici.Id;
                 fatura.Silindi = false;
-                context.Faturas.Add(ft);
+                context.Faturas.Add(fatura);
                 context.SaveChanges();
                 int sonId = context.Faturas.OrderByDescending(m => m.Id).FirstOrDefault().Id;
                 return Json(sonId.ToString(),JsonRequestBehavior.AllowGet);
@@ -609,9 +600,24 @@ model_fatura_altUrun_liste
         {
             try
             {
-            context.HizmetUrunFaturas.Add(hizmetUrunFatura);
-            context.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
+                if (hizmetUrunFatura.Id == 0)
+                {
+                    context.HizmetUrunFaturas.Add(hizmetUrunFatura);
+                    context.SaveChanges();
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    HizmetUrunFatura guncellenecek = context.HizmetUrunFaturas.FirstOrDefault(x => x.Id == hizmetUrunFatura.Id);
+
+                    guncellenecek.HizmetUrunID = hizmetUrunFatura.HizmetUrunID;
+                    guncellenecek.Miktar = hizmetUrunFatura.Miktar;
+                    guncellenecek.BirimFiyat = hizmetUrunFatura.BirimFiyat;
+                    guncellenecek.Vergi = hizmetUrunFatura.Vergi;
+
+
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
