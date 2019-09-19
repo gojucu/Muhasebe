@@ -1,11 +1,11 @@
-﻿@model Muhasebe.Models.Fatura
+﻿@model List<Muhasebe.Models.model_fatura_altUrun_liste>
 
 @{
     ViewBag.Title = "FaturaEkle";
     Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 <form id="faturaEkleKaydetForm" method="post">
-    @Html.HiddenFor(model => model.Id, new { @value = "0" })
+    @Html.HiddenFor(model => model.FirstOrDefault().Id, new { @value = "0" })
     <div class="p-box">
         <div class="row">
 
@@ -23,10 +23,10 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.FirstOrDefault().Aciklama, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control", @id = "Aciklama" } })
-                                    @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.FirstOrDefault().Aciklama, new { htmlAttributes = new { @class = "form-control", @id = "Aciklama" } })
+                                    @Html.ValidationMessageFor(model => model.FirstOrDefault().Aciklama, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -49,17 +49,17 @@
                             <div class="form-group">
                                 <p class="control-label col-md-2">Müşteri</p>
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.MusteriID, new SelectList(ViewBag.musteri, "Id", "FirmaUnvani"), ""@*, new { htmlAttributes = new { @id = "MusteriID" } }*@)
-                                    @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.FirstOrDefault().MusteriID, new SelectList(ViewBag.musteri, "Id", "FirmaUnvani"), ""@*, new { htmlAttributes = new { @id = "MusteriID" } }*@)
+                                    @Html.ValidationMessageFor(model => model.FirstOrDefault().MusteriID, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             @if (Model == null)
                             {
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Irsaliye, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.FirstOrDefault().Irsaliye, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.Irsaliye, new SelectList(ViewBag.irsaliye, "Ad", "Ad"), new { htmlAttributes = new { @id = "Irsaliye" } })
-                                        @Html.ValidationMessageFor(model => model.Irsaliye, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.FirstOrDefault().Irsaliye, new SelectList(ViewBag.irsaliye, "Ad", "Ad"), new { htmlAttributes = new { @id = "Irsaliye" } })
+                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().Irsaliye, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -67,27 +67,27 @@
                             else
                             {
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Irsaliye, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.FirstOrDefault().Irsaliye, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.Irsaliye, new SelectList(ViewBag.irsaliye, "Ad", "Ad"), Model.Irsaliye, new { htmlAttributes = new { @id = "Irsaliye" } })
-                                        @Html.ValidationMessageFor(model => model.Irsaliye, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.FirstOrDefault().Irsaliye, new SelectList(ViewBag.irsaliye, "Ad", "Ad"), Model.FirstOrDefault().Irsaliye, new { htmlAttributes = new { @id = "Irsaliye" } })
+                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().Irsaliye, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             }
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.DuzenlemeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.FirstOrDefault().DuzenlemeTarih, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.DuzenlemeTarih, new { htmlAttributes = new { @class = "form-control datepicker", @id = "DuzenlemeTarih" } })
-                                    @Html.ValidationMessageFor(model => model.DuzenlemeTarih, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.FirstOrDefault().DuzenlemeTarih, new { htmlAttributes = new { @class = "form-control datepicker", @id = "DuzenlemeTarih" } })
+                                    @Html.ValidationMessageFor(model => model.FirstOrDefault().DuzenlemeTarih, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.VadeTarihi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.FirstOrDefault().VadeTarihi, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.VadeTarihi, new { htmlAttributes = new { @class = "form-control datepicker", @id = "VadeTarihi" } })
-                                    @Html.ValidationMessageFor(model => model.VadeTarihi, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.FirstOrDefault().VadeTarihi, new { htmlAttributes = new { @class = "form-control datepicker", @id = "VadeTarihi" } })
+                                    @Html.ValidationMessageFor(model => model.FirstOrDefault().VadeTarihi, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div>
@@ -95,36 +95,36 @@
                                 <div class="form-group col-md-5">
                                     <p class="control-label col-md-2">Seri</p>
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.FaturaNoSeri, new { htmlAttributes = new { @class = "", @id = "FaturaNoSeri" } })
-                                        @Html.ValidationMessageFor(model => model.FaturaNoSeri, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.FirstOrDefault().FaturaNoSira, new { htmlAttributes = new { @class = "", @id = "FaturaNoSeri" } })
+                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().FaturaNoSira, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group col-md-5">
                                     <p class="control-label col-md-2">Sıra</p>
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.FaturaNoSira, new { htmlAttributes = new { @class = "", @id = "FaturaNoSira" } })
-                                        @Html.ValidationMessageFor(model => model.FaturaNoSira, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.FirstOrDefault().FaturaNoSira, new { htmlAttributes = new { @class = "", @id = "FaturaNoSira" } })
+                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().FaturaNoSira, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             @if (Model == null)
                             {
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FaturaDovizi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.FirstOrDefault().FaturaDovizi, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.FaturaDovizi, new SelectList(ViewBag.faturaDoviz, "Ad", "Ad"), new { htmlAttributes = new { @class = "" } })
-                                        @Html.ValidationMessageFor(model => model.FaturaDovizi, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.FirstOrDefault().FaturaDovizi, new SelectList(ViewBag.faturaDoviz, "Ad", "Ad"), new { htmlAttributes = new { @class = "" } })
+                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().FaturaDovizi, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             }
                             else
                             {
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FaturaDovizi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.FirstOrDefault().FaturaDovizi, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.FaturaDovizi, new SelectList(ViewBag.faturaDoviz, "Ad", "Ad"), Model.FaturaDovizi, new { htmlAttributes = new { @class = "" } })
-                                        @Html.ValidationMessageFor(model => model.FaturaDovizi, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.FirstOrDefault().FaturaDovizi, new SelectList(ViewBag.faturaDoviz, "Ad", "Ad"), Model.FirstOrDefault().FaturaDovizi, new { htmlAttributes = new { @class = "" } })
+                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().FaturaDovizi, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             }
@@ -138,8 +138,13 @@
                             </div>
                         </div>
                         @*Tablo kısmı*@
-                        @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Miktar", "Miktar"), new { @class = "hidden" })
-                        @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad"), new { @class = "hidden" })
+
+
+
+
+                      
+
+
                         <hr />
                         <table id="urunler" class="table table-striped table-bordered align-items-baseline col-md-12">
                             <thead style="background-color:lightgray;">
@@ -160,20 +165,68 @@
                                         TOPLAM
                                     </th>
                                 </tr>
-
                             </thead>
-                            @*<tbody id="yeniUrun"></tbody>*@
-                        </table>
-                        <button type="button" id="urunEkle" class="btn col-md-2 btn-primary">Satır Ekle</button>
-                        @*<a class="add btn col-md-2 btn-primary">
-            Satır Ekle
-        </a>*@
+                            <tbody>
+                                @foreach (var itemi in Model)
+                                {
 
-                        <hr />
-                        <div>
-                            @Html.ActionLink("Listeye Dön", "Faturalar")
+
+
+                                    if (ViewBag.huFatura != null)
+                                    {
+
+
+
+                                        <tr>
+                                            <td>
+                                                @*<input class="seciliUrun" type="hidden" value="@seciliUrun" />
+                            <select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" value="@seciliUrun"></select>*@
+
+
+                                                @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad", itemi.HizmetUrunID  ))
+                                            </td>
+                                            <td>
+                                                <input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar" value="@itemi.Miktar" />
+                                            </td>
+                                            <td>
+                                                <input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="@itemi.BirimFiyat" />
+                                            </td>
+                                            <td>
+                                                @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Id", "Miktar",itemi.Vergi), new { @class = "hidden" })
+                                                @*<input class="seciliVergi" type="hidden" value="@seciliVergi" />
+        <select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi"><option class="seciliVergii" selected></option></select>*@
+                                            </td>
+                                            <td>
+                                                <input style="margin:15px; width:90%;" class="form-control" type="text">
+                                            </td>
+                                        </tr>
+
+
+
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+                            <button type="button" id="urunEkle" class="btn col-md-2 btn-primary">Satır Ekle</button>
+                            @*<a class="add btn col-md-2 btn-primary">
+                Satır Ekle
+            </a>*@
+                            <hr />
+                            <div>
+                                @Html.ActionLink("Listeye Dön", "Faturalar")
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -197,24 +250,37 @@
             ]
         });
         $(document).ready(function () {
-            $('#urunEkle').on('click', add);
+            //$("#urunler > tbody > tr").each(function () {
+
+            //    var dat3 = $(".seciliUrun").val();
+            //    alert(dat3)
+            //    $(".seciliUrunn").append(dat3);
+
+            //    var datVergi = $(".seciliVergi").val();
+            //    $(".seciliVergii").append(datVergi);
+            //})
+            
+
+            //$('#urunEkle').on('click', add);
+            //var dat = $("#urunKdv").html();
+            //var dat2 = $("#urunAd").html();
+
+            //$(".HizmetUrunID").append(dat2);
+            //$(".Vergi").append(dat);
+
 
             function add() {
                 
-                var dat = $("#urunKdv").html();
-                var dat2 = $("#urunAd").html();
-
-
                 //var data = urunlerTablo
                 //       .rows()
                 //       .data();
                 //alert("hey")
 
-                var new_chq_no = parseInt($('#total_chq').val()) + 1;
+                //var new_chq_no = parseInt($('#total_chq').val()) + 1;
                 urunlerTablo.row.add([
-                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="" />', '<select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<inputstyle="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
+                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="" />', '<select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
 
-                $('#total_chq').val(new_chq_no);
+                //$('#total_chq').val(new_chq_no);
                 $('.select2').select2();
             }
 

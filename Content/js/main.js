@@ -79,22 +79,15 @@ var islemler = {
 
         ////alert("burda")
         ////$("#urunler > tbody > tr").each(function (index, item) {
-
         ////    var hizmetUrunId = $(this).find(".HizmetUrunID").val();
         ////    var miktar = $(this).find(".Miktar").val();
         ////    var birimFiyat = $(this).find(".BirimFiyat").val();
         ////    var vergi = $(this).find(".Vergi").val();
-
         ////    alert($(item).find(".HizmetUrunID").val() + " aşağı gitmedi")
         ////    alert(hizmetUrunId)
-            
         ////})
-
-
-        //alert("bitti")
         //return false
 
-        alert("buraya gelmedi")
         var frm = $("#faturaEkleKaydetForm");
         var id = $("#Id", frm).val();
         var aciklama = $("#Aciklama", frm).val();
@@ -108,7 +101,7 @@ var islemler = {
         var data = urunlerTablo
                    .rows()
                    .data();
-        //alert(aciklama)
+
 
             var fatura = {
                 id: id,
@@ -138,8 +131,8 @@ var islemler = {
                             var birimFiyat = $(this).find(".BirimFiyat").val();
                             var vergi = $(this).find(".Vergi").val();
 
-                        alert($(item).find(".HizmetUrunID").val())
-                         alert($(item).find(".Vergi").val())
+                        //alert($(item).find(".HizmetUrunID").val())
+                        // alert($(item).find(".Vergi").val())
 
                             var hizmetUrunFatura = {
                                 faturaId: faturaId,

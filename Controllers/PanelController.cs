@@ -446,6 +446,10 @@ namespace Muhasebe.Controllers
             var urun = context.HizmetUruns.ToList();
             ViewBag.urun = urun;
 
+            var hizmetUrunFatura = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == id);
+            ViewBag.huFatura = hizmetUrunFatura;
+
+
             if (ViewBag.Kullanici != null)
             {
                 if (id == 0)
@@ -456,6 +460,33 @@ namespace Muhasebe.Controllers
                 else
                 {
                     Fatura fatura = context.Faturas.Find(id);
+
+                    var list = from ft in context.Faturas
+                               join hu in context.HizmetUrunFaturas on ft.Id equals hu.FaturaID into ps
+                               from m in ps.DefaultIfEmpty()
+                               where ft.Id == id
+                               select new
+model_fatura_altUrun_liste
+                               {
+                                   Id = ft.Id,
+                                   Aciklama = ft.Aciklama,
+                                   MusteriID = ft.MusteriID,
+                                   Irsaliye = ft.Irsaliye,
+                                   altId = m.Id,
+                                   BirimFiyat = m.BirimFiyat,
+                                   DuzenlemeTarih = ft.DuzenlemeTarih,
+                                   FaturaDovizi = ft.FaturaDovizi,
+                                   FaturaNoSeri = ft.FaturaNoSeri,
+                                   FaturaNoSira = ft.FaturaNoSira,
+                                   HizmetUrunID = m.HizmetUrunID,
+                                   KullaniciID = ft.KullaniciID,
+                                   Miktar = m.Miktar,
+                                   Silindi = ft.Silindi,
+                                   VadeTarihi = ft.VadeTarihi,
+                                   Vergi = m.Vergi
+                               };
+
+
                     List<string> stringlist = new List<string>();
                     foreach (var item in fatura.Kategoris)
                     {
@@ -466,7 +497,7 @@ namespace Muhasebe.Controllers
 
                         ViewBag.katttt = xkat;
                     }
-                    return View(fatura);
+                    return View(list.ToList());
                 }
             }
             else
@@ -477,7 +508,7 @@ namespace Muhasebe.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult FaturaEkle(Fatura fatura/* string kategoriler*/)
+        public JsonResult FaturaEkle(Fatura fatura/* string kategoriler*/)
         {
             ViewBag.Kullanici = Session["Kullanici"];
             //if (kategoriler == null || kategoriler == "")
@@ -556,17 +587,26 @@ namespace Muhasebe.Controllers
                 guncellenecek.FaturaDovizi = fatura.FaturaDovizi;
                
                 context.SaveChanges();
-                return RedirectToAction("Faturalar", "Panel");
+                int sonId = guncellenecek.Id;
+                return Json(sonId.ToString(), JsonRequestBehavior.AllowGet);
             }
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult HizmetUrunFaturaEkle(HizmetUrunFatura hizmetUrunFatura)
+        public JsonResult HizmetUrunFaturaEkle(HizmetUrunFatura hizmetUrunFatura)
         {
+            try
+            {
             context.HizmetUrunFaturas.Add(hizmetUrunFatura);
             context.SaveChanges();
-            return RedirectToAction("FaturaEkle", "Panel");
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
         }
         public ActionResult FaturaSil(int id)
         {
