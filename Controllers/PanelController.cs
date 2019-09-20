@@ -606,14 +606,14 @@ namespace Muhasebe.Controllers
             }
         }
 
-        //public ActionResult FaturaSil(int id)
-        //{
-        //    Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == id);
-        //    guncellenecek.Silindi = true;
-        //    context.SaveChanges();
-        //    return RedirectToAction("Faturalar", "Panel");
-        //}
-        
+        public ActionResult FaturaSil(int id)
+        {
+            Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == id);
+            guncellenecek.Silindi = true;
+            context.SaveChanges();
+            return RedirectToAction("Faturalar", "Panel");
+        }
+
         public ActionResult FaturaDetay(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];

@@ -10,8 +10,9 @@
 
         <div class="col-md-9">
             <div class="box box-primary">
+                <h3 class="box-title">Fatura Detay</h3>
                 <div class="box-header with-border">
-                    <h3 class="box-title">Fatura Detay</h3>
+                    <h3 class="box-title">@Html.DisplayFor(model => model.Aciklama)</h3>
 
                 </div>
                 <div class="box-body">
@@ -19,29 +20,12 @@
                         <dl class="dl-horizontal">
 
 
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Aciklama)
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Aciklama)
-                            </dd>
-
                             <dt>
                                 @Html.DisplayNameFor(model => model.MusteriID)
                             </dt>
 
                             <dd>
                                 @Html.DisplayFor(model => model.MusteriID)
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Irsaliye)
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Irsaliye)
                             </dd>
 
                             <dt>
@@ -85,6 +69,34 @@
                             </dd>
                         </dl>
                     </div>
+
+
+                    <hr />
+                    <table id="urunler" class="table table-striped table-bordered align-items-baseline col-md-12">
+                        <thead style="background-color:lightgray;">
+                            <tr style="height:40px;">
+                                <th>
+                                    Hizmet/Ürün
+                                </th>
+                                <th>
+                                    Miktar
+                                </th>
+                                <th>
+                                    BR. FİYAT
+                                </th>
+                                <th>
+                                    VERGİ
+                                </th>
+                                <th>
+                                    TOPLAM
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                     <p>
                         @Html.ActionLink("Düzenle", "FaturaEkle", new { id = Model.Id }) |
                         @Html.ActionLink("Listeye Dön", "Faturalar", "Panel")
@@ -93,5 +105,34 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <button class="btn btn-lg btn-bitbucket">Paylaş</button>
+                    <button class="btn btn-lg btn-bitbucket">Yazdır</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <h5>@Html.DisplayFor(model => model.Irsaliye)</h5>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+<script>
+       urunlerTablo = $("#urunler").DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false,
+        "columnDefs": [
+            { "width": "10%", "targets": 0 }
+        ]
+    });
+</script>
+
