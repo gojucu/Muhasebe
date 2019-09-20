@@ -99,69 +99,70 @@ var islemler = {
         var faturaNoSira = $("#FaturaNoSira", frm).val();
         var faturaDovizi = $("#FaturaDovizi", frm).val();
         var data = urunlerTablo
-                   .rows()
-                   .data();
+            .rows()
+            .data();
 
 
-            var fatura = {
-                id: id,
-                aciklama: aciklama,
-                musteriId: musteriId,
-                irsaliye: irsaliye,
-                duzenlemeTarih: duzenlemeTarih,
-                vadeTarihi: vadeTarihi,
-                faturaNoSeri: faturaNoSeri,
-                faturaNoSira: faturaNoSira,
-                faturaDovizi: faturaDovizi
+        var fatura = {
+            id: id,
+            aciklama: aciklama,
+            musteriId: musteriId,
+            irsaliye: irsaliye,
+            duzenlemeTarih: duzenlemeTarih,
+            vadeTarihi: vadeTarihi,
+            faturaNoSeri: faturaNoSeri,
+            faturaNoSira: faturaNoSira,
+            faturaDovizi: faturaDovizi
         }
-        
-            $.ajax({
-                url: "/panel/FaturaEkle",
-                async: false,
-                data: { fatura},
-                type: "post",
-                success: function (sonucu) {
 
-                        var faturaId = sonucu;
-                        alert(sonucu)
-                    $("#urunler > tbody > tr").each(function (index, item) {
+        $.ajax({
+            url: "/panel/FaturaEkle",
+            async: false,
+            data: { fatura },
+            type: "post",
+            success: function (sonucu) {
 
-                            var hizmetUrunId = $(this).find(".HizmetUrunID").val();
-                            var miktar = $(this).find(".Miktar").val();
-                            var birimFiyat = $(this).find(".BirimFiyat").val();
-                            var vergi = $(this).find(".Vergi").val();
+                var faturaId = sonucu;
+                alert(sonucu)
+                $("#urunler > tbody > tr").each(function (index, item) {
+                    var Id = $(this).find(".altId").val();
+                    var hizmetUrunId = $(this).find(".HizmetUrunID").val();
+                    var miktar = $(this).find(".Miktar").val();
+                    var birimFiyat = $(this).find(".BirimFiyat").val();
+                    var vergi = $(this).find(".Vergi").val();
 
-                        //alert($(item).find(".HizmetUrunID").val())
-                        // alert($(item).find(".Vergi").val())
+                    //alert($(item).find(".HizmetUrunID").val())
+                    // alert($(item).find(".Vergi").val())
 
-                            var hizmetUrunFatura = {
-                                faturaId: faturaId,
-                                hizmetUrunId: hizmetUrunId,
-                                miktar: miktar,
-                                birimFiyat: birimFiyat,
-                                vergi: vergi
+                    var hizmetUrunFatura = {
+                        Id: Id,
+                        faturaId: faturaId,
+                        hizmetUrunId: hizmetUrunId,
+                        miktar: miktar,
+                        birimFiyat: birimFiyat,
+                        vergi: vergi
+                    }
+
+                    $.ajax({
+                        url: "/panel/HizmetUrunFaturaEkle",
+                        async: false,
+                        data: { hizmetUrunFatura },
+                        type: "post",
+                        success: function (sonucu) {
+                            if (sonucu) {
+
+                            } else {
+                                bootbox.alert({
+                                    message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."
+
+                                })
                             }
+                        }
 
-                            $.ajax({
-                                url: "/panel/HizmetUrunFaturaEkle",
-                                async: false,
-                                data: { hizmetUrunFatura },
-                                type: "post",
-                                success: function (sonucu) {
-                                    if (sonucu) {
+                    })
+                })
 
-                                    } else {
-                                        bootbox.alert({
-                                            message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."
-
-                                        })
-                                    }
-                                }
-
-                            })
-                        })
-
-                }
+            }
 
         })
         //  $("#urunler tbody tr").each(function () {
@@ -199,5 +200,51 @@ var islemler = {
         //})
 
         return false;
+    },
+    hizmetUrunSil: function (Id) {
+        bootbox.confirm("ürün silinecek onaylıyormusunuz ?", function (result) {
+            if (result) {
+
+                $.ajax({
+                    url: "/panel/SayfaSil",
+                    data: { "Id": Id },
+                    async: false,
+                    type: "post",
+                    success: function (sonucu) {
+                        if (sonucu) {
+                            bootbox.alert({
+                                message: "ürün Silindi",
+                                //callback: function () {
+                                //    window.location.href = "/panel/dashboard";
+                                //}
+                            })
+
+
+                        } else {
+
+                            bootbox.alert({
+                                message: "İşlem Yapılamıyor. Daha sonra deneyiniz!!!"
+                            })
+                        }
+                    },
+                    error: function () {
+                        bootbox.alert({
+                            message: "İşlem Yapılamıyor. Daha sonra deneyiniz"
+                        })
+                    }
+                });
+
+
+
+            }
+        });
+
     }
+    ,
+    hizmetUrunSil: function () {
+        var frm = $("#faturaEkleKaydetForm");
+        var hufId= $("altId",frm)
+
+    }
+ 
 }

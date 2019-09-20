@@ -461,31 +461,36 @@ namespace Muhasebe.Controllers
                 {
                     Fatura fatura = context.Faturas.Find(id);
 
-                    var list = from ft in context.Faturas
-                               join hu in context.HizmetUrunFaturas on ft.Id equals hu.FaturaID into ps
-                               from m in ps.DefaultIfEmpty()
-                               where ft.Id == id
-                               select new
-model_fatura_altUrun_liste
-                               {
-                                   Id = ft.Id,
-                                   Aciklama = ft.Aciklama,
-                                   MusteriID = ft.MusteriID,
-                                   Irsaliye = ft.Irsaliye,
-                                   altId = m.Id,
-                                   BirimFiyat = m.BirimFiyat,
-                                   DuzenlemeTarih = ft.DuzenlemeTarih,
-                                   FaturaDovizi = ft.FaturaDovizi,
-                                   FaturaNoSeri = ft.FaturaNoSeri,
-                                   FaturaNoSira = ft.FaturaNoSira,
-                                   HizmetUrunID = m.HizmetUrunID,
-                                   KullaniciID = ft.KullaniciID,
-                                   Miktar = m.Miktar,
-                                   Silindi = ft.Silindi,
-                                   VadeTarihi = ft.VadeTarihi,
-                                   Vergi = m.Vergi
-                               };
-                    ViewBag.list = list;
+                    var huFaturaSayısı = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == id).Count();
+                    if (huFaturaSayısı != 0)
+                    {
+                        var list = from ft in context.Faturas
+                                   join hu in context.HizmetUrunFaturas on ft.Id equals hu.FaturaID into ps
+                                   from m in ps.DefaultIfEmpty()
+                                   where ft.Id == id
+                                   select new
+    model_fatura_altUrun_liste
+                                   {
+                                       Id = ft.Id,
+                                       Aciklama = ft.Aciklama,
+                                       MusteriID = ft.MusteriID,
+                                       Irsaliye = ft.Irsaliye,
+                                       altId = m.Id,
+                                       BirimFiyat = m.BirimFiyat,
+                                       DuzenlemeTarih = ft.DuzenlemeTarih,
+                                       FaturaDovizi = ft.FaturaDovizi,
+                                       FaturaNoSeri = ft.FaturaNoSeri,
+                                       FaturaNoSira = ft.FaturaNoSira,
+                                       HizmetUrunID = m.HizmetUrunID,
+                                       KullaniciID = ft.KullaniciID,
+                                       Miktar = m.Miktar,
+                                       Silindi = ft.Silindi,
+                                       VadeTarihi = ft.VadeTarihi,
+                                       Vergi = m.Vergi
+                                   };
+                        ViewBag.list = list;
+                    }
+
                     List<string> stringlist = new List<string>();
                     foreach (var item in fatura.Kategoris)
                     {
@@ -614,7 +619,7 @@ model_fatura_altUrun_liste
                     guncellenecek.Miktar = hizmetUrunFatura.Miktar;
                     guncellenecek.BirimFiyat = hizmetUrunFatura.BirimFiyat;
                     guncellenecek.Vergi = hizmetUrunFatura.Vergi;
-
+                    context.SaveChanges();
 
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }

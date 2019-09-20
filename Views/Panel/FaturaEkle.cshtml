@@ -95,8 +95,8 @@
                                 <div class="form-group col-md-5">
                                     <p class="control-label col-md-2">Seri</p>
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.FaturaNoSira, new { htmlAttributes = new { @class = "", @id = "FaturaNoSeri" } })
-                                        @Html.ValidationMessageFor(model => model.FaturaNoSira, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.FaturaNoSeri, new { htmlAttributes = new { @class = "", @id = "FaturaNoSeri" } })
+                                        @Html.ValidationMessageFor(model => model.FaturaNoSeri, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -161,19 +161,21 @@
                                     <th>
                                         TOPLAM
                                     </th>
+                                    <th>
+
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @if (ViewBag.list != null)
                                 {
                                     foreach (var itemi in ViewBag.list)
                                     {
                                         <tr>
                                             <td>
-                                                @*<input class="seciliUrun" type="hidden" value="@seciliUrun" />
-                                <select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" value="@seciliUrun"></select>*@
-
-                                                @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad", itemi.HizmetUrunID), new { @class = " form-control select2" })
+                                                <input type="hidden" class="altId" value="@itemi.altId" />
+                                                @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad", itemi.HizmetUrunID), new { @class = " form-control select2 HizmetUrunID" })
                                             </td>
                                             <td>
                                                 <input style="margin:15px; width:90%;" class="form-control Miktar" type="number" name="Miktar" value="@itemi.Miktar" />
@@ -182,12 +184,16 @@
                                                 <input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="@itemi.BirimFiyat" />
                                             </td>
                                             <td>
-                                                @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Miktar", "Miktar", itemi.Vergi), new { @class = "form-control" })
-                                                @*<input class="seciliVergi" type="hidden" value="@seciliVergi" />
-                                <select style="margin:15px; width:90%;" class="form-control Vergi" name="Vergi"><option class="seciliVergii" selected></option></select>*@
+                                                @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Miktar", "Miktar", itemi.Vergi), new { @class = "form-control Vergi" })
+
                                             </td>
                                             <td>
                                                 <input style="margin:15px; width:90%;" class="form-control" type="text">
+                                            </td>
+                                            <td>
+                                                <a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
+                                                    <i class="fa fa-remove"></i> X
+                                                </a>
                                             </td>
                                         </tr>
 
@@ -217,61 +223,45 @@
 
 <script>
 
-    $(function () {
-        $('.select2').select2();
+$(function () {
+    $('.select2').select2();
+    //get elements by class name ile ürünleri alıp select 2 eklettir.
+    $(".datepicker").datepicker({
+        autoclose: true,
+    });
+    urunlerTablo = $("#urunler").DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false,
+        "columnDefs": [
+            { "width": "10%", "targets": 0 }
+        ]
+    });
+    $(document).ready(function () {
 
-        $(".datepicker").datepicker({
-            autoclose: true,
-        });
-        urunlerTablo = $("#urunler").DataTable({
-            "paging": false,
-            "ordering": false,
-            "info": false,
-            "searching": false,
-            "columnDefs": [
-                { "width": "10%", "targets": 0 }
-            ]
-        });
-        $(document).ready(function () {
 
-            //$("#urunler > tbody > tr").each(function () {
+        $('#urunEkle').on('click', add);
+        var dat = $("#urunKdv").html();
+        var dat2 = $("#urunAd").html();
 
-            //    var dat3 = $(".seciliUrun").val();
-            //    alert(dat3)
-            //    $(".seciliUrunn").append(dat3);
+        //$(".HizmetUrunID").append(dat2);
+        //$(".Vergi").append(dat);
 
-            //    var datVergi = $(".seciliVergi").val();
-            //    $(".seciliVergii").append(datVergi);
-            //})
+
+
+        function add() {
             
-
-            $('#urunEkle').on('click', add);
-            var dat = $("#urunKdv").html();
-            var dat2 = $("#urunAd").html();
-
-            //$(".HizmetUrunID").append(dat2);
-            //$(".Vergi").append(dat);
+            urunlerTablo.row.add([
+                '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol"type="text">']).draw(false);
+            
+            $('.select2').select2();
+        }
 
 
-            function add() {
-                
-                //var data = urunlerTablo
-                //       .rows()
-                //       .data();
-                //alert("hey")
-
-                //var new_chq_no = parseInt($('#total_chq').val()) + 1;
-                urunlerTablo.row.add([
-                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="form-control" type="text">']).draw(false);
-
-                //$('#total_chq').val(new_chq_no);
-                $('.select2').select2();
-            }
-
-
-        })
     })
- 
+})
+
 
 </script>
 
