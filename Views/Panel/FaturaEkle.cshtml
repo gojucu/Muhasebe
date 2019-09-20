@@ -191,9 +191,11 @@
                                                 <input style="margin:15px; width:90%;" class="form-control" type="text">
                                             </td>
                                             <td>
-                                                <a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
-                                                    <i class="fa fa-remove"></i> X
-                                                </a>
+                                                @*<a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
+            <i class="fa fa-remove"></i> X
+        </a>*@
+
+                                                <button type="button" id="urunSil" class="btn col-md-2 btn-primary">x</button>
                                             </td>
                                         </tr>
 
@@ -238,22 +240,31 @@ $(function () {
             { "width": "10%", "targets": 0 }
         ]
     });
+
+
     $(document).ready(function () {
 
 
         $('#urunEkle').on('click', add);
+        //$('#urunSil').on('click', remove);
         var dat = $("#urunKdv").html();
         var dat2 = $("#urunAd").html();
 
         //$(".HizmetUrunID").append(dat2);
         //$(".Vergi").append(dat);
 
-
+        $('#urunler tbody').on('click', '#urunSil', function () {
+            urunlerTablo
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+        });
+   
 
         function add() {
             
             urunlerTablo.row.add([
-                '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol"type="text">']).draw(false);
+                '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol"type="text">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
             
             $('.select2').select2();
         }

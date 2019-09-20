@@ -555,6 +555,13 @@ namespace Muhasebe.Controllers
             {
 
                 Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == fatura.Id);
+                var hizmetUrunFaturas = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == guncellenecek.Id);
+                foreach (var item2 in hizmetUrunFaturas)
+                {
+                    HizmetUrunFatura huf = item2;
+                    context.HizmetUrunFaturas.Remove(item2);
+                }
+
                 //kategori
                 //string[] kategoris = kategoriler.Split(',');
 
@@ -599,44 +606,13 @@ namespace Muhasebe.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateInput(false)]
-        public JsonResult HizmetUrunFaturaEkle(HizmetUrunFatura hizmetUrunFatura)
-        {
-            try
-            {
-                if (hizmetUrunFatura.Id == 0)
-                {
-                    context.HizmetUrunFaturas.Add(hizmetUrunFatura);
-                    context.SaveChanges();
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    HizmetUrunFatura guncellenecek = context.HizmetUrunFaturas.FirstOrDefault(x => x.Id == hizmetUrunFatura.Id);
-
-                    guncellenecek.HizmetUrunID = hizmetUrunFatura.HizmetUrunID;
-                    guncellenecek.Miktar = hizmetUrunFatura.Miktar;
-                    guncellenecek.BirimFiyat = hizmetUrunFatura.BirimFiyat;
-                    guncellenecek.Vergi = hizmetUrunFatura.Vergi;
-                    context.SaveChanges();
-
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-        public ActionResult FaturaSil(int id)
-        {
-            Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == id);
-            guncellenecek.Silindi = true;
-            context.SaveChanges();
-            return RedirectToAction("Faturalar", "Panel");
-        }
+        //public ActionResult FaturaSil(int id)
+        //{
+        //    Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == id);
+        //    guncellenecek.Silindi = true;
+        //    context.SaveChanges();
+        //    return RedirectToAction("Faturalar", "Panel");
+        //}
         
         public ActionResult FaturaDetay(int id)
         {
@@ -649,6 +625,41 @@ namespace Muhasebe.Controllers
             {
                 return RedirectToAction("GirisYap", "Uyelik");
             }
+        }
+
+        //Hizmet Ürün- Faturalar(faturadaki ürünler)
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public JsonResult HizmetUrunFaturaEkle(HizmetUrunFatura hizmetUrunFatura)
+        {
+
+            try
+            {
+                if (hizmetUrunFatura.Id == 0)
+                {
+                    context.HizmetUrunFaturas.Add(hizmetUrunFatura);
+                    context.SaveChanges();
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //HizmetUrunFatura guncellenecek = context.HizmetUrunFaturas.FirstOrDefault(x => x.Id == hizmetUrunFatura.Id);
+                    //guncellenecek.HizmetUrunID = hizmetUrunFatura.HizmetUrunID;
+                    //guncellenecek.Miktar = hizmetUrunFatura.Miktar;
+                    //guncellenecek.BirimFiyat = hizmetUrunFatura.BirimFiyat;
+                    //guncellenecek.Vergi = hizmetUrunFatura.Vergi;
+                    context.HizmetUrunFaturas.Add(hizmetUrunFatura);
+                    context.SaveChanges();
+
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
         //FiyatListeleri

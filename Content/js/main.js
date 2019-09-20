@@ -72,7 +72,7 @@ $(function () {
         });
     }
 
-});
+});// burayı sil gereksiz ise dene bir ara (daha denenmedi)
 
 var islemler = {
     UrunKaydet: function () {
@@ -131,6 +131,7 @@ var islemler = {
                     var birimFiyat = $(this).find(".BirimFiyat").val();
                     var vergi = $(this).find(".Vergi").val();
 
+                    alert(Id)
                     //alert($(item).find(".HizmetUrunID").val())
                     // alert($(item).find(".Vergi").val())
 
@@ -161,7 +162,14 @@ var islemler = {
 
                     })
                 })
+                //$.ajax({
+                //    type: "post",
+                //    url: "/Panel/HizmetUrunFaturaSil",
+                //    data: { faturaId },
+                //    success: function (data) {
 
+                //    }
+                //});
             }
 
         })
@@ -200,51 +208,6 @@ var islemler = {
         //})
 
         return false;
-    },
-    hizmetUrunSil: function (Id) {
-        bootbox.confirm("ürün silinecek onaylıyormusunuz ?", function (result) {
-            if (result) {
-
-                $.ajax({
-                    url: "/panel/SayfaSil",
-                    data: { "Id": Id },
-                    async: false,
-                    type: "post",
-                    success: function (sonucu) {
-                        if (sonucu) {
-                            bootbox.alert({
-                                message: "ürün Silindi",
-                                //callback: function () {
-                                //    window.location.href = "/panel/dashboard";
-                                //}
-                            })
-
-
-                        } else {
-
-                            bootbox.alert({
-                                message: "İşlem Yapılamıyor. Daha sonra deneyiniz!!!"
-                            })
-                        }
-                    },
-                    error: function () {
-                        bootbox.alert({
-                            message: "İşlem Yapılamıyor. Daha sonra deneyiniz"
-                        })
-                    }
-                });
-
-
-
-            }
-        });
-
-    }
-    ,
-    hizmetUrunSil: function () {
-        var frm = $("#faturaEkleKaydetForm");
-        var hufId= $("altId",frm)
-
     }
  
 }
