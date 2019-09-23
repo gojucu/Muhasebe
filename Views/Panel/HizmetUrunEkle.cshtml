@@ -324,12 +324,12 @@
 
             }
         })
-    }
+    } //muhtemelen kullanılmıyo
 
     var loadFile = function (event) {
         var output = document.getElementById('output');
         output.src = URL.createObjectURL(event.target.files[0]);
-    };
+    }; //Geçici resim
 
     function isNumber() {
 
@@ -426,15 +426,7 @@
         }
         $('#VergilerHaricSatis').val(haricSatisSonuc);
     }
-    //var kdvislem = function (event) {
-        
-    //    var alis = parseFloat($('#VergilerHaricAlis').val());
-    //    var kdv = parseFloat($('#Kdv option:selected').val());
-    //    var alisSonuc = (alis * kdv) / 100 + alis;
-    //    alert(alisSonuc);
-    //    $('#vergidahilalis').val(alisSonuc);
-    //}
-
+    
 
 </script>
     @section Scripts {
