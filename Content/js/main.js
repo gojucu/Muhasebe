@@ -15,6 +15,8 @@ var islemler = {
         var faturaNoSira = $("#FaturaNoSira", frm).val();
         var faturaDovizi = $("#FaturaDovizi", frm).val();
 
+        var kategoriler = $("#kategoriler", frm).val();
+
 
 
         var fatura = {
@@ -32,7 +34,7 @@ var islemler = {
         $.ajax({
             url: "/panel/FaturaEkle",
             async: false,
-            data: { fatura },
+            data: { fatura, kategoriler },
             type: "post",
             success: function (sonucu) {
 

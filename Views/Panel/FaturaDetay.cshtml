@@ -90,13 +90,41 @@
                                 <th>
                                     TOPLAM
                                 </th>
-                                <th>
-
-                                </th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            @if (ViewBag.list != null)
+                            {
+                                foreach (var itemi in ViewBag.list)
+                                {
+                                    <tr>
+                                        <td>
+
+                                           @itemi.HizmetUrunID
+                                        </td>
+                                        <td>
+                                            @itemi.Miktar
+                                        </td>
+                                        <td>
+                                            @itemi.BirimFiyat
+                                        </td>
+                                        <td>
+                                            @itemi.Vergi
+
+                                        </td>
+                                        <td>
+                                            <input style="margin:15px; width:90%;" class="form-control" value="150" type="text" disabled>
+                                        </td>
+                                    </tr>
+                                    
+
+                                }
+
+                            }
+                        </tbody>
                     </table>
+
+                    <div class="col-md-6" style="float:right"><p>Ara Toplam</p><hr /><p>Toplam KDV</p><hr /><p>Genel Toplam</p><hr /><p>Kalan</p></div>
                     <p>
                         @Html.ActionLink("Düzenle", "FaturaEkle", new { id = Model.Id }) |
                         @Html.ActionLink("Listeye Dön", "Faturalar", "Panel")

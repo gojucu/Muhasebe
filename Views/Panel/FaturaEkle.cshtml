@@ -36,11 +36,11 @@
                                 <div class="col-md-10">
                                     @if (ViewBag.katttt == null)
                                     {
-                                        <input type="text" name="kategoriler" value="" data-role="tagsinput" />
+                                        <input type="text" name="kategoriler" id="kategoriler" value="" data-role="tagsinput" />
                                     }
                                     else
                                     {
-                                        <input type="text" name="kategoriler" value="@ViewBag.katttt" data-role="tagsinput" />
+                                        <input type="text" name="kategoriler" value="@ViewBag.katttt" id="kategoriler" data-role="tagsinput" />
                                     }
 
                                 </div>
@@ -62,7 +62,6 @@
                                         @Html.ValidationMessageFor(model => model.Irsaliye, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                             }
                             else
                             {

@@ -448,8 +448,7 @@ namespace Muhasebe.Controllers
 
             var hizmetUrunFatura = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == id);
             ViewBag.huFatura = hizmetUrunFatura;
-
-
+            
             if (ViewBag.Kullanici != null)
             {
                 if (id == 0)
@@ -494,8 +493,6 @@ namespace Muhasebe.Controllers
                     List<string> stringlist = new List<string>();
                     foreach (var item in fatura.Kategoris)
                     {
-
-
                         stringlist.Add(item.Ad);
                         string xkat = string.Join(", ", stringlist.ToArray());
 
@@ -512,38 +509,35 @@ namespace Muhasebe.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public JsonResult FaturaEkle(Fatura fatura/* string kategoriler*/)
+        public JsonResult FaturaEkle(Fatura fatura, string kategoriler)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-            //if (kategoriler == null || kategoriler == "")
-            //{
-            //    kategoriler = "kategorisiz";
-            //}
-
+            
             //Kategoriler
+            if (kategoriler == null || kategoriler == "")
+            {
+                kategoriler = "kategorisiz";
+            }
             if (fatura.Id == 0)
             {
-                //string[] kategoris = kategoriler.Split(',');
-                //foreach (string kategori in kategoris)
-                //{
-                //    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
-                //    if (kat == null)
-                //    {
-                //        kat = new Kategori
-                //        {
-                //            Ad = kategori
-                //        };
-                //        context.Kategoris.Add(kat);
-                //        context.SaveChanges();
+                string[] kategoris = kategoriler.Split(',');
+                foreach (string kategori in kategoris)
+                {
+                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                    if (kat == null)
+                    {
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
+                        context.Kategoris.Add(kat);
+                        context.SaveChanges();
 
-                //    }
-                //    fatura.Kategoris.Add(kat);
-                //    context.SaveChanges();
-                //}
-               //Fatura ft = new Fatura();
-               // ft.Aciklama = fatura.Aciklama;
-
-
+                    }
+                    fatura.Kategoris.Add(kat);
+                    context.SaveChanges();
+                }
+                
                 fatura.KullaniciID = ViewBag.Kullanici.Id;
                 fatura.Silindi = false;
                 context.Faturas.Add(fatura);
@@ -555,6 +549,8 @@ namespace Muhasebe.Controllers
             {
 
                 Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == fatura.Id);
+
+                //faturanın ürünlerinin düzenlenmesi için ilk önce gerekli hizmetUrunFatura silme kısmı
                 var hizmetUrunFaturas = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == guncellenecek.Id);
                 foreach (var item2 in hizmetUrunFaturas)
                 {
@@ -563,33 +559,29 @@ namespace Muhasebe.Controllers
                 }
 
                 //kategori
-                //string[] kategoris = kategoriler.Split(',');
-
-
-                //foreach (var item in guncellenecek.Kategoris.ToList())
-                //{
-                //    guncellenecek.Kategoris.Remove(item);
-                //    context.SaveChanges();
-                //}
-                //foreach (string kategori in kategoris)
-                //{
-                //    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
-                //    if (kat == null)
-                //    {
-                //        kat = new Kategori
-                //        {
-                //            Ad = kategori
-                //        };
-                //        context.Kategoris.Add(kat);
-                //        context.SaveChanges();
-
-                //    }
-                //    guncellenecek.Kategoris.Add(kat);
-                //    context.SaveChanges();
-
-                //}
-
-
+                string[] kategoris = kategoriler.Split(',');
+                
+                foreach (var item in guncellenecek.Kategoris.ToList())
+                {
+                    guncellenecek.Kategoris.Remove(item);
+                    context.SaveChanges();
+                }
+                foreach (string kategori in kategoris)
+                {
+                    Kategori kat = context.Kategoris.FirstOrDefault(x => x.Ad.ToLower() == kategori.ToLower().Trim());
+                    if (kat == null)
+                    {
+                        kat = new Kategori
+                        {
+                            Ad = kategori
+                        };
+                        context.Kategoris.Add(kat);
+                        context.SaveChanges();
+                    }
+                    guncellenecek.Kategoris.Add(kat);
+                    context.SaveChanges();
+                }
+                
                 guncellenecek.Silindi = fatura.Silindi;
                 guncellenecek.Aciklama = fatura.Aciklama;
                 guncellenecek.Irsaliye = fatura.Irsaliye;
@@ -619,6 +611,36 @@ namespace Muhasebe.Controllers
             ViewBag.Kullanici = Session["Kullanici"];
             if (ViewBag.Kullanici != null)
             {
+                var huFaturaSayısı = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == id).Count();
+                if (huFaturaSayısı != 0)
+                {
+                    var list = from ft in context.Faturas
+                               join hu in context.HizmetUrunFaturas on ft.Id equals hu.FaturaID into ps
+                               from m in ps.DefaultIfEmpty()
+                               where ft.Id == id
+                               select new
+model_fatura_altUrun_liste
+                               {
+                                   Id = ft.Id,
+                                   Aciklama = ft.Aciklama,
+                                   MusteriID = ft.MusteriID,
+                                   Irsaliye = ft.Irsaliye,
+                                   altId = m.Id,
+                                   BirimFiyat = m.BirimFiyat,
+                                   DuzenlemeTarih = ft.DuzenlemeTarih,
+                                   FaturaDovizi = ft.FaturaDovizi,
+                                   FaturaNoSeri = ft.FaturaNoSeri,
+                                   FaturaNoSira = ft.FaturaNoSira,
+                                   HizmetUrunID = m.HizmetUrunID,
+                                   KullaniciID = ft.KullaniciID,
+                                   Miktar = m.Miktar,
+                                   Silindi = ft.Silindi,
+                                   VadeTarihi = ft.VadeTarihi,
+                                   Vergi = m.Vergi
+                               };
+                    ViewBag.list = list;
+                }
+
                 return View(context.Faturas.FirstOrDefault(x=>x.Id==id));
             }
             else
@@ -668,7 +690,5 @@ namespace Muhasebe.Controllers
             ViewBag.Kullanici = Session["Kullanici"];
             return View(context.FiyatListesis.ToList());
         }
-
-
     }
 }
