@@ -178,7 +178,7 @@
                                                 @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad", itemi.HizmetUrunID), new { @class = " form-control select2 HizmetUrunID" })
                                             </td>
                                             <td>
-                                                <input style="margin:15px; width:90%;" class="form-control Miktar" type="number" name="Miktar" value="@itemi.Miktar" onkeyup = "return toplamHesaplama(event)" />
+                                                <input style="margin:15px; width:90%;" class="form-control Miktar" type="number" name="Miktar" value="@itemi.Miktar" />
                                             </td>
                                             <td>
                                                 @foreach (var item in ViewBag.urun)
@@ -197,7 +197,7 @@
 
                                             </td>
                                             <td>
-                                                <input style="margin:15px; width:90%;" class="form-control toplam" type="text">
+                                                <input style="margin:15px; width:90%;" class="form-control toplam" name="toplam" type="text">
                                             </td>
                                             <td>
                                                 @*<a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
@@ -282,37 +282,50 @@
             $("tr").each(function (index, value) {
 
                 if (index != 0) {
+                    var miktar = $(this).find(".Miktar");
+                    var birimFiyat = $(this).find(".BirimFiyat");
+                    var vergi = $(this).find(".Vergi");
+                    var toplam = $(this).find(".toplam");
+
+                    //var toplam = miktar * (birimFiyat * (1 + (vergi / 100)));
 
                     $(this).find(".Miktar").on("input", function () {
-                        var miktar = $(this).find(".Miktar").val();
-                        var birimFiyat = $(this).find(".BirimFiyat").val();
-                        var vergi = $(this).find(".Vergi").val();
+                        var vMiktar = miktar.val();
+                        var vFiyat = birimFiyat.val();
+                        var vVergi = vergi.val();
+                        alert(vVergi)
+                        //var denemeMiktar = $(".Miktar").val();
+                        //var denemeFiyat = $(".BirimFiyat").val();
+                        //var denemeVergi = $(".Vergi").val();
+                        //alert(denemeMiktar)
+                        var toplamm = vMiktar * (vFiyat * (1 + (vVergi / 100)));
 
-                        var toplam = miktar * (birimFiyat * (1 + (vergi / 100)));
-
-                        $(this).find(".toplam").val(toplam);
+                        toplam.val(toplamm);
+                        //$(this).find(".toplam").val(toplam);
+                        //$('.toplam').val(toplam);
                     });
+
                 }
             })
 
         })
     })
-    function toplamHesaplama() {
-        $("tr").each(function (index, value) {
-            if (index != 0) {
+    //function toplamHesaplama() {
+    //    $("tr").each(function (index, value) {
+    //        if (index != 0) {
 
-                var miktar = $(this).find(".Miktar").val();
-                var birimFiyat = $(this).find(".BirimFiyat").val();
-                var vergi = $(this).find(".Vergi").val();
+    //            var miktar = $(this).find(".Miktar").val();
+    //            var birimFiyat = $(this).find(".BirimFiyat").val();
+    //            var vergi = $(this).find(".Vergi").val();
 
-                var toplam = miktar * (birimFiyat * (1 + (vergi / 100)));
+    //            var toplam = miktar * (birimFiyat * (1 + (vergi / 100)));
 
-                $(this).find(".toplam").val(toplam);
-                toplamHesaplama(toplam);
-            }
+    //            $(this).find(".toplam").val(toplam);
+    //            toplamHesaplama(toplam);
+    //        }
 
-        })
-    }
+    //    })
+    //}
 
     //function toplamHesaplama() {
 
