@@ -21,6 +21,8 @@ namespace Muhasebe.Models
 
         public double? Vergi { get; set; }
 
+        public double? Toplam { get; set; }
+
         public virtual Fatura Fatura { get; set; }
 
         public virtual HizmetUrun HizmetUrun { get; set; }
