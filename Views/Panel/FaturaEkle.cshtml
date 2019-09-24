@@ -350,33 +350,45 @@
                     var birimFiyat = $(this).find(".BirimFiyat");
                     var vergi = $(this).find(".Vergi");
                     var toplam = $(this).find(".toplam");
-                    
-                    araToplam += parseFloat(miktar.val()*(birimFiyat.val()));
-                    alert(araToplam)
+
+                    //araToplam += miktar.val() * birimFiyat.val();
+                    //alert(araToplam)
+                    ////alert(araToplam)
+
+
+                    function toplamHesaplama() {
+                        var vMiktar = miktar.val();
+                        var vFiyat = birimFiyat.val();
+                        var vVergi = vergi.val();
+                        var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
+                        toplam.val(toplamm);
+
+                        $(".Miktar").each(function (index, value) {
+                            if (index != 0) {
+                                var heyd = $(this).find(".Miktar").val();
+                                //alert(heyd)
+                            }
+
+                            //araToplam += parseFloat($(this).find(".Miktar").val());
+                            //alert(araToplam)
+                        });
+                    }
 
                     $(this).find(".Miktar").on("input", function () {
-                        var vMiktar = miktar.val();
-                        var vFiyat = birimFiyat.val();
-                        var vVergi = vergi.val();
-                        var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-                        toplam.val(toplamm);
-                    });
-
-                    $(this).find(".BirimFiyat").on("input", function () {
-                        var vMiktar = miktar.val();
-                        var vFiyat = birimFiyat.val();
-                        var vVergi = vergi.val();
-                        var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-                        toplam.val(toplamm);
+                        toplamHesaplama();
+                        var araToplam = 0;
+                        
+                        alert(araToplam)
 
                     });
+
+                    //$(this).find(".BirimFiyat").on("input", function () {
+                    //    toplamHesaplama();
+                    //});
+
+                    
                     $(this).find(".Vergi").change(function () {
-                        var vMiktar = miktar.val();
-                        var vFiyat = birimFiyat.val();
-                        var vVergi = vergi.val();
-                        var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-                        toplam.val(toplamm);
-
+                        toplamHesaplama();
                     });
 
                     $(this).find(".toplam").on("input", function () {
@@ -390,73 +402,46 @@
                         //alert(vFiyat)
                         birimFiyat.val(vFiyat);
 
-                    });
+                });
                 }
             })
-
         })
     })
-    //function toplamHesaplama() {
-    //    $("tr").each(function (index, value) {
-    //        if (index != 0) {
-
-    //            var miktar = $(this).find(".Miktar").val();
-    //            var birimFiyat = $(this).find(".BirimFiyat").val();
-    //            var vergi = $(this).find(".Vergi").val();
-
-    //            var toplam = miktar * (birimFiyat * (1 + (vergi / 100)));
-
-    //            $(this).find(".toplam").val(toplam);
-    //            toplamHesaplama(toplam);
-    //        }
-
-    //    })
-    //}
-
-    //function toplamHesaplama() {
-
-    //    var alis = parseFloat($('.Miktar').val());
-    //    var satis = parseFloat($('.BirimFiyat').val());
-
-    //    var kdv = parseFloat($('.Vergi option:selected').val());
-    //    //var oiv = parseFloat($('#Oiv').val());
-    //    //if (isNaN(oiv)) {
-    //    //    oiv = 0;
-    //    //}
-    //    //var alisOtv = parseFloat($('#AlisOtv').val());
-    //    //if (isNaN(alisOtv)) {
-    //    //    alisOtv = 0;
-    //    //}
-    //    //var alisTur = $('#AlisOtvTur option:selected').val();
-
-    //    //var satisOtv = parseFloat($('#SatisOtv').val());
-    //    //if (isNaN(satisOtv)) {
-    //    //    satisOtv = 0;
-    //    //}
-    //    //var satisOtvTur = $('#SatisOtvTur option:selected').val();
-
-    //    //if (alisTur == "%         ") { //alisTur ve satisOtvTur de seçimlerden sonra boşluk var soldaki şekilde yapınca sıkıntı çıkmıyor ama yinede hoş değil
-
-    //    //    var alisotvHesap = (alis * alisOtv) / 100 + alis;
-    //    //    var dahilAlisSonuc = parseFloat((alisotvHesap * (kdv + oiv)) / 100 + alisotvHesap).toFixed(2);
-
-    //    //} else if (alisTur == "₺         ") {
-    //    //    var alisotvHesap = alis + alisOtv;
-    //    //    var dahilAlisSonuc = parseFloat((alisotvHesap * (kdv + oiv)) / 100 + alisotvHesap).toFixed(2);
-    //    //}
-
-    //    if (satisOtvTur == "%         ") {
-    //        var satisotvHesap = (satis * satisOtv) / 100 + satis;
-    //        var dahilSatisSonuc = parseFloat((satisotvHesap * (kdv + oiv)) / 100 + satisotvHesap).toFixed(2);
-    //    } else if (satisOtvTur == "₺         ") {
-    //        var satisotvHesap = satis + satisOtv;
-    //        var dahilSatisSonuc = parseFloat((satisotvHesap * (kdv + oiv)) / 100 + satisotvHesap).toFixed(2);
-    //    }
-    //    $('#vergidahilalis').val(dahilAlisSonuc);
-    //    $('#vergidahilsatis').val(dahilSatisSonuc);
-
-    //}
 
 
+    //Düzenleme Hesaplamalar
+    $(".BirimFiyat").on("input", function (){
+        toplamHesaplamaa()
+    })
+    $(".Miktar").on("input", function () {
+        toplamHesaplamaa()
+    })
+    $(".Vergi").change(function () {
+        toplamHesaplamaa()
+    })
+
+    function toplamHesaplamaa() {
+        var ttoplam = 0;
+        $("tr").each(function (index, value) {
+            if (index != 0) {
+
+                var miktar = $(this).find(".Miktar").val();
+                var birimFiyat = parseFloat($(this).find(".BirimFiyat").val());
+                var vergi = $(this).find(".Vergi").val();
+                var toplam = $(this).find(".toplam");
+
+                var toplamm = miktar * (birimFiyat * (1 + (vergi / 100)));
+                toplam.val(toplamm);
+
+
+                ttoplam =ttoplam+ birimFiyat;
+                //alert(ttoplam)
+                $(".araToplam").val(ttoplam)
+                
+            }
+
+        })
+    }
+    
 </script>
 
