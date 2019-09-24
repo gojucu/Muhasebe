@@ -14,6 +14,9 @@ var islemler = {
         var faturaNoSeri = $("#FaturaNoSeri", frm).val();
         var faturaNoSira = $("#FaturaNoSira", frm).val();
         var faturaDovizi = $("#FaturaDovizi", frm).val();
+        var araToplam = $(".araToplam", frm).val();
+        var kdvToplam = $(".kdvToplam", frm).val();
+        var genelToplam = $(".genelToplam", frm).val();
 
         var kategoriler = $("#kategoriler", frm).val();
 
@@ -28,7 +31,10 @@ var islemler = {
             vadeTarihi: vadeTarihi,
             faturaNoSeri: faturaNoSeri,
             faturaNoSira: faturaNoSira,
-            faturaDovizi: faturaDovizi
+            faturaDovizi: faturaDovizi,
+            araToplam: araToplam,
+            kdvToplam: kdvToplam,
+            genelToplam:genelToplam
         }
 
         $.ajax({

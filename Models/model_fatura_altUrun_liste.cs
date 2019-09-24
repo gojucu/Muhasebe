@@ -8,6 +8,7 @@ namespace Muhasebe.Models
 {
     public partial class model_fatura_altUrun_liste
     {
+        //fatura
 
         public int Id { get; set; }
 
@@ -36,11 +37,17 @@ namespace Muhasebe.Models
         [StringLength(50)]
         public string FaturaDovizi { get; set; }
 
+        public double? AraToplam { get; set; }
+
+        public double? KdvToplam { get; set; }
+
+        public double? GenelToplam { get; set; }
+
+        
+        //ürün Fatura
         public int altId { get; set; }
 
         public int HizmetUrunID { get; set; }
-
-       
 
         public double? Miktar { get; set; }
 
@@ -48,6 +55,8 @@ namespace Muhasebe.Models
 
         public double? Vergi { get; set; }
 
-     
+        public double? Toplam { get; set; }
+
+
     }
 }

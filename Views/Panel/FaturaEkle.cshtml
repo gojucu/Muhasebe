@@ -197,7 +197,7 @@
 
                                             </td>
                                             <td>
-                                                <input style="margin:15px; width:90%;" class="form-control toplam" name="toplam" type="text">
+                                                <input style="margin:15px; width:90%;" class="form-control toplam" name="toplam" type="number">
                                             </td>
                                             <td>
                                                 @*<a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
@@ -283,128 +283,80 @@
 
             $("#urunEkle").on('click', function () {
                 urunlerTablo.row.add([
-                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol toplam"type="text">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
+                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol toplam"type="number">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
 
                 $('.select2').select2();
-                $("tr").each(function (index, value) {
-
-                    if (index != 0) {
-                        var miktar = $(this).find(".Miktar");
-                        var birimFiyat = $(this).find(".BirimFiyat");
-                        var vergi = $(this).find(".Vergi");
-                        var toplam = $(this).find(".toplam");
-
-                        var araToplam = 0;
-                        araToplam += birimFiyat;
-                        alert(araToplam)
-
-                        $(this).find(".Miktar").on("input", function () {
-
-                            var vMiktar = miktar.val();
-                            var vFiyat = birimFiyat.val();
-                            var vVergi = vergi.val();
-                            var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-
-
-                            toplam.val(toplamm);
-                        });
-
-                        $(this).find(".BirimFiyat").on("input", function () {
-                            var vMiktar = miktar.val();
-                            var vFiyat = birimFiyat.val();
-                            var vVergi = vergi.val();
-                            var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-                            toplam.val(toplamm);
-
-                        });
-                        $(this).find(".Vergi").change(function () {
-                            var vMiktar = miktar.val();
-                            var vFiyat = birimFiyat.val();
-                            var vVergi = vergi.val();
-                            var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-                            toplam.val(toplamm);
-
-                        });
-
-                        $(this).find(".toplam").on("input", function () {
-
-                            var vMiktar = miktar.val();
-                            var vFiyat = birimFiyat.val();
-                            var vVergi = vergi.val();
-                            var vToplam = toplam.val();
-
-                            var vFiyat = ((vToplam / (1 + (vVergi / 100))) / vMiktar).toFixed(2);
-                            //alert(vFiyat)
+                //Yeni fatura/ürün Hesaplamalar
+                $(".BirimFiyat").on("input", function () {
+                    toplamHesaplamaa()
+                })
+                $(".Miktar").on("input", function () {
+                    toplamHesaplamaa()
+                })
+                $(".Vergi").change(function () {
+                    toplamHesaplamaa()
+                })
+                $(".toplam").on("input", function () {
+                    birimFiyatHesaplama()
+                })
+                function birimFiyatHesaplama() {
+                    var araToplam = 0;
+                    var genelToplam = 0;
+                    var kdvToplam = 0;
+                    $("tr").each(function (index, value) {
+                        if (index != 0) {
+                            //birim fiyat bulma
+                            var miktar = $(this).find(".Miktar").val();
+                            var birimFiyat = $(this).find(".BirimFiyat");
+                            var vergi = $(this).find(".Vergi").val();
+                            var toplam = parseFloat($(this).find(".toplam").val());
+                            var vFiyat = ((toplam / (1 + (vergi / 100))) / miktar).toFixed(2);
                             birimFiyat.val(vFiyat);
 
-                        });
-                    }
-                })
-            })
-            
-            var araToplam = 0;
-            $("tr").each(function (index, value) {
+                            //ara toplam
+                            var araFiyat = miktar * vFiyat;
+                            araToplam = araToplam + araFiyat;
+                            $(".araToplam").val(araToplam.toFixed(2))
+                            //genel Toplam
+                            genelToplam += toplam;
+                            $(".genelToplam").val(genelToplam.toFixed(2))
+                            //kdv toplam
+                            kdvToplam = genelToplam - araToplam;
+                            $(".kdvToplam").val(kdvToplam.toFixed(2));
+                        }
 
-                if (index != 0) {
-                    var miktar = $(this).find(".Miktar");
-                    var birimFiyat = $(this).find(".BirimFiyat");
-                    var vergi = $(this).find(".Vergi");
-                    var toplam = $(this).find(".toplam");
+                    })
+                }
+                function toplamHesaplamaa() {
+                    var araToplam = 0;
+                    var genelToplam = 0;
+                    var kdvToplam = 0;
+                    $("tr").each(function (index, value) {
+                        if (index != 0) {
+                            //ürünlerin kendi toplam fiyatlarını bulma
+                            var miktar = parseFloat($(this).find(".Miktar").val());
+                            var birimFiyat = parseFloat($(this).find(".BirimFiyat").val());
+                            var vergi = parseFloat($(this).find(".Vergi").val());
+                            var toplam = $(this).find(".toplam");
+                            var toplamm = parseFloat((miktar * (birimFiyat * (1 + (vergi / 100)))).toFixed(2));
+                            toplam.val(toplamm);
 
-                    //araToplam += miktar.val() * birimFiyat.val();
-                    //alert(araToplam)
-                    ////alert(araToplam)
+                            //ara toplam bulma
+                            var araFiyat = miktar * birimFiyat;
+                            araToplam = araToplam + araFiyat;
+                            $(".araToplam").val(araToplam.toFixed(2))
+                            //genel toplam bulma
+                            genelToplam += toplamm;
+                            $(".genelToplam").val(genelToplam.toFixed(2))
+                            //kdv toplam bulma
+                            kdvToplam = genelToplam - araToplam;
+                            $(".kdvToplam").val(kdvToplam.toFixed(2))
+                        }
 
-
-                    function toplamHesaplama() {
-                        var vMiktar = miktar.val();
-                        var vFiyat = birimFiyat.val();
-                        var vVergi = vergi.val();
-                        var toplamm = (vMiktar * (vFiyat * (1 + (vVergi / 100)))).toFixed(2);
-                        toplam.val(toplamm);
-
-                        $(".Miktar").each(function (index, value) {
-                            if (index != 0) {
-                                var heyd = $(this).find(".Miktar").val();
-                                //alert(heyd)
-                            }
-
-                            //araToplam += parseFloat($(this).find(".Miktar").val());
-                            //alert(araToplam)
-                        });
-                    }
-
-                    $(this).find(".Miktar").on("input", function () {
-                        toplamHesaplama();
-                        var araToplam = 0;
-                        
-                        alert(araToplam)
-
-                    });
-
-                    //$(this).find(".BirimFiyat").on("input", function () {
-                    //    toplamHesaplama();
-                    //});
-
-                    
-                    $(this).find(".Vergi").change(function () {
-                        toplamHesaplama();
-                    });
-
-                    $(this).find(".toplam").on("input", function () {
-
-                        var vMiktar = miktar.val();
-                        var vFiyat = birimFiyat.val();
-                        var vVergi = vergi.val();
-                        var vToplam = toplam.val();
-                        
-                        var vFiyat = ((vToplam / (1 + (vVergi / 100))) / vMiktar).toFixed(2);
-                        //alert(vFiyat)
-                        birimFiyat.val(vFiyat);
-
-                });
+                    })
                 }
             })
+            
         })
     })
 
@@ -419,25 +371,61 @@
     $(".Vergi").change(function () {
         toplamHesaplamaa()
     })
-
-    function toplamHesaplamaa() {
-        var ttoplam = 0;
+    $(".toplam").on("input", function () {
+        birimFiyatHesaplama()
+    })
+    function birimFiyatHesaplama() {
+        var araToplam = 0;
+        var genelToplam = 0;
+        var kdvToplam = 0;
         $("tr").each(function (index, value) {
             if (index != 0) {
-
+                //birim fiyat bulma
                 var miktar = $(this).find(".Miktar").val();
-                var birimFiyat = parseFloat($(this).find(".BirimFiyat").val());
+                var birimFiyat = $(this).find(".BirimFiyat");
                 var vergi = $(this).find(".Vergi").val();
-                var toplam = $(this).find(".toplam");
+                var toplam = parseFloat($(this).find(".toplam").val());
+                var vFiyat = ((toplam / (1 + (vergi / 100))) / miktar).toFixed(2);
+                birimFiyat.val(vFiyat);
 
-                var toplamm = miktar * (birimFiyat * (1 + (vergi / 100)));
+                //ara toplam
+                var araFiyat = miktar * vFiyat;
+                araToplam = araToplam + araFiyat;
+                $(".araToplam").val(araToplam.toFixed(2))
+                //genel Toplam
+                genelToplam += toplam;
+                $(".genelToplam").val(genelToplam.toFixed(2))
+                //kdv toplam
+                kdvToplam = genelToplam - araToplam;
+                $(".kdvToplam").val(kdvToplam.toFixed(2));
+            }
+
+        })
+    }
+    function toplamHesaplamaa() {
+        var araToplam = 0;
+        var genelToplam = 0;
+        var kdvToplam = 0;
+        $("tr").each(function (index, value) {
+            if (index != 0) {
+                //ürünlerin kendi toplam fiyatlarını bulma
+                var miktar = parseFloat($(this).find(".Miktar").val());
+                var birimFiyat = parseFloat($(this).find(".BirimFiyat").val());
+                var vergi = parseFloat($(this).find(".Vergi").val());
+                var toplam = $(this).find(".toplam");
+                var toplamm = parseFloat((miktar * (birimFiyat * (1 + (vergi / 100)))).toFixed(2));
                 toplam.val(toplamm);
 
-
-                ttoplam =ttoplam+ birimFiyat;
-                //alert(ttoplam)
-                $(".araToplam").val(ttoplam)
-                
+                //ara toplam bulma
+                var araFiyat = miktar * birimFiyat;
+                araToplam = araToplam + araFiyat;
+                $(".araToplam").val(araToplam.toFixed(2))
+                //genel toplam bulma
+                genelToplam += toplamm;
+                $(".genelToplam").val(genelToplam.toFixed(2))
+                //kdv toplam bulma
+                kdvToplam = genelToplam - araToplam;
+                $(".kdvToplam").val(kdvToplam.toFixed(2))
             }
 
         })
