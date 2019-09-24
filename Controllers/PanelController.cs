@@ -485,7 +485,8 @@ namespace Muhasebe.Controllers
                                        Miktar = m.Miktar,
                                        Silindi = ft.Silindi,
                                        VadeTarihi = ft.VadeTarihi,
-                                       Vergi = m.Vergi
+                                       Vergi = m.Vergi,
+                                       Toplam = m.Toplam
                                    };
                         ViewBag.list = list;
                     }
@@ -591,6 +592,9 @@ namespace Muhasebe.Controllers
                 guncellenecek.FaturaNoSeri = fatura.FaturaNoSeri;
                 guncellenecek.FaturaNoSira = fatura.FaturaNoSira;
                 guncellenecek.FaturaDovizi = fatura.FaturaDovizi;
+                guncellenecek.AraToplam = fatura.AraToplam;
+                guncellenecek.KdvToplam = fatura.KdvToplam;
+                guncellenecek.GenelToplam = fatura.GenelToplam;
                
                 context.SaveChanges();
                 int sonId = guncellenecek.Id;
@@ -609,6 +613,9 @@ namespace Muhasebe.Controllers
         public ActionResult FaturaDetay(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];
+
+            ViewBag.Urunler = context.HizmetUruns.ToList();
+
             if (ViewBag.Kullanici != null)
             {
                 var huFaturaSayısı = context.HizmetUrunFaturas.ToList().Where(x => x.FaturaID == id).Count();
@@ -636,7 +643,8 @@ model_fatura_altUrun_liste
                                    Miktar = m.Miktar,
                                    Silindi = ft.Silindi,
                                    VadeTarihi = ft.VadeTarihi,
-                                   Vergi = m.Vergi
+                                   Vergi = m.Vergi,
+                                   Toplam = m.Toplam
                                };
                     ViewBag.list = list;
                 }

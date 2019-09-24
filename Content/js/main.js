@@ -14,9 +14,9 @@ var islemler = {
         var faturaNoSeri = $("#FaturaNoSeri", frm).val();
         var faturaNoSira = $("#FaturaNoSira", frm).val();
         var faturaDovizi = $("#FaturaDovizi", frm).val();
-        var araToplam = $(".araToplam", frm).val();
-        var kdvToplam = $(".kdvToplam", frm).val();
-        var genelToplam = $(".genelToplam", frm).val();
+        var araToplam = $(".AraToplam", frm).val();
+        var kdvToplam = $(".KdvToplam", frm).val();
+        var genelToplam = $(".GenelToplam", frm).val();
 
         var kategoriler = $("#kategoriler", frm).val();
 
@@ -51,6 +51,7 @@ var islemler = {
                     var miktar = $(this).find(".Miktar").val();
                     var birimFiyat = $(this).find(".BirimFiyat").val();
                     var vergi = $(this).find(".Vergi").val();
+                    var toplam = $(this).find(".Toplam").val();
                     
 
                     var hizmetUrunFatura = {
@@ -59,7 +60,8 @@ var islemler = {
                         hizmetUrunId: hizmetUrunId,
                         miktar: miktar,
                         birimFiyat: birimFiyat,
-                        vergi: vergi
+                        vergi: vergi,
+                        toplam: toplam
                     }
 
                     $.ajax({

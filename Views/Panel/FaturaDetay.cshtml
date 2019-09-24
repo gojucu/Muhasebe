@@ -99,8 +99,15 @@
                                 {
                                     <tr>
                                         <td>
+                                            @foreach (var item in ViewBag.Urunler)
+                                            {
+                                                if (item.Id == itemi.HizmetUrunID)
+                                                {
+                                                    @item.Ad
+                                                };
+                                            }
 
-                                           @itemi.HizmetUrunID
+
                                         </td>
                                         <td>
                                             @itemi.Miktar
@@ -113,10 +120,10 @@
 
                                         </td>
                                         <td>
-                                            <input style="margin:15px; width:90%;" class="form-control" value="150" type="text" disabled>
+                                            @itemi.Toplam
                                         </td>
                                     </tr>
-                                    
+
 
                                 }
 
@@ -124,7 +131,39 @@
                         </tbody>
                     </table>
 
-                    <div class="col-md-6" style="float:right"><p>Ara Toplam</p><hr /><p>Toplam KDV</p><hr /><p>Genel Toplam</p><hr /><p>Kalan</p></div>
+                    <hr />
+                    <div class="col-md-6" style="float:right">
+
+                        @{
+
+                            if (Model != null)
+                            {
+                                <p style="display:inline-block">Ara Toplam:</p>
+                                <input type="text" class="AraToplam" value="@Model.AraToplam" disabled />
+                                <hr />
+                                <p style="display:inline-block">Toplam KDV:</p>
+                                <input type="text" class="KdvToplam" value="@Model.KdvToplam" disabled />
+                                <hr />
+                                <p style="display:inline-block">Genel Toplam:</p>
+                                <input type="text" class="GenelToplam" value="@Model.GenelToplam" disabled />
+                                <hr />
+                            }
+                            else
+                            {
+                                <p style="display:inline-block">Ara Toplam:</p>
+                                <input type="text" class="AraToplam" value="0" disabled />
+                                <hr />
+                                <p style="display:inline-block">Toplam KDV:</p>
+                                <input type="text" class="KdvToplam" value="0" disabled />
+                                <hr />
+                                <p style="display:inline-block">Genel Toplam:</p>
+                                <input type="text" class="GenelToplam" value="0" disabled />
+                                <hr />
+                            }
+
+
+                        }
+                    </div>
                     <p>
                         @Html.ActionLink("Düzenle", "FaturaEkle", new { id = Model.Id }) |
                         @Html.ActionLink("Listeye Dön", "Faturalar", "Panel")
@@ -138,6 +177,14 @@
                 <div class="box-body">
                     <button class="btn btn-lg btn-bitbucket">Paylaş</button>
                     <button class="btn btn-lg btn-bitbucket">Yazdır</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <h5 class="box-title">  Kalan:</h5>
+                <div class="box-body">
+                    <button class="col-md-12 btn btn-lg btn-github">Tahsil et</button>
                 </div>
             </div>
         </div>

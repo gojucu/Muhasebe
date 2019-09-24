@@ -197,7 +197,9 @@
 
                                             </td>
                                             <td>
-                                                <input style="margin:15px; width:90%;" class="form-control toplam" name="toplam" type="number">
+
+                                                    <input style="margin:15px; width:90%;" class="form-control Toplam" name="Toplam" value="@itemi.Toplam" type="number">
+
                                             </td>
                                             <td>
                                                 @*<a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
@@ -222,15 +224,36 @@
         </a>*@
                         <hr />
                         <div class="col-md-6" style="float:right">
-                            <p style="display:inline-block">Ara Toplam:</p>
-                            <input type="text" class="araToplam" disabled />
-                            <hr />
-                            <p style="display:inline-block">Toplam KDV:</p>
-                            <input type="text" class="kdvToplam" disabled />
-                            <hr />
-                            <p style="display:inline-block">Genel Toplam:</p>
-                            <input type="text" class="genelToplam" disabled />
-                            <hr />
+
+                            @{
+
+                                if (Model != null)
+                                {
+                                    <p style="display:inline-block">Ara Toplam:</p>
+                                    <input type="text" class="AraToplam" value="@Model.AraToplam" disabled />
+                                    <hr />
+                                    <p style="display:inline-block">Toplam KDV:</p>
+                                    <input type="text" class="KdvToplam" value="@Model.KdvToplam" disabled />
+                                    <hr />
+                                    <p style="display:inline-block">Genel Toplam:</p>
+                                    <input type="text" class="GenelToplam" value="@Model.GenelToplam" disabled />
+                                    <hr />
+                                }
+                                else
+                                {
+                                    <p style="display:inline-block">Ara Toplam:</p>
+                                    <input type="text" class="AraToplam" value="0" disabled />
+                                    <hr />
+                                    <p style="display:inline-block">Toplam KDV:</p>
+                                    <input type="text" class="KdvToplam" value="0" disabled />
+                                    <hr />
+                                    <p style="display:inline-block">Genel Toplam:</p>
+                                    <input type="text" class="GenelToplam" value="0" disabled />
+                                    <hr />
+                                }
+
+
+                            }
                         </div>
 
                         <div>
@@ -278,12 +301,14 @@
                     .row($(this).parents('tr'))
                     .remove()
                     .draw();
+
+                toplamHesaplamaa()
             }); //kullanılmıyor olabilir kontrol et
 
 
             $("#urunEkle").on('click', function () {
                 urunlerTablo.row.add([
-                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol toplam"type="number">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
+                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Toplam"type="number">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
 
                 $('.select2').select2();
                 //Yeni fatura/ürün Hesaplamalar
@@ -296,7 +321,7 @@
                 $(".Vergi").change(function () {
                     toplamHesaplamaa()
                 })
-                $(".toplam").on("input", function () {
+                $(".Toplam").on("input", function () {
                     birimFiyatHesaplama()
                 })
                 function birimFiyatHesaplama() {
@@ -309,20 +334,20 @@
                             var miktar = $(this).find(".Miktar").val();
                             var birimFiyat = $(this).find(".BirimFiyat");
                             var vergi = $(this).find(".Vergi").val();
-                            var toplam = parseFloat($(this).find(".toplam").val());
+                            var toplam = parseFloat($(this).find(".Toplam").val());
                             var vFiyat = ((toplam / (1 + (vergi / 100))) / miktar).toFixed(2);
                             birimFiyat.val(vFiyat);
 
                             //ara toplam
                             var araFiyat = miktar * vFiyat;
                             araToplam = araToplam + araFiyat;
-                            $(".araToplam").val(araToplam.toFixed(2))
+                            $(".AraToplam").val(araToplam.toFixed(2))
                             //genel Toplam
                             genelToplam += toplam;
-                            $(".genelToplam").val(genelToplam.toFixed(2))
+                            $(".GenelToplam").val(genelToplam.toFixed(2))
                             //kdv toplam
                             kdvToplam = genelToplam - araToplam;
-                            $(".kdvToplam").val(kdvToplam.toFixed(2));
+                            $(".KdvToplam").val(kdvToplam.toFixed(2));
                         }
 
                     })
@@ -337,20 +362,20 @@
                             var miktar = parseFloat($(this).find(".Miktar").val());
                             var birimFiyat = parseFloat($(this).find(".BirimFiyat").val());
                             var vergi = parseFloat($(this).find(".Vergi").val());
-                            var toplam = $(this).find(".toplam");
+                            var toplam = $(this).find(".Toplam");
                             var toplamm = parseFloat((miktar * (birimFiyat * (1 + (vergi / 100)))).toFixed(2));
                             toplam.val(toplamm);
 
                             //ara toplam bulma
                             var araFiyat = miktar * birimFiyat;
                             araToplam = araToplam + araFiyat;
-                            $(".araToplam").val(araToplam.toFixed(2))
+                            $(".AraToplam").val(araToplam.toFixed(2))
                             //genel toplam bulma
                             genelToplam += toplamm;
-                            $(".genelToplam").val(genelToplam.toFixed(2))
+                            $(".GenelToplam").val(genelToplam.toFixed(2))
                             //kdv toplam bulma
                             kdvToplam = genelToplam - araToplam;
-                            $(".kdvToplam").val(kdvToplam.toFixed(2))
+                            $(".KdvToplam").val(kdvToplam.toFixed(2))
                         }
 
                     })
@@ -371,7 +396,7 @@
     $(".Vergi").change(function () {
         toplamHesaplamaa()
     })
-    $(".toplam").on("input", function () {
+    $(".Toplam").on("input", function () {
         birimFiyatHesaplama()
     })
     function birimFiyatHesaplama() {
@@ -384,20 +409,20 @@
                 var miktar = $(this).find(".Miktar").val();
                 var birimFiyat = $(this).find(".BirimFiyat");
                 var vergi = $(this).find(".Vergi").val();
-                var toplam = parseFloat($(this).find(".toplam").val());
+                var toplam = parseFloat($(this).find(".Toplam").val());
                 var vFiyat = ((toplam / (1 + (vergi / 100))) / miktar).toFixed(2);
                 birimFiyat.val(vFiyat);
 
                 //ara toplam
                 var araFiyat = miktar * vFiyat;
                 araToplam = araToplam + araFiyat;
-                $(".araToplam").val(araToplam.toFixed(2))
+                $(".AraToplam").val(araToplam.toFixed(2))
                 //genel Toplam
                 genelToplam += toplam;
-                $(".genelToplam").val(genelToplam.toFixed(2))
+                $(".GenelToplam").val(genelToplam.toFixed(2))
                 //kdv toplam
                 kdvToplam = genelToplam - araToplam;
-                $(".kdvToplam").val(kdvToplam.toFixed(2));
+                $(".KdvToplam").val(kdvToplam.toFixed(2));
             }
 
         })
@@ -412,20 +437,20 @@
                 var miktar = parseFloat($(this).find(".Miktar").val());
                 var birimFiyat = parseFloat($(this).find(".BirimFiyat").val());
                 var vergi = parseFloat($(this).find(".Vergi").val());
-                var toplam = $(this).find(".toplam");
+                var toplam = $(this).find(".Toplam");
                 var toplamm = parseFloat((miktar * (birimFiyat * (1 + (vergi / 100)))).toFixed(2));
                 toplam.val(toplamm);
 
                 //ara toplam bulma
                 var araFiyat = miktar * birimFiyat;
                 araToplam = araToplam + araFiyat;
-                $(".araToplam").val(araToplam.toFixed(2))
+                $(".AraToplam").val(araToplam.toFixed(2))
                 //genel toplam bulma
                 genelToplam += toplamm;
-                $(".genelToplam").val(genelToplam.toFixed(2))
+                $(".GenelToplam").val(genelToplam.toFixed(2))
                 //kdv toplam bulma
                 kdvToplam = genelToplam - araToplam;
-                $(".kdvToplam").val(kdvToplam.toFixed(2))
+                $(".KdvToplam").val(kdvToplam.toFixed(2))
             }
 
         })
