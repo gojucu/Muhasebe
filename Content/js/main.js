@@ -85,5 +85,40 @@ var islemler = {
             }
         })
         return false;
+    },
+
+    TahsilatKaydet: function () {
+        //var frm = $("#tahsilatKaydetForm");
+        var id = $("#Id").val();
+        var faturaId = $("#FaturaID").val();
+        var tahsilatZamani = $("#TahsilatZamani").val();
+        var tutar = $("#Tutar").val();
+        var hesapId = $("#HesapID").val();
+        var aciklama = $("#Aciklama").val();
+
+        var tahsilat = {
+            id: id,
+            faturaId: faturaId,
+            tahsilatZamani: tahsilatZamani,
+            tutar: tutar,
+            hesapId: hesapId,
+            aciklama: aciklama
+        }
+        alert(tutar)
+        $.ajax({
+            url: "/Panel/TahsilatEkle",
+            async: false,
+            data: tahsilat,
+            type: "post",
+            success: function (sonucu) {
+                if (sonucu) {
+                    alert("hey")
+                } else {
+                    bootbox.alert({
+                        message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."
+
+                    })
+                }}
+        })
     }
 }

@@ -554,7 +554,12 @@ namespace Muhasebe.Controllers
             }
             else
             {
-
+                var rrr = context.Tahsilats.ToList().Where(x=>x.FaturaID==fatura.Id);
+                double tahsilatToplam = 0;
+                foreach(var item in rrr)
+                {
+                    tahsilatToplam += item.Tutar;
+                }
                 Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == fatura.Id);
 
                 //faturanın ürünlerinin düzenlenmesi için ilk önce gerekli hizmetUrunFatura silme kısmı
@@ -601,7 +606,9 @@ namespace Muhasebe.Controllers
                 guncellenecek.AraToplam = fatura.AraToplam;
                 guncellenecek.KdvToplam = fatura.KdvToplam;
                 guncellenecek.GenelToplam = fatura.GenelToplam;
-               
+                guncellenecek.KalanBorc = fatura.GenelToplam - tahsilatToplam;
+
+
                 context.SaveChanges();
                 int sonId = guncellenecek.Id;
                 return Json(sonId.ToString(), JsonRequestBehavior.AllowGet);
@@ -619,7 +626,7 @@ namespace Muhasebe.Controllers
         public ActionResult FaturaDetay(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-
+            ViewBag.Tahsilatlar = context.Tahsilats.ToList().Where(x => x.FaturaID == id);
             ViewBag.Urunler = context.HizmetUruns.ToList();
 
             if (ViewBag.Kullanici != null)
@@ -698,11 +705,39 @@ model_fatura_altUrun_liste
 
         }
 
+        //Tahsilat
+        public ActionResult TahsilatEkle(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            ViewBag.fatID = id;
+            ViewBag.Hesaplar = context.KasaBankas.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult TahsilatEkle(Tahsilat tahsilat)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            context.Tahsilats.Add(tahsilat);
+            context.SaveChanges();
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        //Kasa ve Bankalar
+
+        public ActionResult KasaBankalar()
+        {
+            return View();
+        }
+
+
         //FiyatListeleri
         public ActionResult FiyatListe()
         {
             ViewBag.Kullanici = Session["Kullanici"];
             return View(context.FiyatListesis.ToList());
         }
+        
     }
 }
