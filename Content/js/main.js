@@ -34,7 +34,7 @@ var islemler = {
             faturaDovizi: faturaDovizi,
             araToplam: araToplam,
             kdvToplam: kdvToplam,
-            genelToplam:genelToplam
+            genelToplam: genelToplam
         }
 
         $.ajax({

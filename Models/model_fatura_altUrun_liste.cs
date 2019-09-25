@@ -56,7 +56,9 @@ namespace Muhasebe.Models
         public double? Vergi { get; set; }
 
         public double? Toplam { get; set; }
+        //ürün
 
+        public double? VergilerHaricSatis { get; set; }
 
     }
 }

@@ -49,6 +49,8 @@ namespace Muhasebe.Models
 
         public double? GenelToplam { get; set; }
 
+        public double? KalanBorc { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HizmetUrunFatura> HizmetUrunFaturas { get; set; }
 

@@ -141,6 +141,7 @@
                         @Html.DropDownList("urunAd", new SelectList(ViewBag.urun, "Id", "Ad"), new { @class = "hidden form-control" })
 
                         @Html.DropDownList("urunKdv", new SelectList(ViewBag.kdv, "Miktar", "Miktar"), new { @class = "hidden form-control" })
+                        @Html.DropDownList("fiyat", new SelectList(ViewBag.urun, "Id", "VergilerHaricSatis"), new { @class = "hidden from-control VergilerHaricSatis " })
                         <hr />
                         <table id="urunler" class="table table-striped table-bordered align-items-baseline col-md-12">
                             <thead style="background-color:lightgray;">
@@ -181,15 +182,10 @@
                                                 <input style="margin:15px; width:90%;" class="form-control Miktar" type="number" name="Miktar" value="@itemi.Miktar" />
                                             </td>
                                             <td>
-                                                @foreach (var item in ViewBag.urun)
-                                                {
-                                                    if (item.Id == itemi.HizmetUrunID)
-                                                    {
-                                                        var urunFiyat = item.VergilerHaricSatis;
-                                                    }
-                                                }
 
-                                                <input type="hidden" class="Fiyatt" value="urunFiyat" />
+                                                @Html.DropDownList("fiyat", new SelectList(ViewBag.urun, "Id", "VergilerHaricSatis", itemi.HizmetUrunID), new { @class = "hidden from-control VergilerHaricSatis " })
+
+                                                @*<input type="hidden" class="Fiyatt" value="@itemi.VergilerHaricSatis" />*@
                                                 <input style="margin:15px; width:90%;" class="form-control BirimFiyat" type="number" name="BirimFiyat" value="@itemi.BirimFiyat" />
                                             </td>
                                             <td>
@@ -197,14 +193,10 @@
 
                                             </td>
                                             <td>
-
-                                                    <input style="margin:15px; width:90%;" class="form-control Toplam" name="Toplam" value="@itemi.Toplam" type="number">
+                                                <input style="margin:15px; width:90%;" class="form-control Toplam" name="Toplam" value="@itemi.Toplam" type="number">
 
                                             </td>
                                             <td>
-                                                @*<a class="btn col-md-12 btn-primary" onclick="return islemler.hizmetUrunSil(@itemi.altId)">
-                                    <i class="fa fa-remove"></i> X
-                                </a>*@
                                                 <button type="button" id="urunSil" class="btn col-md-2 btn-primary">x</button>
                                             </td>
                                         </tr>
@@ -288,14 +280,11 @@
 
 
         $(document).ready(function () {
-
-            //$('#urunSil').on('click', remove);
+            
             var dat = $("#urunKdv").html();
             var dat2 = $("#urunAd").html();
-
-            //$(".HizmetUrunID").append(dat2);
-            //$(".Vergi").append(dat);
-
+            var dat3 = $("#fiyat").html();
+            
             $('#urunler tbody').on('click', '#urunSil', function () {
                 urunlerTablo
                     .row($(this).parents('tr'))
@@ -303,14 +292,35 @@
                     .draw();
 
                 toplamHesaplamaa()
-            }); //kullanılmıyor olabilir kontrol et
-
+            }); 
 
             $("#urunEkle").on('click', function () {
                 urunlerTablo.row.add([
-                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Toplam"type="number">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
+                    '<select style="margin:15px; width:90%;" class="form-control select2 HizmetUrunID" name="HizmetUrunID" >' + dat2 + '<select/>', '<input style="margin:15px;width:90%;"class="formcontrol Miktar" type="number" name="Miktar"  value="" />', '<input style="margin:15px; width:90%;" class="form-control BirimFiyat"type="number"name="BirimFiyat" value="" /><select style="margin:15px; width:90%;" class="form-control hidden VergilerHaricSatis" name="VergilerHaricSatis" >' + dat3 + '<select />', '<select  class="form-control Vergi" name="Vergi" >' + dat + '<select/>', '<input style="margin:15px; width:90%;" class="formcontrol Toplam"type="number">', '<button type = "button" id = "urunSil" class= "btn col-md-2 btn-primary" > x</button >']).draw(false);
 
                 $('.select2').select2();
+
+                //yeni fatura ürün fiyatını getirme
+                $("tr").each(function (index, value) {
+                    var VHS = $(this).find(".VergilerHaricSatis");
+                    var hui = $(this).find(".HizmetUrunID");
+                    var bFiyat = $(this).find(".BirimFiyat");
+                    var ab = $(this).find('.VergilerHaricSatis');
+
+                    if (index != 0) {
+                        $(this).find(".HizmetUrunID").change(function () {
+                            var satis = VHS;
+                            var hid = hui.val();
+
+                            satis.val(hid);
+
+                            var seciliYazi = ab.find('option:selected').text();
+                            bFiyat.val(seciliYazi)
+                            toplamHesaplamaa()
+                        })
+                    }
+                })
+
                 //Yeni fatura/ürün Hesaplamalar
                 $(".BirimFiyat").on("input", function () {
                     toplamHesaplamaa()
@@ -385,6 +395,28 @@
         })
     })
 
+    //Ürünün fiyatını getirme (Düzeldi)
+    
+
+    $("tr").each(function (index, value) {
+            var VHS = $(this).find(".VergilerHaricSatis");
+            var hui = $(this).find(".HizmetUrunID");
+            var bFiyat = $(this).find(".BirimFiyat");
+            var ab = $(this).find('.VergilerHaricSatis');
+           
+            if (index != 0) {
+                $(this).find(".HizmetUrunID").change(function () {
+                    var satis = VHS;
+                    var hid = hui.val();
+                    
+                    satis.val(hid);
+
+                    var seciliYazi = ab.find('option:selected').text();
+                    bFiyat.val(seciliYazi)
+                    toplamHesaplamaa()
+                })
+            }
+    })
 
     //Düzenleme Hesaplamalar
     $(".BirimFiyat").on("input", function (){

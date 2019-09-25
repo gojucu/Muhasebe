@@ -466,6 +466,8 @@ namespace Muhasebe.Controllers
                         var list = from ft in context.Faturas
                                    join hu in context.HizmetUrunFaturas on ft.Id equals hu.FaturaID into ps
                                    from m in ps.DefaultIfEmpty()
+                                   join ur in context.HizmetUruns on m.HizmetUrunID equals ur.Id into ts
+                                   from n in ts.DefaultIfEmpty()
                                    where ft.Id == id
                                    select new
     model_fatura_altUrun_liste
@@ -486,8 +488,11 @@ namespace Muhasebe.Controllers
                                        Silindi = ft.Silindi,
                                        VadeTarihi = ft.VadeTarihi,
                                        Vergi = m.Vergi,
-                                       Toplam = m.Toplam
+                                       Toplam =m.Toplam,
+                                       VergilerHaricSatis=n.VergilerHaricSatis
+
                                    };
+                        
                         ViewBag.list = list;
                     }
 
@@ -541,6 +546,7 @@ namespace Muhasebe.Controllers
                 
                 fatura.KullaniciID = ViewBag.Kullanici.Id;
                 fatura.Silindi = false;
+                fatura.KalanBorc = fatura.GenelToplam;
                 context.Faturas.Add(fatura);
                 context.SaveChanges();
                 int sonId = context.Faturas.OrderByDescending(m => m.Id).FirstOrDefault().Id;
