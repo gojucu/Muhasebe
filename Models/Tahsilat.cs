@@ -13,6 +13,9 @@ namespace Muhasebe.Models
 
         public int FaturaID { get; set; }
 
+        [StringLength(50)]
+        public string TahsilatTuru { get; set; }
+
         public DateTime TahsilatZamani { get; set; }
 
         public double Tutar { get; set; }

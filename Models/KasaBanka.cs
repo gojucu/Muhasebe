@@ -17,6 +17,10 @@ namespace Muhasebe.Models
 
         public int Id { get; set; }
 
+        public Guid KullaniciID { get; set; }
+
+        public bool Silindi { get; set; }
+
         [Required]
         [StringLength(50)]
         public string HesapIsmi { get; set; }
@@ -39,7 +43,7 @@ namespace Muhasebe.Models
         public string BankaSubesi { get; set; }
 
         [StringLength(50)]
-        public string HesapNumarası { get; set; }
+        public string HesapNumarasi { get; set; }
 
         [StringLength(50)]
         public string Iban { get; set; }

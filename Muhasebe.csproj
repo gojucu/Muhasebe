@@ -153,6 +153,7 @@
     <Compile Include="Models\aspnet_SchemaVersions.cs" />
     <Compile Include="Models\aspnet_Users.cs" />
     <Compile Include="Models\aspnet_WebEvent_Events.cs" />
+    <Compile Include="Models\Bankalar.cs" />
     <Compile Include="Models\DovizKuru.cs" />
     <Compile Include="Models\DovizTuru.cs" />
     <Compile Include="Models\Etiket.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\StokTakibi.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\Tahsilat.cs" />
+    <Compile Include="Models\TahsilatTuru.cs" />
     <Compile Include="Models\vw_aspnet_Applications.cs" />
     <Compile Include="Models\vw_aspnet_MembershipUsers.cs" />
     <Compile Include="Models\vw_aspnet_Profiles.cs" />
@@ -7633,9 +7635,10 @@
     <Content Include="Views\Panel\Faturalar.cshtml" />
     <Content Include="Views\Panel\FaturaEkle.cshtml" />
     <Content Include="Views\Panel\FaturaDetay.cshtml" />
-    <Content Include="Views\Panel\deneme.cshtml" />
     <Content Include="Views\Panel\TahsilatEkle.cshtml" />
     <Content Include="Views\Panel\KasaBankalar.cshtml" />
+    <Content Include="Views\Panel\KasaEkle.cshtml" />
+    <Content Include="Views\Panel\BankaEkle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

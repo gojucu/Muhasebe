@@ -8,7 +8,7 @@ namespace Muhasebe.Models
     public partial class MuhasebeModel : DbContext
     {
         public MuhasebeModel()
-            : base("name=Muhasebe0Model")
+            : base("name=Muhasebe1Model")
         {
         }
 
@@ -44,6 +44,8 @@ namespace Muhasebe.Models
         public virtual DbSet<StokTakibi> StokTakibis { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tahsilat> Tahsilats { get; set; }
+        public virtual DbSet<TahsilatTuru> TahsilatTurus { get; set; }
+        public virtual DbSet<Bankalar> Bankalars { get; set; }
         public virtual DbSet<vw_aspnet_Applications> vw_aspnet_Applications { get; set; }
         public virtual DbSet<vw_aspnet_MembershipUsers> vw_aspnet_MembershipUsers { get; set; }
         public virtual DbSet<vw_aspnet_Profiles> vw_aspnet_Profiles { get; set; }

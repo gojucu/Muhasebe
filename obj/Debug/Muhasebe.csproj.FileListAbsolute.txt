@@ -81,4 +81,3 @@ C:\Users\speed\OneDrive\Belgeler\GitHub\Muhasebe\Muhasebe\bin\EntityFramework.dl
 C:\Users\speed\OneDrive\Belgeler\GitHub\Muhasebe\Muhasebe\bin\EntityFramework.SqlServer.dll
 C:\Users\speed\OneDrive\Belgeler\GitHub\Muhasebe\Muhasebe\bin\EntityFramework.xml
 C:\Users\speed\OneDrive\Belgeler\GitHub\Muhasebe\Muhasebe\bin\EntityFramework.SqlServer.xml
-C:\Users\speed\OneDrive\Belgeler\GitHub\Muhasebe\Muhasebe\obj\Debug\Muhasebe.csprojAssemblyReference.cache
