@@ -8,7 +8,7 @@ namespace Muhasebe.Models
     public partial class MuhasebeModel : DbContext
     {
         public MuhasebeModel()
-            : base("name=Muhasebe1Model")
+            : base("name=Muhasebe0Model")
         {
         }
 
@@ -28,6 +28,7 @@ namespace Muhasebe.Models
         public virtual DbSet<Etiket> Etikets { get; set; }
         public virtual DbSet<Fatura> Faturas { get; set; }
         public virtual DbSet<FiyatListesi> FiyatListesis { get; set; }
+        public virtual DbSet<HesapParaGirisCiki> HesapParaGirisCikis { get; set; }
         public virtual DbSet<HesapTuru> HesapTurus { get; set; }
         public virtual DbSet<HizmetUrun> HizmetUruns { get; set; }
         public virtual DbSet<HizmetUrunFatura> HizmetUrunFaturas { get; set; }
@@ -35,6 +36,7 @@ namespace Muhasebe.Models
         public virtual DbSet<Iban> Ibans { get; set; }
         public virtual DbSet<Indirim> Indirims { get; set; }
         public virtual DbSet<Irsaliye> Irsaliyes { get; set; }
+        public virtual DbSet<Islemler> Islemlers { get; set; }
         public virtual DbSet<KasaBanka> KasaBankas { get; set; }
         public virtual DbSet<Kategori> Kategoris { get; set; }
         public virtual DbSet<Kullanici> Kullanicis { get; set; }
@@ -44,7 +46,6 @@ namespace Muhasebe.Models
         public virtual DbSet<StokTakibi> StokTakibis { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tahsilat> Tahsilats { get; set; }
-        public virtual DbSet<TahsilatTuru> TahsilatTurus { get; set; }
         public virtual DbSet<Bankalar> Bankalars { get; set; }
         public virtual DbSet<vw_aspnet_Applications> vw_aspnet_Applications { get; set; }
         public virtual DbSet<vw_aspnet_MembershipUsers> vw_aspnet_MembershipUsers { get; set; }
@@ -167,6 +168,15 @@ namespace Muhasebe.Models
                 .HasMany(e => e.Kategoris)
                 .WithMany(e => e.HizmetUruns)
                 .Map(m => m.ToTable("HizmetUrunKategori").MapLeftKey("HizmetUrunID").MapRightKey("KategoriID"));
+
+            modelBuilder.Entity<Islemler>()
+                .Property(e => e.Aciklama)
+                .IsFixedLength();
+
+            modelBuilder.Entity<KasaBanka>()
+                .HasMany(e => e.Islemlers)
+                .WithOptional(e => e.KasaBanka)
+                .HasForeignKey(e => e.HesapID);
 
             modelBuilder.Entity<KasaBanka>()
                 .HasMany(e => e.Tahsilats)

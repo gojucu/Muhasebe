@@ -13,6 +13,7 @@ namespace Muhasebe.Models
         public Fatura()
         {
             HizmetUrunFaturas = new HashSet<HizmetUrunFatura>();
+            Islemlers = new HashSet<Islemler>();
             Tahsilats = new HashSet<Tahsilat>();
             Kategoris = new HashSet<Kategori>();
         }
@@ -54,6 +55,9 @@ namespace Muhasebe.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HizmetUrunFatura> HizmetUrunFaturas { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Islemler> Islemlers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tahsilat> Tahsilats { get; set; }

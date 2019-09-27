@@ -92,7 +92,7 @@
                                             <td>
                                                 <a style="width:100%" class="btn btn-sm btn-bitbucket" href="/Panel/FaturaDetay/@item.Id">Detay</a>
 
-                                                <button style="width:100%" class="btn btn-sm btn-danger" type="button" onclick="return HizmetUrunSil(@item.Id)">Müşteriyi Sil</button>
+                                                <button style="width:100%" class="btn btn-sm btn-danger" type="button" onclick="return FaturaSil(@item.Id)">Faturayı Sil</button>
 
 
                                             </td>
@@ -117,7 +117,7 @@
     }
 </style>
 <script type="text/javascript">
-    function HizmetUrunSil(Id) {
+    function FaturaSil(Id) {
         bootbox.confirm("Silmek istediğinize emin misiniz?", function (result) {
             if (result) {
                 var dataObject = {

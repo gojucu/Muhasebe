@@ -88,31 +88,30 @@ var islemler = {
     },
 
     TahsilatKaydet: function () {
-        //var frm = $("#tahsilatKaydetForm");
-        var id = $("#Id").val();
-        var faturaId = $("#FaturaID").val();
-        var tahsilatZamani = $("#TahsilatZamani").val();
-        var tutar = $("#Tutar").val();
-        var hesapId = $("#HesapID").val();
-        var aciklama = $("#Aciklama").val();
+        var frm = $("#tahsilatEkleKaydetForm");
+        var id = $("#Id",frm).val();
+        var faturaId = $("#FaturaID", frm).val();
+        var tarih = $("#Tarih", frm).val();
+        var meblag = $("#Meblag", frm).val();
+        var hesapId = $("#HesapID", frm).val();
+        var aciklama = $("#Aciklama", frm).val();
 
-        var tahsilat = {
+        var islemler = {
             id: id,
             faturaId: faturaId,
-            tahsilatZamani: tahsilatZamani,
-            tutar: tutar,
+            tarih: tarih,
+            meblag: meblag,
             hesapId: hesapId,
             aciklama: aciklama
         }
-        alert(tutar)
         $.ajax({
             url: "/Panel/TahsilatEkle",
             async: false,
-            data: tahsilat,
+            data: islemler,
             type: "post",
             success: function (sonucu) {
                 if (sonucu) {
-                    alert("hey")
+
                 } else {
                     bootbox.alert({
                         message: "Hata.. Lütfen girdiğiniz bilgileri tekrar kontrol ediniz."

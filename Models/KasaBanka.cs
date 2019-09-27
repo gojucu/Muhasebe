@@ -12,6 +12,7 @@ namespace Muhasebe.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public KasaBanka()
         {
+            Islemlers = new HashSet<Islemler>();
             Tahsilats = new HashSet<Tahsilat>();
         }
 
@@ -34,10 +35,12 @@ namespace Muhasebe.Models
 
         public double? AcilisBakiyesi { get; set; }
 
+        public double? Bakiye { get; set; }
+
         public DateTime? AcilisTarihi { get; set; }
 
         [StringLength(50)]
-        public string Banka { get; set; }
+        public string BankaAdi { get; set; }
 
         [StringLength(50)]
         public string BankaSubesi { get; set; }
@@ -47,6 +50,9 @@ namespace Muhasebe.Models
 
         [StringLength(50)]
         public string Iban { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Islemler> Islemlers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tahsilat> Tahsilats { get; set; }

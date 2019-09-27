@@ -1,6 +1,6 @@
-﻿@model Muhasebe.Models.Tahsilat
+﻿@model Muhasebe.Models.Islemler
 
-
+<form id="tahsilatEkleKaydetForm" method="post">
     <div class="col-md-12">
         <div class="form-horizontal">
             <h4>Tahsilat</h4>
@@ -8,55 +8,102 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-            <div class="form-group">
-                <h4>Tahsilat Zamanı</h4>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TahsilatZamani, new { htmlAttributes = new {@class = "form-control datepicker" } })
-                    @Html.ValidationMessageFor(model => model.TahsilatZamani, "", new { @class = "text-danger" })
+
+            @Html.DropDownList("hesapAd", new SelectList(ViewBag.hesaplar, "Id", "HesapIsmi"), new { @class = "hidden form-control" })
+            <input type="radio" checked class="nakitTahsilat" name="Tahsilat" />Nakit Tahsilat
+            <input type="radio" class="cekTahsilat" name="Tahsilat" value="cekTahsilat" />Çek Tahsilat
+
+
+            <div class="nakitButun">
+
+                @*başlangıç*@
+                @*'<h4>Tahsilat Zamanı</h4>',
+                    '<input type="datetime" class="form-control datepicker" id="TahsilatZamani" />',
+
+                    '<h4>Tutar</h4>',
+                    '<input type="number" class="form-control" id="Tutar" />',
+
+                    '<h4>Hesap</h4>',
+                    '<select style="margin:15px; width:90%;" class="form-control select2 HesapID" name="HesapID">'+dat+'</select>',
+
+                    '<h4>Açıklama</h4>',
+                    '<input type="text" class="form-control" id="Aciklama" />',
+
+                    '<input type="submit" value="Kaydet" class="btn btn-default" onclick="islemler.TahsilatKaydet()" />'*@
+                @*bitiş*@
+
+
+                <div class="form-group">
+                    <h4>Tahsilat Zamanı</h4>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Tarih, new { htmlAttributes = new {@id="Tarih", @class = "form-control datepicker", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.Tarih, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <h4>Tutar</h4>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Meblag, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Meblag, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h4>Hesap</h4>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.HesapID, new SelectList(ViewBag.hesaplar, "Id", "HesapIsmi"), "")
+                        @Html.ValidationMessageFor(model => model.HesapID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h4>Açıklama</h4>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Kaydet" class="btn btn-default" onclick="islemler.TahsilatKaydet()" />
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <h4>Tutar</h4>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Tutar, new { htmlAttributes = new {@class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Tutar, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <h4>Hesap</h4>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.HesapID, new SelectList(ViewBag.hesaplar, "Id", "HesapIsmi"), "")
-                    @Html.ValidationMessageFor(model => model.HesapID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <h4>Açıklama</h4>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Kaydet" class="btn btn-default" onclick="islemler.TahsilatKaydet()" />
-                </div>
-            </div>
         </div>
-    </div><input type="hidden" value="@ViewBag.fatID" id="FaturaID" />
-
-
-
+    </div>
+    <input type="hidden" value="@ViewBag.fatID" id="FaturaID" />
+</form>
 <script>
 
     $(".datepicker").datepicker({
         autoclose: true,
+        format:"dd/mm/yyyy"
     });
 
 
+    var dat = $("#hesapAd").html();
+
+    //var appended = $('<div />').text("You're appendin'!");
+    //appended.id = 'appended';
+    $('input:radio[name="Tahsilat"]').change(
+        function () {
+            if ($(this).val() == 'cekTahsilat') {
+                $(".nakitButun").contents().remove();
+
+                // $(appended).appendTo('body');
+            }
+            else {
+                $(".nakitButun").append('<h4>Tahsilat Zamanı</h4>', '<input type="datetime" class="form-control datepicker" id="Tarih" autocomplete="off" />', '<h4>Meblağ</h4>', '<input type="number" class="form-control" id="Meblag" />', '<h4>Hesap</h4>', '<select style="margin:15px; width:90%;" class="form-control select2 HesapID" name="HesapID">' + dat + '</select>', '<h4>Açıklama</h4>', '<input type="text" class="form-control" id="Aciklama" />', '<input type="submit" value="Kaydet" class="btn btn-default" onclick="islemler.TahsilatKaydet()" />');
+
+                $(".datepicker").datepicker({
+                    autoclose: true,
+                });
+            }
+        });
 </script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

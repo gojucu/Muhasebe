@@ -554,11 +554,11 @@ namespace Muhasebe.Controllers
             }
             else
             {
-                var rrr = context.Tahsilats.ToList().Where(x=>x.FaturaID==fatura.Id);
+                var rrr = context.Islemlers.ToList().Where(x=>x.FaturaID==fatura.Id);
                 double tahsilatToplam = 0;
                 foreach(var item in rrr)
                 {
-                    tahsilatToplam += item.Tutar;
+                    tahsilatToplam += item.Meblag;
                 }
                 Fatura guncellenecek = context.Faturas.FirstOrDefault(x => x.Id == fatura.Id);
 
@@ -626,7 +626,7 @@ namespace Muhasebe.Controllers
         public ActionResult FaturaDetay(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-            ViewBag.Tahsilatlar = context.Tahsilats.ToList().Where(x => x.FaturaID == id);
+            ViewBag.Tahsilatlar = context.Islemlers.ToList().Where(x => x.FaturaID == id && x.IslemTuru=="Tahsilat");
             ViewBag.Urunler = context.HizmetUruns.ToList();
 
             if (ViewBag.Kullanici != null)
@@ -716,10 +716,22 @@ model_fatura_altUrun_liste
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult TahsilatEkle(Tahsilat tahsilat)
+        public ActionResult TahsilatEkle(Islemler islemler)
         {
             ViewBag.Kullanici = Session["Kullanici"];
-            context.Tahsilats.Add(tahsilat);
+            islemler.KullaniciID = ViewBag.Kullanici.Id;
+            //fatura kısmı
+            Fatura fat = context.Faturas.FirstOrDefault(x => x.Id == islemler.FaturaID);
+            fat.KalanBorc = fat.KalanBorc - islemler.Meblag;
+
+            //hesap kısmı
+            KasaBanka kasaBanka = context.KasaBankas.FirstOrDefault(y => y.Id == islemler.HesapID);
+
+            kasaBanka.Bakiye = kasaBanka.Bakiye + islemler.Meblag;
+
+            islemler.IslemTuru = "Tahsilat";
+
+            context.Islemlers.Add(islemler);
             context.SaveChanges();
             return Json(true, JsonRequestBehavior.AllowGet);
         }
@@ -740,58 +752,77 @@ model_fatura_altUrun_liste
 
         }
 
-               //Kasa
-        //public ActionResult KasaEkle(int id)
-        //{
-        //    ViewBag.Kullanici = Session["Kullanici"];
-        //    if (ViewBag.Kullanici != null)
-        //    {
-        //        if (id == 0)
-        //        {
-        //            return View();
-        //        }
-        //        else
-        //        {
-        //            KasaBanka kasa = context.KasaBankas.Find(id);
-        //            return View(kasa);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("GirisYap", "Uyelik");
-        //    }
-        //}
+            //Kasa
+        public ActionResult KasaEkle(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
 
-        //[HttpPost]
-        //[ValidateInput(false)]
-        //public ActionResult KasaEkle(KasaBanka kasa)
-        //{
-        //    ViewBag.Kullanici = Session["Kullanici"];
-        //    if (kasa.Id == 0)
-        //    {
-        //        kasa.KullaniciID = ViewBag.Kullanici.Id;
-        //        kasa.HesapTuru = "Kasa";
-        //        kasa.Silindi = false;
+            ViewBag.DovizTur = context.DovizTurus.ToList();
+            if (ViewBag.Kullanici != null)
+            {
+                if (id == 0)
+                {
+                    return View();
+                }
+                else
+                {
+                    KasaBanka kasa = context.KasaBankas.Find(id);
+                    return View(kasa);
+                }
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+        }
 
-        //        context.KasaBankas.Add(kasa);
-        //        context.SaveChanges();
-        //        return RedirectToAction("KasaBankalar", "Panel");
-        //    }
-        //    else
-        //    {
-        //        KasaBanka guncellenecek = context.KasaBankas.FirstOrDefault(x => x.Id == kasa.Id);
-        //        guncellenecek.HesapIsmi = kasa.HesapIsmi;
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult KasaEkle(KasaBanka kasa)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            if (kasa.Id == 0)
+            {
+                kasa.KullaniciID = ViewBag.Kullanici.Id;
+                kasa.HesapTuru = "Kasa";
+                kasa.Silindi = false;
 
-        //        context.SaveChanges();
-        //        return RedirectToAction("KasaBankalar", "Panel");
-        //    }
-        //}
+                context.KasaBankas.Add(kasa);
+                context.SaveChanges();
+                return RedirectToAction("KasaBankalar", "Panel");
+            }
+            else
+            {
+                KasaBanka guncellenecek = context.KasaBankas.FirstOrDefault(x => x.Id == kasa.Id);
+                guncellenecek.HesapIsmi = kasa.HesapIsmi;
 
-        //Banka
+                context.SaveChanges();
+                return RedirectToAction("KasaBankalar", "Panel");
+            }
+        }
+
+        public ActionResult KasaDetay(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            ViewBag.tahsilatlar = context.Islemlers.ToList().Where(x => x.HesapID.Value == id);
+            var hey = context.KasaBankas.FirstOrDefault(x => x.Id == id);
+            if (ViewBag.Kullanici != null)
+            {
+                return View(hey);
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+            
+        }
+
+            //Banka
 
         public ActionResult BankaEkle(int id)
         {
             ViewBag.Kullanici = Session["Kullanici"];
+            ViewBag.DovizTur = context.DovizTurus.ToList();
             if (ViewBag.Kullanici != null)
             {
                 if (id == 0)
@@ -820,6 +851,7 @@ model_fatura_altUrun_liste
                 banka.KullaniciID = ViewBag.Kullanici.Id;
                 banka.HesapTuru = "Banka";
                 banka.Silindi = false;
+                banka.Bakiye = banka.AcilisBakiyesi;
 
                 context.KasaBankas.Add(banka);
                 context.SaveChanges();
@@ -835,6 +867,22 @@ model_fatura_altUrun_liste
             }
         }
 
+        public ActionResult BankaDetay(int id)
+        {
+            ViewBag.Kullanici = Session["Kullanici"];
+            ViewBag.tahsilatlar = context.Islemlers.OrderByDescending(y=>y.Tarih).ToList().Where(x => x.HesapID == id);
+            var hey = context.KasaBankas.FirstOrDefault(x => x.Id == id);
+            if (ViewBag.Kullanici != null)
+            {
+                return View(hey);
+            }
+            else
+            {
+                return RedirectToAction("GirisYap", "Uyelik");
+            }
+            
+        }
+
         public ActionResult KasaBankaSil(int id)
         {
             KasaBanka guncellenecek = context.KasaBankas.FirstOrDefault(x => x.Id == id);
@@ -843,6 +891,13 @@ model_fatura_altUrun_liste
 
             return RedirectToAction("KasaBankalar", "Panel");
         }
+
+        public ActionResult HesabaParaGirisiEkle(int id)
+        {
+
+            return View();
+        }
+
         //FiyatListeleri
         public ActionResult FiyatListe()
         {
@@ -850,6 +905,12 @@ model_fatura_altUrun_liste
             return View(context.FiyatListesis.ToList());
         }
         
+
+
+        public ActionResult bosislemekle()
+        {
+            return View();
+        }
     }
 }
 

@@ -159,6 +159,7 @@
     <Compile Include="Models\Etiket.cs" />
     <Compile Include="Models\Fatura.cs" />
     <Compile Include="Models\FiyatListesi.cs" />
+    <Compile Include="Models\HesapParaGirisCiki.cs" />
     <Compile Include="Models\HesapTuru.cs" />
     <Compile Include="Models\HizmetUrun.cs" />
     <Compile Include="Models\HizmetUrunFatura.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Models\Iban.cs" />
     <Compile Include="Models\Indirim.cs" />
     <Compile Include="Models\Irsaliye.cs" />
+    <Compile Include="Models\Islemler.cs" />
     <Compile Include="Models\KasaBanka.cs" />
     <Compile Include="Models\Kategori.cs" />
     <Compile Include="Models\Kullanici.cs" />
@@ -177,7 +179,6 @@
     <Compile Include="Models\StokTakibi.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\Tahsilat.cs" />
-    <Compile Include="Models\TahsilatTuru.cs" />
     <Compile Include="Models\vw_aspnet_Applications.cs" />
     <Compile Include="Models\vw_aspnet_MembershipUsers.cs" />
     <Compile Include="Models\vw_aspnet_Profiles.cs" />
@@ -7639,6 +7640,10 @@
     <Content Include="Views\Panel\KasaBankalar.cshtml" />
     <Content Include="Views\Panel\KasaEkle.cshtml" />
     <Content Include="Views\Panel\BankaEkle.cshtml" />
+    <Content Include="Views\Panel\BankaDetay.cshtml" />
+    <Content Include="Views\Panel\KasaDetay.cshtml" />
+    <Content Include="Views\Panel\HesabaParaGirisiEkle.cshtml" />
+    <Content Include="Views\Panel\bosislemekle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

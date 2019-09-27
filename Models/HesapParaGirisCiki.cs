@@ -6,13 +6,19 @@ namespace Muhasebe.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("TahsilatTuru")]
-    public partial class TahsilatTuru
+    public partial class HesapParaGirisCiki
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Ad { get; set; }
+        public string Tur { get; set; }
+
+        public DateTime Tarih { get; set; }
+
+        public double Meblag { get; set; }
+
+        [StringLength(500)]
+        public string Aciklama { get; set; }
     }
 }
